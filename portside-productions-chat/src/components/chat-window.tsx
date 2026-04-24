@@ -27,7 +27,7 @@ const ChatWindow = () => {
 
         const anthropic = new Anthropic({
             dangerouslyAllowBrowser: true,
-            apiKey: import.meta.env.VITE_ANTHROPIC_API_KEY,
+            apiKey: 'proxy',
             baseURL: `${window.location.origin}/api/anthropic`,
             defaultHeaders: {
                 'anthropic-beta': 'files-api-2025-04-14',
