@@ -26,9 +26,9 @@ const ChatWindow = () => {
         setLoading(true);
 
         const anthropic = new Anthropic({
-            dangerouslyAllowBrowser: true,
-            apiKey: import.meta.env.VITE_ANTHROPIC_API_KEY,
-            baseURL: `${window.location.origin}/api/anthropic`,
+            //dangerouslyAllowBrowser: true,
+            apiKey:  process.env.ANTHROPIC_API_KEY,
+            baseURL: `https://ai-gateway.vercel.sh`,
             defaultHeaders: {
                 'anthropic-beta': 'files-api-2025-04-14',
             },
