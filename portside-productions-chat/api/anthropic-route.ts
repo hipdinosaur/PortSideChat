@@ -1,21 +1,33 @@
 import Anthropic from "@anthropic-ai/sdk";
 import transcriptIndex from "../src/assets/transcript_index.json";
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+type ApiRequest = {
+  method?:string;
+  body: {
+    userText?:string;
+    conversationHistory?:Anthropic.MessageParam[];
+  };
+};
+
+type ApiResponse = {
+  status: (code: number) => {
+      json: (body: unknown) => void;
+  };
+};
 
 
 
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: ApiRequest, res: ApiResponse) {
     const { userText, conversationHistory = []} = req.body;
 
     const anthropic = new Anthropic({
-      
       apiKey: process.env.ANTHROPIC_API_KEY,
       baseURL: `https://api.anthropic.com`,
       defaultHeaders: {
           'anthropic-beta': 'files-api-2025-04-14',
       },
       });
+
       // STEP 1: Find the most relevant transcripts
       const selectionMsg = await anthropic.messages.create({
         model: "claude-sonnet-4-6",
