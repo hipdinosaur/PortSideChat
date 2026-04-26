@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import transcriptIndex from "../src/assets/transcript_index.json";
+import transcriptIndex from "../src/assets/transcript_index.json" with { type: "json" };
 
 type ApiRequest = {
   method?:string;

@@ -39,9 +39,13 @@ const ChatWindow = () => {
                 conversationHistory: conversationHistory.current
             })
         })
+        if (!res.ok) {
+            const errorText = await res.text();
+            throw new Error(errorText);
+          }
         const data = await res.json();
         const answer = data.answer;
-        
+
         conversationHistory.current.push({ role: 'user', content: userText });
         conversationHistory.current.push({ role: 'assistant', content: answer });
         const html = await marked.parse(answer);
