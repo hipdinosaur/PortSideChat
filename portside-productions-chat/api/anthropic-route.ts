@@ -1,8 +1,11 @@
 import Anthropic from "@anthropic-ai/sdk";
 import transcriptIndex from "../src/assets/transcript_index.json";
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 
-export default async function handler(req, res) {
+
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { userText, conversationHistory = []} = req.body;
 
     const anthropic = new Anthropic({
