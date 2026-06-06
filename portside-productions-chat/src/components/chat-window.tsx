@@ -22,10 +22,6 @@ const ChatWindow = () => {
         const userText = input.trim();
         if (!userText) return;
 
-
-
-
-
         setMessages(prev => [...prev, { role: 'user', content: userText }]);
         setInput('');
         setLoading(true);
