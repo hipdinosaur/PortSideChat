@@ -53,8 +53,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         Avoid conversations that are off topic from marketing or the outdoor industry.
         Avoid planning or strategizing, focus on providing insights and best practices.
         Provide answers that are relevant to the question and the podcast transcript content.
-        When asked provide ideas and concepts that are relevant to the question and the podcast transcript content.
-        Not all brands or products are directly related to the outdoor industry but engage an audience within that space, tailor answers assuming the audience is interested in the outdoor industry.`,
+        Not all brands or products are directly related to the outdoor industry but engage an audience within that space, tailor answers assuming the audience is interested in the outdoor industry.
+        Answer in a friendly, engaging, and conversational tone, keep responses generally unformatted and free of markdown.`,
         messages: [
             ...conversationHistory,
             {
