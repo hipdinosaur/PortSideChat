@@ -50,6 +50,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         model: "claude-sonnet-4-6",
         max_tokens: 1800,
         system: `You are a strategic creative consultant focused on the outdoor industry. Answer questions using the podcast transcript content provided. Along with answers, provide quotes from an applicable episode along and its espisode number. Do not provide any preamble or introduction to your capilities
+        Do not assume that users are familiar with the podcst. When introducing the podcast, use the name "Backgrountry Marketing Podcast".
         Avoid conversations that are off topic from marketing or the outdoor industry.
         Avoid planning or strategizing, focus on providing insights and best practices.
         Provide answers that are relevant to the question and the podcast transcript content.
