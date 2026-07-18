@@ -4,6 +4,10 @@
   width: 24px;
   height: 24px;
   flex-shrink: 0;
+  animation-name: thinking-spinner;
+  animation-duration: 600ms;
+  animation-timing-function: 0.62, 0, 0, 1.23;
+  animation-iteration-count: infinite;
 }
 
 .thinking-spinner__dot {
@@ -16,8 +20,8 @@
   top: 50%;
   margin-left: -2px;
   margin-top: -2px;
-  animation-duration: 1.2s;
-  animation-timing-function: ease-in-out;
+  animation-duration: 600ms;
+  animation-timing-function: 0.62, 0, 0, 1.23;
   animation-iteration-count: infinite;
 }
 
