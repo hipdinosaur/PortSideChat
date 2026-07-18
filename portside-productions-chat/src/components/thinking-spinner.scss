@@ -21,59 +21,63 @@
   animation-iteration-count: infinite;
 }
 
-/* Diamond (spread) ↔ tight square — mirrors Figma spinner frames */
+
 .thinking-spinner__dot--n {
   animation-name: spinner-n;
+  left: 50%;
+  top: 0;
 }
 
 .thinking-spinner__dot--e {
   animation-name: spinner-e;
+  top: 50%;
+  right: 0;
 }
 
 .thinking-spinner__dot--s {
   animation-name: spinner-s;
+  bottom: 0;
+  left: 50%
 }
 
 .thinking-spinner__dot--w {
   animation-name: spinner-w;
+  left: 0;
+  top: 50%;
+}
+@keyframes thinking-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
 }
 
 @keyframes spinner-n {
   0%,
   100% {
-    transform: translateY(-8px);
-  }
-  50% {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
   }
 }
 
 @keyframes spinner-e {
   0%,
   100% {
-    transform: translateX(8px);
-  }
-  50% {
-    transform: translateX(3px);
+    transform: translateX(4px);
   }
 }
 
 @keyframes spinner-s {
   0%,
   100% {
-    transform: translateY(8px);
-  }
-  50% {
-    transform: translateY(3px);
+    transform: translateY(4px);
   }
 }
 
 @keyframes spinner-w {
   0%,
   100% {
-    transform: translateX(-8px);
-  }
-  50% {
-    transform: translateX(-3px);
+    transform: translateX(-4px);
   }
 }
