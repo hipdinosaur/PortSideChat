@@ -5,7 +5,7 @@
   height: 24px;
   flex-shrink: 0;
   animation-name: thinking-spinner;
-  animation-duration: 600ms;
+  animation-duration: 1200ms;
   animation-timing-function: 0.62, 0, 0, 1.23;
   animation-iteration-count: infinite;
 }
@@ -59,29 +59,49 @@
 }
 
 @keyframes spinner-n {
-  0%,
-  100% {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
     transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 
 @keyframes spinner-e {
-  0%,
-  100% {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
     transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 
 @keyframes spinner-s {
-  0%,
-  100% {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
     transform: translateY(4px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 
 @keyframes spinner-w {
-  0%,
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
   100% {
-    transform: translateX(-4px);
+    transform: translateX(0);
   }
 }
