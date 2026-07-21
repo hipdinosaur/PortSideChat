@@ -127,7 +127,6 @@ const ChatWindow = () => {
                 </div>
               )}
               <div ref={bottomRef} className="chat-window__anchor" />
-              <ThinkingSpinner />
               <div className="chat-window__scrim" aria-hidden="true" />
             </div>
             <div className="chat-window__footer">
