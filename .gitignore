@@ -47,3 +47,5 @@ env/
 # IDE (optional — uncomment if you prefer not to commit editor settings)
 # .vscode/
 # .idea/
+.vercel
+.env*

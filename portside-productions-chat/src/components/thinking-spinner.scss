@@ -16,11 +16,7 @@
   height: 4px;
   border-radius: 50%;
   background: #ffffff;
-  left: 50%;
-  top: 50%;
-  margin-left: -2px;
-  margin-top: -2px;
-  animation-duration: 600ms;
+  animation-duration: 1200ms;
   animation-timing-function: 0.62, 0, 0, 1.23;
   animation-iteration-count: infinite;
 }
@@ -28,30 +24,33 @@
 
 .thinking-spinner__dot--n {
   animation-name: spinner-n;
-  left: 50%;
+  left: calc(50% - 2px);
   top: 0;
 }
 
 .thinking-spinner__dot--e {
   animation-name: spinner-e;
-  top: 50%;
+  top: calc(50% - 2px);
   right: 0;
 }
 
 .thinking-spinner__dot--s {
   animation-name: spinner-s;
   bottom: 0;
-  left: 50%
+  left: calc(50% - 2px);
 }
 
 .thinking-spinner__dot--w {
   animation-name: spinner-w;
   left: 0;
-  top: 50%;
+  top: calc(50% - 2px);
 }
 @keyframes thinking-spinner {
   0% {
     transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(45deg);
   }
   100% {
     transform: rotate(90deg);
@@ -63,7 +62,7 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-4px);
+    transform: translateY(4px);
   }
   100% {
     transform: translateY(0);
@@ -75,7 +74,7 @@
     transform: translateX(0);
   }
   50% {
-    transform: translateX(4px);
+    transform: translateX(-4px);
   }
   100% {
     transform: translateX(0);
@@ -87,7 +86,7 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(4px);
+    transform: translateY(-4px);
   }
   100% {
     transform: translateY(0);

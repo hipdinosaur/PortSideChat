@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useId } from 'react';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import parseHtml from 'html-react-parser';
@@ -127,6 +127,7 @@ const ChatWindow = () => {
                 </div>
               )}
               <div ref={bottomRef} className="chat-window__anchor" />
+              <ThinkingSpinner />
               <div className="chat-window__scrim" aria-hidden="true" />
             </div>
             <div className="chat-window__footer">
@@ -152,26 +153,33 @@ type ChatInputProps = {
 };
 
 function ChatInput({ value, disabled, onChange, onSubmit }: ChatInputProps) {
+  const inputId = useId();
+  const filled = value.trim().length > 0;
+
   return (
-    <div className="chat-input">
-      <input
-        type="text"
-        value={value}
-        placeholder="Ask anything"
-        disabled={disabled}
-        onChange={(e) => onChange(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            onSubmit();
-          }
-        }}
-        aria-label="Ask anything"
-      />
+    <div className={`chat-input${filled ? ' chat-input--filled' : ''}`}>
+      <div className="chat-input__field">
+        <label htmlFor={inputId} className="chat-input__label">
+          Ask anything
+        </label>
+        <input
+          id={inputId}
+          type="text"
+          value={value}
+          disabled={disabled}
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              onSubmit();
+            }
+          }}
+        />
+      </div>
       <button
         type="button"
         onClick={onSubmit}
-        disabled={disabled || !value.trim()}
+        disabled={disabled || !filled}
       >
         Submit
       </button>
