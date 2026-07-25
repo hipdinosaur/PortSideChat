@@ -10,6 +10,8 @@ const SUGGESTIONS = [
   'How do I build an audience for my outdoor brand?',
 ] as const;
 
+const PORTSIDE_URL = 'https://www.portsidepro.com';
+
 type Message = { role: 'user' | 'assistant'; content: string };
 type ConversationHistory = { role: 'user' | 'assistant'; content: string };
 
@@ -78,6 +80,25 @@ const ChatWindow = () => {
 
   return (
     <div className={`chat-window${isLanding ? ' chat-window--landing' : ''}`}>
+      <div className="chat-window__backdrop" aria-hidden="true">
+        <div className="chat-window__backdrop-image" />
+        <div className="chat-window__grid" />
+      </div>
+
+      <header className="chat-window__header">
+        <a
+          className="chat-window__brand"
+          href={PORTSIDE_URL}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Port Side
+        </a>
+        <button type="button" className="chat-window__login">
+          Login
+        </button>
+      </header>
+
       <div className="chat-window__main">
         {isLanding ? (
           <div className="chat-landing">
@@ -88,6 +109,7 @@ const ChatWindow = () => {
               <ChatInput
                 value={input}
                 disabled={loading}
+                landing
                 onChange={setInput}
                 onSubmit={() => handleSend()}
               />
@@ -108,26 +130,27 @@ const ChatWindow = () => {
           </div>
         ) : (
           <>
-            <div className="chat-window__body">
-              {messages.map((msg, i) => (
-                <div key={i} className={`message message--${msg.role}`}>
-                  {msg.role === 'assistant'
-                    ? parseHtml(msg.content)
-                    : msg.content}
-                </div>
-              ))}
-              {loading && (
-                <div
-                  className="message message--thinking"
-                  aria-live="polite"
-                  aria-busy="true"
-                >
-                  <span>Thinking</span>
-                  <ThinkingSpinner />
-                </div>
-              )}
-              <div ref={bottomRef} className="chat-window__anchor" />
-              <div className="chat-window__scrim" aria-hidden="true" />
+            <div className="chat-window__panel">
+              <div className="chat-window__body">
+                {messages.map((msg, i) => (
+                  <div key={i} className={`message message--${msg.role}`}>
+                    {msg.role === 'assistant'
+                      ? parseHtml(msg.content)
+                      : msg.content}
+                  </div>
+                ))}
+                {loading && (
+                  <div
+                    className="message message--thinking"
+                    aria-live="polite"
+                    aria-busy="true"
+                  >
+                    <span>Thinking</span>
+                    <ThinkingSpinner />
+                  </div>
+                )}
+                <div ref={bottomRef} className="chat-window__anchor" />
+              </div>
             </div>
             <div className="chat-window__footer">
               <ChatInput
@@ -140,6 +163,15 @@ const ChatWindow = () => {
           </>
         )}
       </div>
+
+      <a
+        className="chat-window__return"
+        href={PORTSIDE_URL}
+        target="_blank"
+        rel="noreferrer"
+      >
+        Return to Port side Productions
+      </a>
     </div>
   );
 };
@@ -147,41 +179,52 @@ const ChatWindow = () => {
 type ChatInputProps = {
   value: string;
   disabled: boolean;
+  landing?: boolean;
   onChange: (value: string) => void;
   onSubmit: () => void;
 };
 
-function ChatInput({ value, disabled, onChange, onSubmit }: ChatInputProps) {
+function ChatInput({
+  value,
+  disabled,
+  landing = false,
+  onChange,
+  onSubmit,
+}: ChatInputProps) {
   const inputId = useId();
   const filled = value.trim().length > 0;
 
   return (
-    <div className={`chat-input${filled ? ' chat-input--filled' : ''}`}>
-      <div className="chat-input__field">
-        <label htmlFor={inputId} className="chat-input__label">
-          Ask anything
-        </label>
-        <input
-          id={inputId}
-          type="text"
-          value={value}
-          disabled={disabled}
-          onChange={(e) => onChange(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              onSubmit();
-            }
-          }}
-        />
+    <div
+      className={`chat-input${filled ? ' chat-input--filled' : ''}${landing ? ' chat-input--landing' : ''}`}
+    >
+      <div className="chat-input__inner">
+        <div className="chat-input__field">
+          <label htmlFor={inputId} className="chat-input__label">
+            Ask anything
+          </label>
+          <input
+            id={inputId}
+            type="text"
+            value={value}
+            disabled={disabled}
+            onChange={(e) => onChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                onSubmit();
+              }
+            }}
+          />
+        </div>
+        <button
+          type="button"
+          onClick={onSubmit}
+          disabled={disabled || !filled}
+        >
+          Submit
+        </button>
       </div>
-      <button
-        type="button"
-        onClick={onSubmit}
-        disabled={disabled || !filled}
-      >
-        Submit
-      </button>
     </div>
   );
 }

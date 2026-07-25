@@ -1,14 +1,25 @@
 :root {
-  --bg: #121212;
+  --black: #121212;
+  --white: #ffffff;
+  --gray: #262626;
   --surface: #232323;
-  --text: #ffffff;
+  --border-chat: #464646;
+  --accent: #e31c23;
   --text-muted: rgba(255, 255, 255, 0.7);
-  --border: #787878;
-  --submit-bg: #ffffff;
-  --submit-text: #121212;
+  --input-placeholder: var(--black);
+  --glass: rgba(255, 255, 255, 0.05);
+
+  --bg: var(--black);
+  --text: var(--white);
+  --submit-bg: var(--black);
+  --submit-text: var(--white);
   --column-width: 760px;
+  --chat-column-width: 748px;
   --radius-bubble: 16px;
+  --radius-input: 12px;
+  --radius-glass: 22px;
   --radius-button: 8px;
+  --side-margin: 64px;
 
   --sans: 'neue-haas-grotesk-text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --heading: 'neue-haas-grotesk-display', 'Helvetica Neue', Helvetica, Arial, sans-serif;

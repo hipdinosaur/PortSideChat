@@ -133,10 +133,40 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const chunks = await matchChunks(queryEmbedding, userText);
     const context = formatContext(chunks);
 
+    // conversationHistory is resent unchanged on every call. Marking its last
+    // message as a cache breakpoint lets Anthropic reuse the (system + prior
+    // turns) prefix at ~10% of input price once it's grown past the ~1024
+    // token minimum block size — a no-op below that, but free to leave on.
+    const messages: Anthropic.MessageParam[] = [...conversationHistory];
+    if (messages.length > 0) {
+      const last = messages[messages.length - 1];
+      const lastText =
+        typeof last.content === "string"
+          ? last.content
+          : last.content.find((b) => b.type === "text")?.text ?? "";
+      messages[messages.length - 1] = {
+        ...last,
+        content: [
+          {
+            type: "text",
+            text: lastText,
+            cache_control: { type: "ephemeral" },
+          },
+        ],
+      };
+    }
+    messages.push({
+      role: "user",
+      content: `Relevant podcast passages:\n\n${context}\n\nQuestion: ${userText}`,
+    });
+
     const answerMsg = await anthropic.messages.create({
       model: "claude-haiku-4-5",
       max_tokens: 1200,
-      system: `You are a strategic creative consultant focused on the outdoor industry. Answer questions using the podcast transcript passages provided. Along with answers, provide quotes from an applicable episode and its episode number. Do not provide any preamble or introduction to your capabilities.
+      system: [
+        {
+          type: "text",
+          text: `You are a strategic creative consultant focused on the outdoor industry. Answer questions using the podcast transcript passages provided. Along with answers, provide a quote or two from an applicable episode and its episode number. Do not provide any preamble or introduction to your capabilities.
 Do not assume that users are familiar with the podcast. When introducing the podcast, use the name "Backcountry Marketing Podcast".
 Avoid conversations that are off topic from marketing or the outdoor industry.
 Avoid planning or strategizing; focus on providing insights and best practices.
@@ -144,13 +174,10 @@ Provide answers that are relevant to the question and the podcast transcript con
 Not all brands or products are directly related to the outdoor industry but engage an audience within that space; tailor answers assuming the audience is interested in the outdoor industry.
 When citing, prefer episode name/number and guest when available, and you may mention the episode URL.
 Answer in a friendly, engaging, and conversational tone; keep responses generally unformatted and free of markdown.`,
-      messages: [
-        ...conversationHistory,
-        {
-          role: "user",
-          content: `Relevant podcast passages:\n\n${context}\n\nQuestion: ${userText}`,
+          cache_control: { type: "ephemeral" },
         },
       ],
+      messages,
     });
 
     const answer =
