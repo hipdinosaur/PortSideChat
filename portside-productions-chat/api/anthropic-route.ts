@@ -65,7 +65,7 @@ async function matchChunks(
       body: JSON.stringify({
         query_embedding: queryEmbedding,
         query_text: queryText,
-        match_count: 8,
+        match_count: 5,
       }),
     }
   );
@@ -134,8 +134,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const context = formatContext(chunks);
 
     const answerMsg = await anthropic.messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 1500,
+      model: "claude-haiku-4-5",
+      max_tokens: 1200,
       system: `You are a strategic creative consultant focused on the outdoor industry. Answer questions using the podcast transcript passages provided. Along with answers, provide quotes from an applicable episode and its episode number. Do not provide any preamble or introduction to your capabilities.
 Do not assume that users are familiar with the podcast. When introducing the podcast, use the name "Backcountry Marketing Podcast".
 Avoid conversations that are off topic from marketing or the outdoor industry.
