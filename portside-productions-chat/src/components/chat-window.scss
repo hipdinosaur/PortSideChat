@@ -1,3 +1,4 @@
+$easing: cubic-bezier(.3,0,0,1);
 .chat-window {
   position: relative;
   width: 100%;
@@ -22,18 +23,28 @@
   position: absolute;
   inset: 0;
   background:
-    url('../assets/hero-mountains.jpg') center / cover no-repeat;
+    url('../assets/hero-mountains.jpg') center 42% / cover no-repeat;
+  transition: opacity 0.7s $easing;
 }
 
-.chat-window--landing .chat-window__backdrop-image {
-  /* Match Figma crop: wide landscape crop of the tall source photo */
-  background-position: center 42%;
+.chat-window__backdrop-image--sharp {
+  opacity: 1;
 }
 
-.chat-window:not(.chat-window--landing) .chat-window__backdrop-image {
-  opacity: 0.13;
+.chat-window__backdrop-image--soft {
+  opacity: 0;
   filter: blur(32px);
   transform: scale(1.08);
+}
+
+.chat-window--exiting .chat-window__backdrop-image--sharp,
+.chat-window--chat .chat-window__backdrop-image--sharp {
+  opacity: 0;
+}
+
+.chat-window--exiting .chat-window__backdrop-image--soft,
+.chat-window--chat .chat-window__backdrop-image--soft {
+  opacity: 0.13;
 }
 
 .chat-window__grid {
@@ -57,9 +68,11 @@
   background-position: 0 0, 0 0;
   mix-blend-mode: soft-light;
   opacity: 0.5;
+  transition: opacity 0.7s $easing;
 }
 
-.chat-window:not(.chat-window--landing) .chat-window__grid {
+.chat-window--exiting .chat-window__grid,
+.chat-window--chat .chat-window__grid {
   opacity: 0.35;
 }
 
@@ -134,9 +147,13 @@
   width: 100%;
   max-width: var(--column-width);
   min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   padding: 8px 16px 48px;
+  transition:
+    max-width 0.55s $easing,
+    padding 0.55s $easing;
 }
 
 .chat-window__return {
@@ -163,18 +180,35 @@
 /* —— Landing —— */
 
 .chat-window--landing .chat-window__main {
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
   padding-block: 96px 72px;
 }
 
 .chat-landing {
+  grid-area: 1 / 1;
   width: 100%;
+  align-self: center;
+  justify-self: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 30px;
+  z-index: 2;
+}
+
+.chat-window--exiting .chat-landing {
+  pointer-events: none;
+  animation: landing-exit 0.55s $easing forwards;
+}
+
+@keyframes landing-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 }
 
 .chat-landing__headline {
@@ -230,11 +264,34 @@
 
 /* —— Conversation —— */
 
-.chat-window:not(.chat-window--landing) .chat-window__main {
+.chat-window--exiting .chat-window__main,
+.chat-window--chat .chat-window__main {
   max-width: var(--chat-column-width);
   padding-top: 64px;
   padding-bottom: 64px;
+}
+
+.chat-window__conversation {
+  grid-area: 1 / 1;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   gap: 24px;
+  z-index: 1;
+  animation: conversation-enter 0.6s $easing 0.12s both;
+}
+
+@keyframes conversation-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .chat-window__panel {
@@ -409,7 +466,7 @@
   font-size: 16px;
   line-height: 1.5;
   pointer-events: none;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.15s $easing;
 }
 
 .chat-input--filled .chat-input__label {
@@ -466,7 +523,7 @@
     opacity: 0;
     transition:
       opacity 0.15s ease,
-      width 0.15s ease;
+      width 0.15s $easing;
   }
 
   &:hover:not(:disabled)::before {
@@ -482,6 +539,26 @@
     &::before {
       display: none;
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-window__backdrop-image,
+  .chat-window__grid,
+  .chat-window__main,
+  .chat-landing,
+  .chat-window__conversation {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .chat-window--exiting .chat-landing {
+    opacity: 0;
+  }
+
+  .chat-window__conversation {
+    opacity: 1;
+    transform: none;
   }
 }
 

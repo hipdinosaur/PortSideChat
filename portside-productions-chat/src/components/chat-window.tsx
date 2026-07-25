@@ -11,7 +11,10 @@ const SUGGESTIONS = [
 ] as const;
 
 const PORTSIDE_URL = 'https://www.portsidepro.com';
+/** Keep in sync with `$transition-exit` in chat-window.scss */
+const EXIT_MS = 700;
 
+type Phase = 'landing' | 'exiting' | 'chat';
 type Message = { role: 'user' | 'assistant'; content: string };
 type ConversationHistory = { role: 'user' | 'assistant'; content: string };
 
@@ -19,18 +22,48 @@ const ChatWindow = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [phase, setPhase] = useState<Phase>('landing');
   const bottomRef = useRef<HTMLDivElement>(null);
   const conversationHistory = useRef<ConversationHistory[]>([]);
+  const exitFallbackRef = useRef<number | null>(null);
 
-  const isLanding = messages.length === 0 && !loading;
+  const showLanding = phase === 'landing' || phase === 'exiting';
+  const showChat = phase === 'exiting' || phase === 'chat';
 
   useEffect(() => {
+    if (!showChat) return;
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, loading]);
+  }, [messages, loading, showChat]);
+
+  useEffect(() => {
+    return () => {
+      if (exitFallbackRef.current != null) {
+        window.clearTimeout(exitFallbackRef.current);
+      }
+    };
+  }, []);
+
+  function finishExit() {
+    if (exitFallbackRef.current != null) {
+      window.clearTimeout(exitFallbackRef.current);
+      exitFallbackRef.current = null;
+    }
+    setPhase((current) => (current === 'exiting' ? 'chat' : current));
+  }
+
+  function beginExit() {
+    if (phase !== 'landing') return;
+    setPhase('exiting');
+    exitFallbackRef.current = window.setTimeout(finishExit, EXIT_MS);
+  }
 
   async function handleSend(text?: string) {
     const userText = (text ?? input).trim();
-    if (!userText || loading) return;
+    if (!userText || loading || phase === 'exiting') return;
+
+    if (phase === 'landing') {
+      beginExit();
+    }
 
     setMessages((prev) => [...prev, { role: 'user', content: userText }]);
     setInput('');
@@ -79,9 +112,10 @@ const ChatWindow = () => {
   }
 
   return (
-    <div className={`chat-window${isLanding ? ' chat-window--landing' : ''}`}>
+    <div className={`chat-window chat-window--${phase}`}>
       <div className="chat-window__backdrop" aria-hidden="true">
-        <div className="chat-window__backdrop-image" />
+        <div className="chat-window__backdrop-image chat-window__backdrop-image--sharp" />
+        <div className="chat-window__backdrop-image chat-window__backdrop-image--soft" />
         <div className="chat-window__grid" />
       </div>
 
@@ -100,15 +134,26 @@ const ChatWindow = () => {
       </header>
 
       <div className="chat-window__main">
-        {isLanding ? (
-          <div className="chat-landing">
+        {showLanding && (
+          <div
+            className="chat-landing"
+            aria-hidden={phase === 'exiting'}
+            onAnimationEnd={(event) => {
+              if (
+                event.target === event.currentTarget &&
+                event.animationName === 'landing-exit'
+              ) {
+                finishExit();
+              }
+            }}
+          >
             <h1 className="chat-landing__headline">
               Learn the fundamentals of marketing for the outdoor industries
             </h1>
             <div className="chat-landing__composer">
               <ChatInput
-                value={input}
-                disabled={loading}
+                value={phase === 'landing' ? input : ''}
+                disabled={loading || phase !== 'landing'}
                 landing
                 onChange={setInput}
                 onSubmit={() => handleSend()}
@@ -120,7 +165,7 @@ const ChatWindow = () => {
                     type="button"
                     className="chat-suggestion"
                     onClick={() => handleSend(suggestion)}
-                    disabled={loading}
+                    disabled={loading || phase !== 'landing'}
                   >
                     {suggestion}
                   </button>
@@ -128,8 +173,10 @@ const ChatWindow = () => {
               </div>
             </div>
           </div>
-        ) : (
-          <>
+        )}
+
+        {showChat && (
+          <div className="chat-window__conversation">
             <div className="chat-window__panel">
               <div className="chat-window__body">
                 {messages.map((msg, i) => (
@@ -160,7 +207,7 @@ const ChatWindow = () => {
                 onSubmit={() => handleSend()}
               />
             </div>
-          </>
+          </div>
         )}
       </div>
 
