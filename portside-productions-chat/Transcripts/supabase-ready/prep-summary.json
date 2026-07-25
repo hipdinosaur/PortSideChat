@@ -1,0 +1,33 @@
+{
+  "source_csv": "portside-productions-chat/Transcripts/Port Side - Podcast-feeds - curated.csv",
+  "episodes_total": 122,
+  "episodes_with_transcript": 122,
+  "episodes_without_transcript": 0,
+  "chunks_total": 2646,
+  "skipped_no_slug": 0,
+  "target_tokens": 550,
+  "token_estimate": {
+    "min": 120,
+    "median": 487,
+    "max": 7958,
+    "avg": 510.5
+  },
+  "categories": {
+    "brand": 14,
+    "creative": 12,
+    "digital-marketing": 6,
+    "industry-trends": 7,
+    "leadership-and-people": 8,
+    "strategy": 2
+  },
+  "outputs": {
+    "episodes": "/Users/nathanlindahl/Library/CloudStorage/Dropbox/freelance/portside-pro/chatbot/portside-productions-chat/Transcripts/supabase-ready/episodes.jsonl",
+    "chunks": "/Users/nathanlindahl/Library/CloudStorage/Dropbox/freelance/portside-pro/chatbot/portside-productions-chat/Transcripts/supabase-ready/chunks.jsonl",
+    "schema": "/Users/nathanlindahl/Library/CloudStorage/Dropbox/freelance/portside-pro/chatbot/portside-productions-chat/supabase/schema.sql"
+  },
+  "notes": [
+    "embedding is null \u2014 populate with text-embedding-3-small (1536-d) before hybrid semantic search",
+    "categories and episode metadata are denormalized onto every chunk",
+    "web_url = https://www.portsidepro.com/podcast-feed/{slug}"
+  ]
+}

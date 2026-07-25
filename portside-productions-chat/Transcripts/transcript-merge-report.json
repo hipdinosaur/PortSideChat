@@ -1,0 +1,3604 @@
+{
+  "summary": {
+    "docx_files": 126,
+    "cms_episodes": 234,
+    "filled": 109,
+    "with_transcript_after": 172,
+    "missing_transcript_after": 62,
+    "status_counts": {
+      "already_present": 13,
+      "filled": 109,
+      "ambiguous": 4
+    },
+    "validation_issue_count": 0,
+    "duplicate_podcast_indexes": {
+      "62": [
+        "68225dfc7bb476527f8c4867",
+        "68225dfc7bb476527f8c4869"
+      ],
+      "52": [
+        "68225dfc7bb476527f8c4859",
+        "68225dfc7bb476527f8c485b"
+      ],
+      "54": [
+        "68225dfc7bb476527f8c485c",
+        "68225dfc7bb476527f8c485d"
+      ]
+    },
+    "empty_guest_name_count": 36
+  },
+  "decisions": [
+    {
+      "source_file": "Copy of Chris Burkard Transcript.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Chris Burkard",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Chris Burkard"
+      ],
+      "filename_hints": [
+        "Chris Burkard"
+      ],
+      "status": "already_present",
+      "reason": "all matching episodes already have transcripts: indexes ['192', '208', '227']",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c495b",
+      "podcast_index": "192",
+      "csv_guest": "Chris Burkard",
+      "csv_name": "EP: 192 Navigating Change: Chris Burkard on Creativity, Risk, and Authenticity",
+      "candidate_indexes": [
+        "192",
+        "208",
+        "227"
+      ]
+    },
+    {
+      "source_file": "Copy of Chris Pew Audio Episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Chris Pew"
+      ],
+      "guest_speakers": [
+        "Chris Pew"
+      ],
+      "filename_hints": [
+        "Chris Pew"
+      ],
+      "status": "already_present",
+      "reason": "only matching episode already has transcript",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4961",
+      "podcast_index": "195",
+      "csv_guest": "Chris Pew",
+      "csv_name": "TREW Gear - Creating a Branded Film Festival",
+      "candidate_indexes": [
+        "195"
+      ]
+    },
+    {
+      "source_file": "Copy of Fitz Cahall audio episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Fitz Cahall",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Fitz Cahall"
+      ],
+      "filename_hints": [
+        "Fitz Cahall"
+      ],
+      "status": "already_present",
+      "reason": "only matching episode already has transcript",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c493b",
+      "podcast_index": "177",
+      "csv_guest": "Fitz Cahall",
+      "csv_name": "EP: 177 The Galactic Upheaval in Media with Fitz Cahall",
+      "candidate_indexes": [
+        "177"
+      ]
+    },
+    {
+      "source_file": "Copy of Josh Weichhand Transcript.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Cole",
+        "Josh"
+      ],
+      "guest_speakers": [
+        "Josh"
+      ],
+      "filename_hints": [
+        "Josh Weichhand"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c482d",
+      "podcast_index": "12",
+      "csv_guest": "",
+      "csv_name": "Ep 12: Josh Weichhand | Finding and Using your Voice | Chac‪o",
+      "candidate_indexes": [
+        "12",
+        "166"
+      ]
+    },
+    {
+      "source_file": "Copy of Kate West audio episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Kate West",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Kate West"
+      ],
+      "filename_hints": [
+        "Kate West"
+      ],
+      "status": "already_present",
+      "reason": "only matching episode already has transcript",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4959",
+      "podcast_index": "190",
+      "csv_guest": "Kate West",
+      "csv_name": "EP: 190 Huckberry’s DIRT Uncovered",
+      "candidate_indexes": [
+        "190"
+      ]
+    },
+    {
+      "source_file": "Copy of Kevin Knutson audio episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Kevin Knutson",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Kevin Knutson"
+      ],
+      "filename_hints": [
+        "Kevin Knutson"
+      ],
+      "status": "already_present",
+      "reason": "only matching episode already has transcript",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4945",
+      "podcast_index": "181",
+      "csv_guest": "Kevin Knutson",
+      "csv_name": "EP: 181 Why Make Meaningful Content When the Algorithm Says Dance?",
+      "candidate_indexes": [
+        "181"
+      ]
+    },
+    {
+      "source_file": "Copy of Kristin Gavin audio episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Kristin Gavin",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Kristin Gavin"
+      ],
+      "filename_hints": [
+        "Kristin Gavin"
+      ],
+      "status": "already_present",
+      "reason": "only matching episode already has transcript",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4949",
+      "podcast_index": "182",
+      "csv_guest": "Kristin Gavin",
+      "csv_name": "EP: 182 Navigating the Congested Outdoor Media Landscape",
+      "candidate_indexes": [
+        "182"
+      ]
+    },
+    {
+      "source_file": "Copy of Kyle Pusateri audio episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Kyle Pusateri",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Kyle Pusateri"
+      ],
+      "filename_hints": [
+        "Kyle Pusateri"
+      ],
+      "status": "already_present",
+      "reason": "only matching episode already has transcript",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c495a",
+      "podcast_index": "191",
+      "csv_guest": "Kyle Pusateri",
+      "csv_name": "EP: 191 Inside the Creative Process with Garmin’s Lead Producer",
+      "candidate_indexes": [
+        "191"
+      ]
+    },
+    {
+      "source_file": "Copy of Lindsey Hagen TRanscriptr.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [],
+      "filename_hints": [
+        "Lindsey Hagen"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c491a",
+      "podcast_index": "145",
+      "csv_guest": "Lindsey Hagen",
+      "csv_name": "EP: 145 The Golden Age of Branded Films is Dead | Lindsey Hagen | gnarlybay",
+      "candidate_indexes": [
+        "145"
+      ]
+    },
+    {
+      "source_file": "Copy of Luke Thorkildsen audio episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Luke Thorkildsen",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Luke Thorkildsen"
+      ],
+      "filename_hints": [
+        "Luke Thorkildsen"
+      ],
+      "status": "already_present",
+      "reason": "only matching episode already has transcript",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4957",
+      "podcast_index": "188",
+      "csv_guest": "Luke Thorkildsen",
+      "csv_name": "EP: 188 Storytelling and Heritage: How Weatherby Engages the Next Generation",
+      "candidate_indexes": [
+        "188"
+      ]
+    },
+    {
+      "source_file": "Copy of Marc Bock audio episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Marc Bock",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Marc Bock"
+      ],
+      "filename_hints": [
+        "Marc Bock"
+      ],
+      "status": "already_present",
+      "reason": "only matching episode already has transcript",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4954",
+      "podcast_index": "185",
+      "csv_guest": "Marc Bock",
+      "csv_name": "EP: 185 Crafting Relevant Content and Maximizing Storytelling ROI at Gore-Tex",
+      "candidate_indexes": [
+        "185"
+      ]
+    },
+    {
+      "source_file": "Copy of Niclas Bornling Transcript.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Niclas Bornling",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Niclas Bornling"
+      ],
+      "filename_hints": [
+        "Niclas Bornling"
+      ],
+      "status": "already_present",
+      "reason": "only matching episode already has transcript",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4930",
+      "podcast_index": "174",
+      "csv_guest": "Niclas Bornling",
+      "csv_name": "EP: 174  Tectonic Forces are Changing the Industry - Will We Listen?",
+      "candidate_indexes": [
+        "174"
+      ]
+    },
+    {
+      "source_file": "Copy of Will Truettner audio episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Will Truettner",
+        "Cole Heilborn",
+        "Commercial VO"
+      ],
+      "guest_speakers": [
+        "Will Truettner"
+      ],
+      "filename_hints": [
+        "Will Truettner"
+      ],
+      "status": "already_present",
+      "reason": "only matching episode already has transcript",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c494d",
+      "podcast_index": "183",
+      "csv_guest": "Will Truettner",
+      "csv_name": "EP: 183 How Constraints Fuel Creative Innovation",
+      "candidate_indexes": [
+        "183"
+      ]
+    },
+    {
+      "source_file": "Copy of matt-powell-audio.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Matt Powell",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Matt Powell"
+      ],
+      "filename_hints": [
+        "matt-powell-audio"
+      ],
+      "status": "already_present",
+      "reason": "only matching episode already has transcript",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4922",
+      "podcast_index": "164",
+      "csv_guest": "Matt Powell",
+      "csv_name": "EP 164: State of the Outdoor Economy",
+      "candidate_indexes": [
+        "164"
+      ]
+    },
+    {
+      "source_file": "Drew Pautler Transcript.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Drew Pautler",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Drew Pautler"
+      ],
+      "filename_hints": [
+        "Drew Pautler"
+      ],
+      "status": "already_present",
+      "reason": "only matching episode already has transcript",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c493c",
+      "podcast_index": "178",
+      "csv_guest": "Drew Pautler",
+      "csv_name": "EP: 178 Breaking Barriers: What Can the Outdoor Industry Learn from Mainstream Sports?",
+      "candidate_indexes": [
+        "178"
+      ]
+    },
+    {
+      "source_file": "EP 1. Brian Seales _ Small Town Agency Tasty Results _ Ketchup and Mustard.docx",
+      "file_ep": 1,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Brian Seales",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Brian Seales"
+      ],
+      "filename_hints": [
+        "Brian Seales",
+        "Small Town Agency Tasty Results",
+        "Ketchup and Mustard",
+        "Brian Seales Small Town Agency Tasty Results Ketchup and Mustard"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4828",
+      "podcast_index": "1",
+      "csv_guest": "",
+      "csv_name": "Ep 1: Brian Seales | Small Town Agency; Tasty Results | Ketchup and Mustard",
+      "candidate_indexes": [
+        "1"
+      ]
+    },
+    {
+      "source_file": "EP 10. John Drake _ A Life in the Ad World _ Drake Cooper.docx",
+      "file_ep": 10,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "John Drake",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "John Drake"
+      ],
+      "filename_hints": [
+        "John Drake",
+        "A Life in the Ad World",
+        "Drake Cooper",
+        "John Drake A Life in the Ad World Drake Cooper"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c483b",
+      "podcast_index": "10",
+      "csv_guest": "",
+      "csv_name": "Ep 10: John Drake | A Life in the Ad World | Drake Coope‪r‬",
+      "candidate_indexes": [
+        "10"
+      ]
+    },
+    {
+      "source_file": "EP 100. Freelancing QA _ Cole Heilborn  Emily Holland _ Port Side Productions.docx",
+      "file_ep": 100,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Emily Holland"
+      ],
+      "guest_speakers": [
+        "Emily Holland"
+      ],
+      "filename_hints": [
+        "Freelancing QA",
+        "Emily Holland",
+        "Freelancing QA Emily Holland Port Side Productions"
+      ],
+      "status": "filled",
+      "reason": "guest match narrowed by filename title hint; filename EP 100 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c4889",
+      "podcast_index": "96",
+      "csv_guest": "Cole Heilborn",
+      "csv_name": "Ep 96: Freelancing Q&A | Cole Heilborn & Emily Holland | Port Side Productions",
+      "candidate_indexes": [
+        "73",
+        "96"
+      ]
+    },
+    {
+      "source_file": "EP 101. Managing Clients as a Freelancer _ Maari Casey _ Uncompany.docx",
+      "file_ep": 101,
+      "docx_speakers": [
+        "Maari Casey",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Maari Casey"
+      ],
+      "filename_hints": [
+        "Managing Clients as a Freelancer",
+        "Maari Casey",
+        "Uncompany",
+        "Managing Clients as a Freelancer Maari Casey Uncompany"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 101 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c4888",
+      "podcast_index": "97",
+      "csv_guest": "Maari Casey",
+      "csv_name": "Ep 97: Managing Clients as a Freelancer | Maari Casey | Uncompany",
+      "candidate_indexes": [
+        "97"
+      ]
+    },
+    {
+      "source_file": "EP 102. How to Work with An Agency _ John Entwistle _ Origin.docx",
+      "file_ep": 102,
+      "docx_speakers": [
+        "John Entwistle",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "John Entwistle"
+      ],
+      "filename_hints": [
+        "How to Work with An Agency",
+        "John Entwistle",
+        "Origin",
+        "How to Work with An Agency John Entwistle Origin"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 102 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c488d",
+      "podcast_index": "98",
+      "csv_guest": "John Entwhistle",
+      "csv_name": "Ep 98: How to Work with An Agency | John Entwistle | Origin",
+      "candidate_indexes": [
+        "98"
+      ]
+    },
+    {
+      "source_file": "EP 103. How to Find Your Brand Voice on Social _ Kami York-Feirn _ Ruffwear.docx",
+      "file_ep": 103,
+      "docx_speakers": [
+        "Kaim York-Feirn",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Kaim York-Feirn"
+      ],
+      "filename_hints": [
+        "How to Find Your Brand Voice on Social",
+        "Kami York-Feirn",
+        "Ruffwear",
+        "How to Find Your Brand Voice on Social Kami York Feirn Ruffwear"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 103 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c488c",
+      "podcast_index": "99",
+      "csv_guest": "Kami York-Feirn",
+      "csv_name": "Ep 99: How to Find Your Brand Voice on Social | Kami York-Feirn | Ruffwear",
+      "candidate_indexes": [
+        "99"
+      ]
+    },
+    {
+      "source_file": "EP 104. Building a Non-Transactional Relationship With Your Customers _ Darren Josey _ NEMO.docx",
+      "file_ep": 104,
+      "docx_speakers": [
+        "Darren Josey",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Darren Josey"
+      ],
+      "filename_hints": [
+        "Building a Non-Transactional Relationship With Your Customers",
+        "Darren Josey",
+        "NEMO",
+        "Building a Non Transactional Relationship With Your Customers Darren Josey NEMO"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 104 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c488a",
+      "podcast_index": "100",
+      "csv_guest": "Darren Josey",
+      "csv_name": "Ep. 100: Building a Non-Transactional Relationship With Your Customer | Darren Josey | NEMO Equipment",
+      "candidate_indexes": [
+        "100"
+      ]
+    },
+    {
+      "source_file": "EP 105. Why Consumer Research is so Important _ Megan Averell _ The Insight Inn.docx",
+      "file_ep": 105,
+      "docx_speakers": [
+        "Megan Averell",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Megan Averell"
+      ],
+      "filename_hints": [
+        "Why Consumer Research is so Important",
+        "Megan Averell",
+        "The Insight Inn",
+        "Why Consumer Research is so Important Megan Averell The Insight Inn"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 105 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c488b",
+      "podcast_index": "101",
+      "csv_guest": "Megan Averell",
+      "csv_name": "Ep. 101: Why Consumer Research is so Important | Megan Averell | The Insight Inn",
+      "candidate_indexes": [
+        "101"
+      ]
+    },
+    {
+      "source_file": "EP 106. How Emerging Technologies Impact Marketers _ Bethany Evans _ The North Face.docx",
+      "file_ep": 106,
+      "docx_speakers": [
+        "Bethany Evans",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Bethany Evans"
+      ],
+      "filename_hints": [
+        "How Emerging Technologies Impact Marketers",
+        "Bethany Evans",
+        "The North Face",
+        "How Emerging Technologies Impact Marketers Bethany Evans The North Face"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 106 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c488e",
+      "podcast_index": "102",
+      "csv_guest": "Bethany Evans",
+      "csv_name": "Ep. 102: How Emerging Technologies Impact Marketers | Bethany Evans | The North Face",
+      "candidate_indexes": [
+        "102"
+      ]
+    },
+    {
+      "source_file": "EP 107. How to Run a Startup Marketing Plan _ Jax Mustafa _ Erem.docx",
+      "file_ep": 107,
+      "docx_speakers": [
+        "Jax Mustafa",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Jax Mustafa"
+      ],
+      "filename_hints": [
+        "How to Run a Startup Marketing Plan",
+        "Jax Mustafa",
+        "Erem",
+        "How to Run a Startup Marketing Plan Jax Mustafa Erem"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 107 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c488f",
+      "podcast_index": "103",
+      "csv_guest": "Jax Mustafa",
+      "csv_name": "Ep 103: How to Run a Startup Marketing Plan | Jax Mustafa | Erem",
+      "candidate_indexes": [
+        "103"
+      ]
+    },
+    {
+      "source_file": "EP 108. Building a Brand Versus Building an Online Retailer _ Moez Faruqi _ White Duck Outdoors.docx",
+      "file_ep": 108,
+      "docx_speakers": [
+        "Moez Faruqi",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Moez Faruqi"
+      ],
+      "filename_hints": [
+        "Building a Brand Versus Building an Online Retailer",
+        "Moez Faruqi",
+        "White Duck Outdoors",
+        "Building a Brand Versus Building an Online Retailer Moez Faruqi White Duck Outdoors"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 108 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c4890",
+      "podcast_index": "104",
+      "csv_guest": "Moez Faruqi",
+      "csv_name": "Ep 104: Building a Brand Versus Building an Online Retailer | Moez Faruqi | White Duck Outdoors",
+      "candidate_indexes": [
+        "104"
+      ]
+    },
+    {
+      "source_file": "EP 109. How Company-to-Customer Communication Delivers Value _ Erica Aarons _ Rumpl.docx",
+      "file_ep": 109,
+      "docx_speakers": [
+        "Erica Aarons",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Erica Aarons"
+      ],
+      "filename_hints": [
+        "How Company-to-Customer Communication Delivers Value",
+        "Erica Aarons",
+        "Rumpl",
+        "How Company to Customer Communication Delivers Value Erica Aarons Rumpl"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4892",
+      "podcast_index": "105",
+      "csv_guest": "Erica Aarons",
+      "csv_name": "Ep. 105: How Company-to-Customer Communication Delivers Value | Erica Aarons | Rumpl",
+      "candidate_indexes": [
+        "105"
+      ]
+    },
+    {
+      "source_file": "EP 110. Building a Creative Manifesto _ Marc Gutman _ Wildstory.docx",
+      "file_ep": 110,
+      "docx_speakers": [
+        "Marc Gutman",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Marc Gutman"
+      ],
+      "filename_hints": [
+        "Building a Creative Manifesto",
+        "Marc Gutman",
+        "Wildstory",
+        "Building a Creative Manifesto Marc Gutman Wildstory"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4893",
+      "podcast_index": "106",
+      "csv_guest": "Marc Gutman",
+      "csv_name": "Ep. 106: Building a Creative Manifesto | Marc Gutman | Wildstory",
+      "candidate_indexes": [
+        "106"
+      ]
+    },
+    {
+      "source_file": "EP 111. Aligning Internal and External Brand _ Julia LoVecchio _ CMH Heli-Skiing.docx",
+      "file_ep": 111,
+      "docx_speakers": [
+        "Julia LoVecchio",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Julia LoVecchio"
+      ],
+      "filename_hints": [
+        "Aligning Internal and External Brand",
+        "Julia LoVecchio",
+        "CMH Heli-Skiing",
+        "Aligning Internal and External Brand Julia LoVecchio CMH Heli Skiing"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 111 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c4894",
+      "podcast_index": "107",
+      "csv_guest": "Julia LoVecchio",
+      "csv_name": "Ep. 107: Aligning Internal Brand and External Brand | Julia LoVecchio | CMH Heli-Skiing and Summer Adventures",
+      "candidate_indexes": [
+        "107"
+      ]
+    },
+    {
+      "source_file": "EP 113. Product Design and Brand Development _ Josh Buesseler _ Delicious LLC.docx",
+      "file_ep": 113,
+      "docx_speakers": [
+        "Josh Buesseler",
+        "Cole Heilborn",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Josh Buesseler"
+      ],
+      "filename_hints": [
+        "Product Design and Brand Development",
+        "Josh Buesseler",
+        "Delicious LLC",
+        "Product Design and Brand Development Josh Buesseler Delicious LLC"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4896",
+      "podcast_index": "109",
+      "csv_guest": "",
+      "csv_name": "Ep. 109: Product Design and Brand Development | Josh Buesseler | Delicious, LLC",
+      "candidate_indexes": [
+        "109"
+      ]
+    },
+    {
+      "source_file": "EP 116. The Outerverse _ Ariel Macrae _ Outside Inc.docx",
+      "file_ep": 116,
+      "docx_speakers": [
+        "Ariel Macrae",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Ariel Macrae"
+      ],
+      "filename_hints": [
+        "The Outerverse",
+        "Ariel Macrae",
+        "Outside Inc",
+        "The Outerverse Ariel Macrae Outside Inc"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 116 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c4899",
+      "podcast_index": "115",
+      "csv_guest": "Ariel Macrae",
+      "csv_name": "EP 115: Ariel Macrae |The Outerverse | Outside Inc.",
+      "candidate_indexes": [
+        "115"
+      ]
+    },
+    {
+      "source_file": "EP 117. What IS a Content Strategy_ _ Chris King _ Outdoor Research.docx",
+      "file_ep": 117,
+      "docx_speakers": [
+        "Chris King",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Chris King"
+      ],
+      "filename_hints": [
+        "What IS a Content Strategy",
+        "Chris King",
+        "Outdoor Research",
+        "What IS a Content Strategy Chris King Outdoor Research"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c489c",
+      "podcast_index": "116",
+      "csv_guest": "Chris King",
+      "csv_name": "EP 116: Chris King | What IS a Content Strategy? | Outdoor Research",
+      "candidate_indexes": [
+        "116"
+      ]
+    },
+    {
+      "source_file": "EP 119. Marketing a Commodity _ Dax Myers _ MountainFLOW eco-wax.docx",
+      "file_ep": 119,
+      "docx_speakers": [
+        "Dax Myers",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Dax Myers"
+      ],
+      "filename_hints": [
+        "Marketing a Commodity",
+        "Dax Myers",
+        "MountainFLOW eco-wax",
+        "Marketing a Commodity Dax Myers MountainFLOW eco wax"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c489b",
+      "podcast_index": "119",
+      "csv_guest": "Dax Myers",
+      "csv_name": "EP 119: Marketing a Commodity | Dax Myers | MountainFLOW eco-wax",
+      "candidate_indexes": [
+        "119"
+      ]
+    },
+    {
+      "source_file": "EP 120. Break All The Rules _ Kris Hampton _ Power Company Climbing.docx",
+      "file_ep": 120,
+      "docx_speakers": [
+        "Kris Hampton",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Kris Hampton"
+      ],
+      "filename_hints": [
+        "Break All The Rules",
+        "Kris Hampton",
+        "Power Company Climbing",
+        "Break All The Rules Kris Hampton Power Company Climbing"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c489a",
+      "podcast_index": "120",
+      "csv_guest": "Kris Hampton",
+      "csv_name": "EP 120: Break All The Rules | Kris Hampton | Power Company Climbing",
+      "candidate_indexes": [
+        "120"
+      ]
+    },
+    {
+      "source_file": "EP 121. Mental Health and CTE in the Workplace _ David Meredith _ Full Speed Ahead.docx",
+      "file_ep": 121,
+      "docx_speakers": [
+        "David Meredith",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "David Meredith"
+      ],
+      "filename_hints": [
+        "Mental Health and CTE in the Workplace",
+        "David Meredith",
+        "Full Speed Ahead",
+        "Mental Health and CTE in the Workplace David Meredith Full Speed Ahead"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c489e",
+      "podcast_index": "121",
+      "csv_guest": "David Meredith",
+      "csv_name": "EP 121: Mental Health and CTE in the Workplace | David Meredith | Full Speed Ahead",
+      "candidate_indexes": [
+        "121"
+      ]
+    },
+    {
+      "source_file": "EP 14. Jill Nazeer _ Brand Differentiation _ Alta Cycling.docx",
+      "file_ep": 14,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Jill Nazeer",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Jill Nazeer"
+      ],
+      "filename_hints": [
+        "Jill Nazeer",
+        "Brand Differentiation",
+        "Alta Cycling",
+        "Jill Nazeer Brand Differentiation Alta Cycling"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4832",
+      "podcast_index": "14",
+      "csv_guest": "",
+      "csv_name": "Ep 14: Jill Nazeer | Brand Differentiation | Alta Cyclin‪g",
+      "candidate_indexes": [
+        "14"
+      ]
+    },
+    {
+      "source_file": "EP 16. Brennah Rosenthal _ The Changing Production Landscape _ Great Escape Media.docx",
+      "file_ep": 16,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Brennah Rosenthal"
+      ],
+      "guest_speakers": [
+        "Brennah Rosenthal"
+      ],
+      "filename_hints": [
+        "Brennah Rosenthal",
+        "The Changing Production Landscape",
+        "Great Escape Media",
+        "Brennah Rosenthal The Changing Production Landscape Great Escape Media"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4831",
+      "podcast_index": "16",
+      "csv_guest": "",
+      "csv_name": "Ep 16: Brennah Rosenthal | The Changing Production Landscape | Great Escape Medi‪a‬",
+      "candidate_indexes": [
+        "16"
+      ]
+    },
+    {
+      "source_file": "EP 17. Nate Nichols _ Racism and the Ad Industry _ Palette Group.docx",
+      "file_ep": 17,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Nate Nichols",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Nate Nichols"
+      ],
+      "filename_hints": [
+        "Nate Nichols",
+        "Racism and the Ad Industry",
+        "Palette Group",
+        "Nate Nichols Racism and the Ad Industry Palette Group"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4834",
+      "podcast_index": "17",
+      "csv_guest": "",
+      "csv_name": "Ep 17: Nate Nichols | Racism and the Ad Industry | Palette Grou‪p",
+      "candidate_indexes": [
+        "17"
+      ]
+    },
+    {
+      "source_file": "EP 18. Lisa Slagle _ Loving the Process _ Wheelie.docx",
+      "file_ep": 18,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Lisa Slagle"
+      ],
+      "guest_speakers": [
+        "Lisa Slagle"
+      ],
+      "filename_hints": [
+        "Lisa Slagle",
+        "Loving the Process",
+        "Wheelie",
+        "Lisa Slagle Loving the Process Wheelie"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4835",
+      "podcast_index": "18",
+      "csv_guest": "",
+      "csv_name": "Ep 18: Lisa Slagle | Loving the Process | Wheeli‪e‬",
+      "candidate_indexes": [
+        "18"
+      ]
+    },
+    {
+      "source_file": "EP 2. Sean Fields _ Sustainability in the Outdoor Industry _ Gear Aid.docx",
+      "file_ep": 2,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Sean Fields",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Sean Fields"
+      ],
+      "filename_hints": [
+        "Sean Fields",
+        "Sustainability in the Outdoor Industry",
+        "Gear Aid",
+        "Sean Fields Sustainability in the Outdoor Industry Gear Aid"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4824",
+      "podcast_index": "",
+      "csv_guest": "",
+      "csv_name": "Ep 2: Sean Fields | Sustainability in the Outdoor Industry | Gear Aid",
+      "candidate_indexes": [
+        "?"
+      ]
+    },
+    {
+      "source_file": "EP 22. Ian McWilliams _ Authenticity - It-s Everywhere _ Klean Kanteen.docx",
+      "file_ep": 22,
+      "docx_speakers": [
+        "Ian McWilliams",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Ian McWilliams"
+      ],
+      "filename_hints": [
+        "Ian McWilliams",
+        "Authenticity - It-s Everywhere",
+        "Klean Kanteen",
+        "Ian McWilliams Authenticity It s Everywhere Klean Kanteen"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4837",
+      "podcast_index": "22",
+      "csv_guest": "",
+      "csv_name": "Ep 22: Ian McWilliams | Authenticity - It's Everywhere | Klean Kantee‪n‬",
+      "candidate_indexes": [
+        "22"
+      ]
+    },
+    {
+      "source_file": "EP 23. Ian Mathias _ Get Out Of My Feed _ Strava.docx",
+      "file_ep": 23,
+      "docx_speakers": [
+        "Ian Mathias",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Ian Mathias"
+      ],
+      "filename_hints": [
+        "Ian Mathias",
+        "Get Out Of My Feed",
+        "Strava",
+        "Ian Mathias Get Out Of My Feed Strava"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4838",
+      "podcast_index": "23",
+      "csv_guest": "",
+      "csv_name": "Ep 23: Ian Mathias | Get Out Of My Feed | Strav‪a‬",
+      "candidate_indexes": [
+        "23"
+      ]
+    },
+    {
+      "source_file": "EP 24. Patrick McCarthy _ Turn by Turn _ 686.docx",
+      "file_ep": 24,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Patrick McCarthy"
+      ],
+      "guest_speakers": [
+        "Patrick McCarthy"
+      ],
+      "filename_hints": [
+        "Patrick McCarthy",
+        "Turn by Turn",
+        "686",
+        "Patrick McCarthy Turn by Turn 686"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c483f",
+      "podcast_index": "24",
+      "csv_guest": "Patrick McCarthy",
+      "csv_name": "Ep 24: Patrick McCarthy | Turn by Turn | 68‪6‬",
+      "candidate_indexes": [
+        "24"
+      ]
+    },
+    {
+      "source_file": "EP 25. Adam Saraceno _ Kickstarter 101 _ Peak Design.docx",
+      "file_ep": 25,
+      "docx_speakers": [
+        "Adam Saraceno",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Adam Saraceno"
+      ],
+      "filename_hints": [
+        "Adam Saraceno",
+        "Kickstarter 101",
+        "Peak Design",
+        "Adam Saraceno Kickstarter 101 Peak Design"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c483c",
+      "podcast_index": "25",
+      "csv_guest": "",
+      "csv_name": "Ep 25: Adam Saraceno | Kickstarter 101 | Peak Desig‪n",
+      "candidate_indexes": [
+        "25"
+      ]
+    },
+    {
+      "source_file": "EP 27. Erica Rosen _ One Watt at a Time _ BioLite.docx",
+      "file_ep": 27,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Eric Rosen",
+        "Speaker 3",
+        "Speaker 4"
+      ],
+      "guest_speakers": [
+        "Eric Rosen"
+      ],
+      "filename_hints": [
+        "Erica Rosen",
+        "One Watt at a Time",
+        "BioLite",
+        "Erica Rosen One Watt at a Time BioLite"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c483e",
+      "podcast_index": "27",
+      "csv_guest": "",
+      "csv_name": "Ep 27: Erica Rosen | One Watt at a Time | BioLit‪e‬",
+      "candidate_indexes": [
+        "27"
+      ]
+    },
+    {
+      "source_file": "EP 28. Adam Vicarel _ Art and Business _ Vicarel Studios.docx",
+      "file_ep": 28,
+      "docx_speakers": [
+        "Adam Vicarel",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Adam Vicarel"
+      ],
+      "filename_hints": [
+        "Adam Vicarel",
+        "Art and Business",
+        "Vicarel Studios",
+        "Adam Vicarel Art and Business Vicarel Studios"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4840",
+      "podcast_index": "28",
+      "csv_guest": "Adam Vicarel",
+      "csv_name": "Ep 28: Adam Vicarel | Art and Business | Vicarel Studio‪s‬",
+      "candidate_indexes": [
+        "28"
+      ]
+    },
+    {
+      "source_file": "EP 29. Gary Boulanger _ Make the Jump _ FOX Factory.docx",
+      "file_ep": 29,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Gary Boulanger",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Gary Boulanger"
+      ],
+      "filename_hints": [
+        "Gary Boulanger",
+        "Make the Jump",
+        "FOX Factory",
+        "Gary Boulanger Make the Jump FOX Factory"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c484b",
+      "podcast_index": "29",
+      "csv_guest": "Gary",
+      "csv_name": "Ep 29: Gary Boulanger | Make the Jump | FOX Factor‪y‬",
+      "candidate_indexes": [
+        "29"
+      ]
+    },
+    {
+      "source_file": "EP 3. Mike Goldstein _ Running a Successful Production Company _ The Heist.docx",
+      "file_ep": 3,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Mike Goldstein",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Mike Goldstein"
+      ],
+      "filename_hints": [
+        "Mike Goldstein",
+        "Running a Successful Production Company",
+        "The Heist",
+        "Mike Goldstein Running a Successful Production Company The Heist"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4827",
+      "podcast_index": "3",
+      "csv_guest": "Michael Goldstein",
+      "csv_name": "Ep 3: Mike Goldstein | Running a Successful Production Company | The Heist",
+      "candidate_indexes": [
+        "3"
+      ]
+    },
+    {
+      "source_file": "EP 30. Todd Bischoff _ Positively Disrupt _ Gerber Gear.docx",
+      "file_ep": 30,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Todd Bischoff"
+      ],
+      "guest_speakers": [
+        "Todd Bischoff"
+      ],
+      "filename_hints": [
+        "Todd Bischoff",
+        "Positively Disrupt",
+        "Gerber Gear",
+        "Todd Bischoff Positively Disrupt Gerber Gear"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4843",
+      "podcast_index": "30",
+      "csv_guest": "Todd Bischoff",
+      "csv_name": "Ep 30: Todd Bischoff | Positively Disrupt | Gerber Gea‪r‬",
+      "candidate_indexes": [
+        "30"
+      ]
+    },
+    {
+      "source_file": "EP 31. Eric Porter _ Ride On _ Porter MTB.docx",
+      "file_ep": 31,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Eric Porter",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Eric Porter"
+      ],
+      "filename_hints": [
+        "Eric Porter",
+        "Ride On",
+        "Porter MTB",
+        "Eric Porter Ride On Porter MTB"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4844",
+      "podcast_index": "31",
+      "csv_guest": "Eric Porter",
+      "csv_name": "Ep 31: Eric Porter | Ride On | Porter MT‪B‬",
+      "candidate_indexes": [
+        "15",
+        "31"
+      ]
+    },
+    {
+      "source_file": "EP 32. John Holdmeier _ The Shakedown _ UST Gear.docx",
+      "file_ep": 32,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "John Holdmeier",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "John Holdmeier"
+      ],
+      "filename_hints": [
+        "John Holdmeier",
+        "The Shakedown",
+        "UST Gear",
+        "John Holdmeier The Shakedown UST Gear"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4841",
+      "podcast_index": "32",
+      "csv_guest": "John Holdmeier ",
+      "csv_name": "Ep 32: John Holdmeier | The Shakedown | UST Gea‪r‬",
+      "candidate_indexes": [
+        "32",
+        "?"
+      ]
+    },
+    {
+      "source_file": "EP 33. Andrew Gibbs-Dabney _ More with Less_ LIVSN Design.docx",
+      "file_ep": 33,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Andrew Gibbs-Dabney",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Andrew Gibbs-Dabney"
+      ],
+      "filename_hints": [
+        "Andrew Gibbs-Dabney",
+        "More with Less_ LIVSN Design",
+        "Andrew Gibbs Dabney More with Less LIVSN Design"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4842",
+      "podcast_index": "33",
+      "csv_guest": "Andrew Gibbs-Dabney",
+      "csv_name": "Ep 33: Andrew Gibbs-Dabney | More with Less| LIVSN Desig‪n‬",
+      "candidate_indexes": [
+        "33"
+      ]
+    },
+    {
+      "source_file": "EP 34. Patrick Tullos _ Mental Health in the Outdoors _ Adidas.docx",
+      "file_ep": 34,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Patrick Tullos",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Patrick Tullos"
+      ],
+      "filename_hints": [
+        "Patrick Tullos",
+        "Mental Health in the Outdoors",
+        "Adidas",
+        "Patrick Tullos Mental Health in the Outdoors Adidas"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4845",
+      "podcast_index": "34",
+      "csv_guest": "Patrick Tullos ",
+      "csv_name": "Ep 34: Patrick Tullos | Mental Health in the Outdoors | Adida‪s‬",
+      "candidate_indexes": [
+        "34"
+      ]
+    },
+    {
+      "source_file": "EP 35. Maddie Petry _ Down the Mountain  _ Mammut.docx",
+      "file_ep": 35,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Maddie Petry",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Maddie Petry"
+      ],
+      "filename_hints": [
+        "Maddie Petry",
+        "Down the Mountain",
+        "Mammut",
+        "Maddie Petry Down the Mountain Mammut"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4846",
+      "podcast_index": "35",
+      "csv_guest": "Maddie Petry is the Marketing Director ",
+      "csv_name": "Ep 35: Maddie Petry | Down the Mountain | Mammu‪t‬",
+      "candidate_indexes": [
+        "35"
+      ]
+    },
+    {
+      "source_file": "EP 36. Linda Balfour _ E-commerce Pivot _ Superfeet.docx",
+      "file_ep": 36,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Linda Balfour",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Linda Balfour"
+      ],
+      "filename_hints": [
+        "Linda Balfour",
+        "E-commerce Pivot",
+        "Superfeet",
+        "Linda Balfour E commerce Pivot Superfeet"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4847",
+      "podcast_index": "36",
+      "csv_guest": "Linda Balfour",
+      "csv_name": "Ep 36: Linda Balfour | E-commerce Pivot | Superfee‪t‬",
+      "candidate_indexes": [
+        "36"
+      ]
+    },
+    {
+      "source_file": "EP 37. Jen Gurecki _ Snow for All _ Coalition Snow.docx",
+      "file_ep": 37,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Jen Gurecki"
+      ],
+      "guest_speakers": [
+        "Jen Gurecki"
+      ],
+      "filename_hints": [
+        "Jen Gurecki",
+        "Snow for All",
+        "Coalition Snow",
+        "Jen Gurecki Snow for All Coalition Snow"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4848",
+      "podcast_index": "37",
+      "csv_guest": "Jen Gurecki",
+      "csv_name": "Ep 37: Jen Gurecki | Snow for All | Coalition Sno‪w‬",
+      "candidate_indexes": [
+        "37"
+      ]
+    },
+    {
+      "source_file": "EP 38. Rick Wittenbraker _ Community over Self _ Howler Brothers.docx",
+      "file_ep": 38,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Rick Wittenbraker",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Rick Wittenbraker"
+      ],
+      "filename_hints": [
+        "Rick Wittenbraker",
+        "Community over Self",
+        "Howler Brothers",
+        "Rick Wittenbraker Community over Self Howler Brothers"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c484a",
+      "podcast_index": "38",
+      "csv_guest": "Rick Wittenbraker",
+      "csv_name": "Ep 38: Rick Wittenbraker | Community over Self | Howler Brother‪s‬",
+      "candidate_indexes": [
+        "38"
+      ]
+    },
+    {
+      "source_file": "EP 39. Jensen and Nikolai _ Founders Dream_ Ombraz Sunglasses.docx",
+      "file_ep": 39,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Jensen",
+        "Nikolai"
+      ],
+      "guest_speakers": [
+        "Jensen",
+        "Nikolai"
+      ],
+      "filename_hints": [
+        "Jensen and Nikolai",
+        "Founders Dream_ Ombraz Sunglasses",
+        "Jensen and Nikolai Founders Dream Ombraz Sunglasses"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c484d",
+      "podcast_index": "39",
+      "csv_guest": "Jensen and Nikolai",
+      "csv_name": "Ep 39: Jensen and Nikolai | Founders Dream| Ombraz Sunglasse‪s‬",
+      "candidate_indexes": [
+        "39"
+      ]
+    },
+    {
+      "source_file": "EP 4. Doug Thielen _ The 120 year old startup _ Filson.docx",
+      "file_ep": 4,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Doug Thielen",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Doug Thielen"
+      ],
+      "filename_hints": [
+        "Doug Thielen",
+        "The 120 year old startup",
+        "Filson",
+        "Doug Thielen The 120 year old startup Filson"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c482f",
+      "podcast_index": "4",
+      "csv_guest": "Dough Thielen",
+      "csv_name": "Ep 4: Doug Thielen | The 120 year old startup | Filson",
+      "candidate_indexes": [
+        "4"
+      ]
+    },
+    {
+      "source_file": "EP 40. Chris Killen _ Strategy is the new King _ Bell Helmets.docx",
+      "file_ep": 40,
+      "docx_speakers": [
+        "Chris Killen",
+        "Cole Heilborn",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Chris Killen"
+      ],
+      "filename_hints": [
+        "Chris Killen",
+        "Strategy is the new King",
+        "Bell Helmets",
+        "Chris Killen Strategy is the new King Bell Helmets"
+      ],
+      "status": "filled",
+      "reason": "guest match narrowed by filename title hint",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c484c",
+      "podcast_index": "40",
+      "csv_guest": "Chris Killen",
+      "csv_name": "Ep 40: Chris Killen | Strategy is the new King | Bell Helmets",
+      "candidate_indexes": [
+        "116",
+        "40"
+      ]
+    },
+    {
+      "source_file": "EP 41. Amanda Goad _ Building a Brand Voice _ BoldBrew.docx",
+      "file_ep": 41,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Amanda Goad",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Amanda Goad"
+      ],
+      "filename_hints": [
+        "Amanda Goad",
+        "Building a Brand Voice",
+        "BoldBrew",
+        "Amanda Goad Building a Brand Voice BoldBrew"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c484f",
+      "podcast_index": "41",
+      "csv_guest": "Amanda Goad",
+      "csv_name": "Ep 41: Amanda Goad | Building a Brand Voice | BoldBre‪w‬",
+      "candidate_indexes": [
+        "41"
+      ]
+    },
+    {
+      "source_file": "EP 42. Jo Salamon _ Preserving Heritage and Saving Lives _ Mustang Survival.docx",
+      "file_ep": 42,
+      "docx_speakers": [
+        "Jo Salamon",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Jo Salamon"
+      ],
+      "filename_hints": [
+        "Jo Salamon",
+        "Preserving Heritage and Saving Lives",
+        "Mustang Survival",
+        "Jo Salamon Preserving Heritage and Saving Lives Mustang Survival"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c484e",
+      "podcast_index": "42",
+      "csv_guest": "Jo Salamon",
+      "csv_name": "Ep 42: Jo Salamon | Preserving Heritage and Saving Lives | Mustang Surviva‪l‬",
+      "candidate_indexes": [
+        "42"
+      ]
+    },
+    {
+      "source_file": "EP 43. Mary Kate Baumann _ The (huge) Social Dilemma _ GOAL ZERO.docx",
+      "file_ep": 43,
+      "docx_speakers": [
+        "Mary Kate Baumann",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Mary Kate Baumann"
+      ],
+      "filename_hints": [
+        "Mary Kate Baumann",
+        "The (huge) Social Dilemma",
+        "GOAL ZERO",
+        "Mary Kate Baumann The (huge) Social Dilemma GOAL ZERO"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4852",
+      "podcast_index": "43",
+      "csv_guest": "Mary Kate Baumann",
+      "csv_name": "Ep 43: Mary Kate Baumann | The (huge) Social Dilemma | GOAL ZER‪O‬",
+      "candidate_indexes": [
+        "43"
+      ]
+    },
+    {
+      "source_file": "EP 44. Kyle McCann _ Jumping Ship _ Canyon Bicycles USA.docx",
+      "file_ep": 44,
+      "docx_speakers": [
+        "Kyle McCann",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Kyle McCann"
+      ],
+      "filename_hints": [
+        "Kyle McCann",
+        "Jumping Ship",
+        "Canyon Bicycles USA",
+        "Kyle McCann Jumping Ship Canyon Bicycles USA"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4854",
+      "podcast_index": "44",
+      "csv_guest": "Kyle McCann",
+      "csv_name": "Ep 44: Kyle McCann | Jumping Ship | Canyon Bicycles US‪A‬",
+      "candidate_indexes": [
+        "44"
+      ]
+    },
+    {
+      "source_file": "EP 45. Eli Kerr _ The Whole Self _ Gnarly Nutrition.docx",
+      "file_ep": 45,
+      "docx_speakers": [
+        "Eli Kerr",
+        "Cole Heilborn",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Eli Kerr"
+      ],
+      "filename_hints": [
+        "Eli Kerr",
+        "The Whole Self",
+        "Gnarly Nutrition",
+        "Eli Kerr The Whole Self Gnarly Nutrition"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4850",
+      "podcast_index": "45",
+      "csv_guest": "Eli Kerr ",
+      "csv_name": "Ep 45: Eli Kerr | The Whole Self | Gnarly Nutrition‬",
+      "candidate_indexes": [
+        "45"
+      ]
+    },
+    {
+      "source_file": "EP 46. Rich Hohne _ True to the Trail _ Oboz Footwear.docx",
+      "file_ep": 46,
+      "docx_speakers": [
+        "Rich Hohne",
+        "Cole Heilborn",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Rich Hohne"
+      ],
+      "filename_hints": [
+        "Rich Hohne",
+        "True to the Trail",
+        "Oboz Footwear",
+        "Rich Hohne True to the Trail Oboz Footwear"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4851",
+      "podcast_index": "46",
+      "csv_guest": "Rich Hohne",
+      "csv_name": "Ep: 46 Rich Hohne | True to the Trail | Oboz Footwear",
+      "candidate_indexes": [
+        "46"
+      ]
+    },
+    {
+      "source_file": "EP 47. Christian Lepley _ An Awakening _ GU Energy Labs.docx",
+      "file_ep": 47,
+      "docx_speakers": [
+        "Christian Lepley",
+        "Cole Heilborn",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Christian Lepley"
+      ],
+      "filename_hints": [
+        "Christian Lepley",
+        "An Awakening",
+        "GU Energy Labs",
+        "Christian Lepley An Awakening GU Energy Labs"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4853",
+      "podcast_index": "47",
+      "csv_guest": "Christian Lepley",
+      "csv_name": "Ep 47: Christian Lepley | An Awakening | GU Energy Labs",
+      "candidate_indexes": [
+        "47"
+      ]
+    },
+    {
+      "source_file": "EP 48. Chatham Baker _ Integrated Licensing _ SPG Company.docx",
+      "file_ep": 48,
+      "docx_speakers": [
+        "Chatham Baker",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Chatham Baker"
+      ],
+      "filename_hints": [
+        "Chatham Baker",
+        "Integrated Licensing",
+        "SPG Company",
+        "Chatham Baker Integrated Licensing SPG Company"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4858",
+      "podcast_index": "48",
+      "csv_guest": "Chatham Baker",
+      "csv_name": "Ep 48: Chatham Baker | Integrated Licensing | SPG Company",
+      "candidate_indexes": [
+        "48"
+      ]
+    },
+    {
+      "source_file": "EP 49. Sean and Shandi _ An Award Winning Story _ Forever is Now.docx",
+      "file_ep": 49,
+      "docx_speakers": [
+        "Sean Slobodan",
+        "Cole Heilborn",
+        "Shandi Kano",
+        "Speaker 4"
+      ],
+      "guest_speakers": [
+        "Sean Slobodan",
+        "Shandi Kano"
+      ],
+      "filename_hints": [
+        "Sean and Shandi",
+        "An Award Winning Story",
+        "Forever is Now",
+        "Sean and Shandi An Award Winning Story Forever is Now"
+      ],
+      "status": "filled",
+      "reason": "guest match narrowed by filename title hint",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4855",
+      "podcast_index": "49",
+      "csv_guest": "Sean Slobodan and Shandi Kano",
+      "csv_name": "Ep 49: Sean and Shandi | An Award Winning Story | Forever is Now",
+      "candidate_indexes": [
+        "161",
+        "167",
+        "169",
+        "21",
+        "49"
+      ]
+    },
+    {
+      "source_file": "EP 5. Tom and Kyleigh _ How YouTube has Grown their Business _ Freedom Vans.docx",
+      "file_ep": 5,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Speaker 2",
+        "Kyleigh",
+        "Speaker 4"
+      ],
+      "guest_speakers": [
+        "Kyleigh"
+      ],
+      "filename_hints": [
+        "Tom and Kyleigh",
+        "How YouTube has Grown their Business",
+        "Freedom Vans",
+        "Tom and Kyleigh How YouTube has Grown their Business Freedom Vans"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4825",
+      "podcast_index": "5",
+      "csv_guest": "",
+      "csv_name": "Ep 5: Tom and Kyleigh | How YouTube has Grown their Business | Freedom Vans",
+      "candidate_indexes": [
+        "5"
+      ]
+    },
+    {
+      "source_file": "EP 50. Peter and Spencer _ The Low Impact Camper _ Super Pacific.docx",
+      "file_ep": 50,
+      "docx_speakers": [
+        "Peter Williams",
+        "Cole Heilborn",
+        "Spencer Houser",
+        "Speaker 4"
+      ],
+      "guest_speakers": [
+        "Peter Williams",
+        "Spencer Houser"
+      ],
+      "filename_hints": [
+        "Peter and Spencer",
+        "The Low Impact Camper",
+        "Super Pacific",
+        "Peter and Spencer The Low Impact Camper Super Pacific"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4857",
+      "podcast_index": "50",
+      "csv_guest": "Peter Williams and Spencer Houser",
+      "csv_name": "Ep 50: Peter and Spencer | The Low Impact Camper | Super Pacific",
+      "candidate_indexes": [
+        "50"
+      ]
+    },
+    {
+      "source_file": "EP 51. Cory Van Auken _ Digital Marketing and PR _ Darby Communications.docx",
+      "file_ep": 51,
+      "docx_speakers": [
+        "Cory Van Auken",
+        "Cole Heilborn",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Cory Van Auken"
+      ],
+      "filename_hints": [
+        "Cory Van Auken",
+        "Digital Marketing and PR",
+        "Darby Communications",
+        "Cory Van Auken Digital Marketing and PR Darby Communications"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4856",
+      "podcast_index": "51",
+      "csv_guest": "Cory Van Auken",
+      "csv_name": "Ep 51: Cory Van Auken | Digital Marketing and PR | Darby Communications",
+      "candidate_indexes": [
+        "51"
+      ]
+    },
+    {
+      "source_file": "EP 52. Kansas Sartin _ Never Settle _ PAKMULE Cargo Carrier.docx",
+      "file_ep": 52,
+      "docx_speakers": [
+        "Kansas Sartin",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Kansas Sartin"
+      ],
+      "filename_hints": [
+        "Kansas Sartin",
+        "Never Settle",
+        "PAKMULE Cargo Carrier",
+        "Kansas Sartin Never Settle PAKMULE Cargo Carrier"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4859",
+      "podcast_index": "52",
+      "csv_guest": "Kansas Sartin",
+      "csv_name": "Ep 52: Kansas Sartin | Never Settle | PAKMULE Cargo Carrier",
+      "candidate_indexes": [
+        "52"
+      ]
+    },
+    {
+      "source_file": "EP 54. Zach Vestal _ Bikes Storytelling Growth in Challenge _ Niner Bikes.docx",
+      "file_ep": 54,
+      "docx_speakers": [
+        "Zach Vestal",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Zach Vestal"
+      ],
+      "filename_hints": [
+        "Zach Vestal",
+        "Bikes Storytelling Growth in Challenge",
+        "Niner Bikes",
+        "Zach Vestal Bikes Storytelling Growth in Challenge Niner Bikes"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c485c",
+      "podcast_index": "54",
+      "csv_guest": "Zach Vestal",
+      "csv_name": "Ep 54: Zach Vestal | Bikes, Storytelling, Growth in Challenge | Niner Bikes",
+      "candidate_indexes": [
+        "54"
+      ]
+    },
+    {
+      "source_file": "EP 55. Scott Holley _ On Water Marketing _ Eddyline Kayaks.docx",
+      "file_ep": 55,
+      "docx_speakers": [
+        "Scott Holley",
+        "Cole Heilborn",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Scott Holley"
+      ],
+      "filename_hints": [
+        "Scott Holley",
+        "On Water Marketing",
+        "Eddyline Kayaks",
+        "Scott Holley On Water Marketing Eddyline Kayaks"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c485d",
+      "podcast_index": "54",
+      "csv_guest": "Scott Holley",
+      "csv_name": "Ep 55: Scott Holley | On Water Marketing | Eddyline Kayak",
+      "candidate_indexes": [
+        "54"
+      ]
+    },
+    {
+      "source_file": "EP 56. John Salzinger _ The Advertisers Responsibility _ MPOWERD.docx",
+      "file_ep": 56,
+      "docx_speakers": [
+        "John Salzinger",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "John Salzinger"
+      ],
+      "filename_hints": [
+        "John Salzinger",
+        "The Advertisers Responsibility",
+        "MPOWERD",
+        "John Salzinger The Advertisers Responsibility MPOWERD"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4863",
+      "podcast_index": "56",
+      "csv_guest": "John Salzinger",
+      "csv_name": "EP 56: John Salzinger | The Advertisers Responsibility | MPOWERD",
+      "candidate_indexes": [
+        "56",
+        "8"
+      ]
+    },
+    {
+      "source_file": "EP 57. Diana Ralston _ Re-Branding a Non-Profit _ Can-d Aid.docx",
+      "file_ep": 57,
+      "docx_speakers": [
+        "Diana Ralston",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Diana Ralston"
+      ],
+      "filename_hints": [
+        "Diana Ralston",
+        "Re-Branding a Non-Profit",
+        "Can-d Aid",
+        "Diana Ralston Re Branding a Non Profit Can d Aid"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4860",
+      "podcast_index": "57",
+      "csv_guest": "Diana Ralston",
+      "csv_name": "EP 57: Diana Ralston | Re-Branding a Non-Profit | Can'd Aid",
+      "candidate_indexes": [
+        "57"
+      ]
+    },
+    {
+      "source_file": "EP 59. Alex Sherbinow _ Understanding Your Consumer _ Old Town Canoe and Kayak.docx",
+      "file_ep": 59,
+      "docx_speakers": [
+        "Alex Sherbinow",
+        "Cole Heilborn",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Alex Sherbinow"
+      ],
+      "filename_hints": [
+        "Alex Sherbinow",
+        "Understanding Your Consumer",
+        "Old Town Canoe and Kayak",
+        "Alex Sherbinow Understanding Your Consumer Old Town Canoe and Kayak"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c485f",
+      "podcast_index": "59",
+      "csv_guest": "Alex Sherbinow",
+      "csv_name": "EP 59: Alex Sherbinow | Understanding Your Consumer | Old Town Canoe and Kayak",
+      "candidate_indexes": [
+        "59"
+      ]
+    },
+    {
+      "source_file": "EP 6. Stephen Matthews _ Race Results Aren-t the Only Thing that Matters_ Rocky Mountain Bicycles.docx",
+      "file_ep": 6,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Stephen Matthews"
+      ],
+      "guest_speakers": [
+        "Stephen Matthews"
+      ],
+      "filename_hints": [
+        "Stephen Matthews",
+        "Race Results Aren-t the Only Thing that Matters_ Rocky Mountain Bicycles",
+        "Stephen Matthews Race Results Aren t the Only Thing that Matters Rocky Mountain Bicycles"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4826",
+      "podcast_index": "6",
+      "csv_guest": "Stephen Matthews",
+      "csv_name": "Ep 6: Stephen Matthews | Race Results Aren't the Only Thing that Matters| Rocky Mountain Bicycles",
+      "candidate_indexes": [
+        "6"
+      ]
+    },
+    {
+      "source_file": "EP 60. Mike Somerby _ Building Customer Loyalty _ Duckworth.docx",
+      "file_ep": 60,
+      "docx_speakers": [
+        "Mike Somerby",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Mike Somerby"
+      ],
+      "filename_hints": [
+        "Mike Somerby",
+        "Building Customer Loyalty",
+        "Duckworth",
+        "Mike Somerby Building Customer Loyalty Duckworth"
+      ],
+      "status": "filled",
+      "reason": "guest match narrowed by filename title hint",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4861",
+      "podcast_index": "60",
+      "csv_guest": "Mike Somerby",
+      "csv_name": "EP 60: Mike Somerby | Building Customer Loyalty | Duckworth",
+      "candidate_indexes": [
+        "161",
+        "60"
+      ]
+    },
+    {
+      "source_file": "EP 61. David Zimberoff _ Leadership  Spending Brand Culture _ SRAM.docx",
+      "file_ep": 61,
+      "docx_speakers": [
+        "David Zimberoff",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "David Zimberoff"
+      ],
+      "filename_hints": [
+        "David Zimberoff",
+        "Leadership",
+        "Spending Brand Culture",
+        "SRAM",
+        "David Zimberoff Leadership Spending Brand Culture SRAM"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4862",
+      "podcast_index": "61",
+      "csv_guest": "David Zimberoff",
+      "csv_name": "EP 61: David Zimberoff | Leadership & Spending Brand Culture | SRAM",
+      "candidate_indexes": [
+        "61"
+      ]
+    },
+    {
+      "source_file": "EP 62. Chase White _ Contract Creatives in 2021 _ Chase White Photography.docx",
+      "file_ep": 62,
+      "docx_speakers": [
+        "Chase White",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Chase White"
+      ],
+      "filename_hints": [
+        "Chase White",
+        "Contract Creatives in 2021",
+        "Chase White Photography",
+        "Chase White Contract Creatives in 2021 Chase White Photography"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4867",
+      "podcast_index": "62",
+      "csv_guest": "Chase White",
+      "csv_name": "EP 62: Chase White | Contract Creatives in 2021 | Chase White Photography",
+      "candidate_indexes": [
+        "62"
+      ]
+    },
+    {
+      "source_file": "EP 63. Carie Behe _ Inclusivity and Marketing _ Cotopaxi.docx",
+      "file_ep": 63,
+      "docx_speakers": [
+        "Carie Behe",
+        "Cole Heilborn",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Carie Behe"
+      ],
+      "filename_hints": [
+        "Carie Behe",
+        "Inclusivity and Marketing",
+        "Cotopaxi",
+        "Carie Behe Inclusivity and Marketing Cotopaxi"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4869",
+      "podcast_index": "62",
+      "csv_guest": "Carie Behe",
+      "csv_name": "EP 63: Carie Behe | Inclusivity and Marketing | Cotopaxi",
+      "candidate_indexes": [
+        "62"
+      ]
+    },
+    {
+      "source_file": "EP 64. Maddie Duffy _ Ambassador Athlete or Influencer_ _ Mystery Ranch.docx",
+      "file_ep": 64,
+      "docx_speakers": [
+        "Maddie Duffy",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Maddie Duffy"
+      ],
+      "filename_hints": [
+        "Maddie Duffy",
+        "Ambassador Athlete or Influencer",
+        "Mystery Ranch",
+        "Maddie Duffy Ambassador Athlete or Influencer Mystery Ranch"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4868",
+      "podcast_index": "64",
+      "csv_guest": "Maddie Duffy",
+      "csv_name": "EP 64: Maddie Duffy | Ambassador, Athlete or Influencer? | Mystery Ranch",
+      "candidate_indexes": [
+        "110",
+        "64"
+      ]
+    },
+    {
+      "source_file": "EP 65. Andy Bethune _ Something to Everyone _ Origin Outside.docx",
+      "file_ep": 65,
+      "docx_speakers": [
+        "Andy Bethune",
+        "Cole Heilborn",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Andy Bethune"
+      ],
+      "filename_hints": [
+        "Andy Bethune",
+        "Something to Everyone",
+        "Origin Outside",
+        "Andy Bethune Something to Everyone Origin Outside"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4866",
+      "podcast_index": "65",
+      "csv_guest": "Andy Bethune",
+      "csv_name": "EP 65: Andy Bethune | Something to Everyone | Origin Outside",
+      "candidate_indexes": [
+        "65"
+      ]
+    },
+    {
+      "source_file": "EP 66. Shaun Durkee _ Slow and Steady _ Alpen Fuel.docx",
+      "file_ep": 66,
+      "docx_speakers": [
+        "Shaun Durkee",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Shaun Durkee"
+      ],
+      "filename_hints": [
+        "Shaun Durkee",
+        "Slow and Steady",
+        "Alpen Fuel",
+        "Shaun Durkee Slow and Steady Alpen Fuel"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4864",
+      "podcast_index": "66",
+      "csv_guest": "Shaun Durkee",
+      "csv_name": "EP 66: Shaun Durkee | Slow and Steady | Alpen Fuel",
+      "candidate_indexes": [
+        "66"
+      ]
+    },
+    {
+      "source_file": "EP 67. Chris Dickerson _ Go-to-Market _ Verde Brand Communications.docx",
+      "file_ep": 67,
+      "docx_speakers": [
+        "Chris Dickerson",
+        "Cole Heilborn",
+        "Speaker 3",
+        "Speaker 4",
+        "Speaker 5"
+      ],
+      "guest_speakers": [
+        "Chris Dickerson"
+      ],
+      "filename_hints": [
+        "Chris Dickerson",
+        "Go-to-Market",
+        "Verde Brand Communications",
+        "Chris Dickerson Go to Market Verde Brand Communications"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4865",
+      "podcast_index": "67",
+      "csv_guest": "Chris Dickerson",
+      "csv_name": "EP 67: Chris Dickerson | Go-to-Market | Verde Brand Communications",
+      "candidate_indexes": [
+        "67"
+      ]
+    },
+    {
+      "source_file": "EP 68. Rob McSkimming _ Origins of Crankworx _ Whistler Blackcomb.docx",
+      "file_ep": 68,
+      "docx_speakers": [
+        "Rob McSkimming",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Rob McSkimming"
+      ],
+      "filename_hints": [
+        "Rob McSkimming",
+        "Origins of Crankworx",
+        "Whistler Blackcomb",
+        "Rob McSkimming Origins of Crankworx Whistler Blackcomb"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 68 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c486c",
+      "podcast_index": "69",
+      "csv_guest": "Rob McSkimming",
+      "csv_name": "EP 69: Rob McSkimming | Origins of Crankworx | Whistler Blackcomb",
+      "candidate_indexes": [
+        "69"
+      ]
+    },
+    {
+      "source_file": "EP 7. Casey Lorenzen _ Moving Backwards in Life by Giving up Working for Yourself_ _ Fjällräven.docx",
+      "file_ep": 7,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Casey Lorenzen"
+      ],
+      "guest_speakers": [
+        "Casey Lorenzen"
+      ],
+      "filename_hints": [
+        "Casey Lorenzen",
+        "Moving Backwards in Life by Giving up Working for Yourself",
+        "Fjällräven",
+        "Casey Lorenzen Moving Backwards in Life by Giving up Working for Yourself Fjällräven"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4829",
+      "podcast_index": "7",
+      "csv_guest": "",
+      "csv_name": "Ep 7: Casey Lorenzen | Moving Backwards in Life by Giving up Working for Yourself? | Fjällräven",
+      "candidate_indexes": [
+        "7"
+      ]
+    },
+    {
+      "source_file": "EP 70. Bonie and Jordan _ Re-Launching an Iconic Brand _ Ibex.docx",
+      "file_ep": 70,
+      "docx_speakers": [
+        "Bonie Shupe",
+        "Cole Heilborn",
+        "Jordan Todoroff"
+      ],
+      "guest_speakers": [
+        "Bonie Shupe",
+        "Jordan Todoroff"
+      ],
+      "filename_hints": [
+        "Bonie and Jordan",
+        "Re-Launching an Iconic Brand",
+        "Ibex",
+        "Bonie and Jordan Re Launching an Iconic Brand Ibex"
+      ],
+      "status": "filled",
+      "reason": "guest match narrowed by filename title hint",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c486d",
+      "podcast_index": "70",
+      "csv_guest": "Bonie Shupe and Jordan Todoroff",
+      "csv_name": "EP 70: Bonie and Jordan | Re-Launching an Iconic Brand | Ibex",
+      "candidate_indexes": [
+        "14",
+        "189",
+        "204",
+        "232",
+        "237",
+        "239",
+        "70"
+      ]
+    },
+    {
+      "source_file": "EP 71. Dave Taylor _ Be a Fan Not a Cynic _ Okaybro.docx",
+      "file_ep": 71,
+      "docx_speakers": [
+        "Dave Taylor",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Dave Taylor"
+      ],
+      "filename_hints": [
+        "Dave Taylor",
+        "Be a Fan Not a Cynic",
+        "Okaybro",
+        "Dave Taylor Be a Fan Not a Cynic Okaybro"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c486e",
+      "podcast_index": "71",
+      "csv_guest": "Dave Taylor",
+      "csv_name": "EP 71: Dave Taylor | Be a Fan, Not a Cynic | Okaybro",
+      "candidate_indexes": [
+        "71"
+      ]
+    },
+    {
+      "source_file": "EP 72. Ben O-Meara _ Foundations of Huckberry _ Huckberry.docx",
+      "file_ep": 72,
+      "docx_speakers": [
+        "Ben O'Meara",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Ben O'Meara"
+      ],
+      "filename_hints": [
+        "Ben O-Meara",
+        "Foundations of Huckberry",
+        "Huckberry",
+        "Ben O Meara Foundations of Huckberry Huckberry"
+      ],
+      "status": "filled",
+      "reason": "guest match narrowed by filename EP 72",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c486f",
+      "podcast_index": "72",
+      "csv_guest": "Ben O'Meara ",
+      "csv_name": "EP 72: Ben O'Meara | Foundations of Huckberry | Huckberry",
+      "candidate_indexes": [
+        "108",
+        "72"
+      ]
+    },
+    {
+      "source_file": "EP 73. Emily Holland _ Starting a Podcast _ Nature Untold Podcast.docx",
+      "file_ep": 73,
+      "docx_speakers": [
+        "Emily Holland",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Emily Holland"
+      ],
+      "filename_hints": [
+        "Emily Holland",
+        "Starting a Podcast",
+        "Nature Untold Podcast",
+        "Emily Holland Starting a Podcast Nature Untold Podcast"
+      ],
+      "status": "filled",
+      "reason": "guest match narrowed by filename title hint",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4870",
+      "podcast_index": "73",
+      "csv_guest": "Emily Holland",
+      "csv_name": "EP 73: Emily Holland | Starting a Podcast | Nature Untold Podcast",
+      "candidate_indexes": [
+        "73",
+        "96"
+      ]
+    },
+    {
+      "source_file": "EP 74. Colton Jacobs _ Finding Work as a Photographer _ Colton Jacobs Photography.docx",
+      "file_ep": 74,
+      "docx_speakers": [
+        "Colton Jacobs",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Colton Jacobs"
+      ],
+      "filename_hints": [
+        "Colton Jacobs",
+        "Finding Work as a Photographer",
+        "Colton Jacobs Photography",
+        "Colton Jacobs Finding Work as a Photographer Colton Jacobs Photography"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4872",
+      "podcast_index": "74",
+      "csv_guest": "Colton Jacobs",
+      "csv_name": "EP 74: Colton Jacobs | Finding Work as a Photographer | Colton Jacobs Photography",
+      "candidate_indexes": [
+        "74"
+      ]
+    },
+    {
+      "source_file": "EP 75. Evan Poitras _ Aligning the Intricacies of Content with Brand_ Norco Bicycles.docx",
+      "file_ep": 75,
+      "docx_speakers": [
+        "Evan Poitras",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Evan Poitras"
+      ],
+      "filename_hints": [
+        "Evan Poitras",
+        "Aligning the Intricacies of Content with Brand_ Norco Bicycles",
+        "Evan Poitras Aligning the Intricacies of Content with Brand Norco Bicycles"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4871",
+      "podcast_index": "75",
+      "csv_guest": "Evan Poitras",
+      "csv_name": "EP 75: Evan Poitras | Aligning the Intricacies of Content with Brand | Norco Bicycles",
+      "candidate_indexes": [
+        "75"
+      ]
+    },
+    {
+      "source_file": "EP 76. Roberto Gutierrez _ Bringing Jack Wolfskin to North America _ Jack Wolfskin.docx",
+      "file_ep": 76,
+      "docx_speakers": [
+        "Roberto Gutierrez",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Roberto Gutierrez"
+      ],
+      "filename_hints": [
+        "Roberto Gutierrez",
+        "Bringing Jack Wolfskin to North America",
+        "Jack Wolfskin",
+        "Roberto Gutierrez Bringing Jack Wolfskin to North America Jack Wolfskin"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4873",
+      "podcast_index": "76",
+      "csv_guest": "Roberto Guiterrez ",
+      "csv_name": "EP 76: Roberto Gutierrez | Bringing Jack Wolfskin to North America | Jack Wolfskin",
+      "candidate_indexes": [
+        "76"
+      ]
+    },
+    {
+      "source_file": "EP 77. Al Perkinson _ 5 Steps to Becoming an Authentic Brand _ Bajio Sunglasses - Part 1.docx",
+      "file_ep": 77,
+      "docx_speakers": [
+        "Al Perkinson",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Al Perkinson"
+      ],
+      "filename_hints": [
+        "Al Perkinson",
+        "5 Steps to Becoming an Authentic Brand",
+        "Bajio Sunglasses - Part 1",
+        "Al Perkinson 5 Steps to Becoming an Authentic Brand Bajio Sunglasses Part 1"
+      ],
+      "status": "filled",
+      "reason": "guest match narrowed by filename title hint",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4875",
+      "podcast_index": "77",
+      "csv_guest": "Al Perkinson",
+      "csv_name": "EP 77: Al Perkinson | 5 Steps to Becoming an Authentic Brand | Bajio Sunglasses - Part 1",
+      "candidate_indexes": [
+        "1",
+        "14",
+        "159",
+        "16",
+        "161",
+        "17",
+        "21",
+        "237",
+        "77",
+        "82"
+      ]
+    },
+    {
+      "source_file": "EP 78. Ian Coble _ Licensing Rights and Photography _ Ian Coble Photography.docx",
+      "file_ep": 78,
+      "docx_speakers": [
+        "Ian Coble",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Ian Coble"
+      ],
+      "filename_hints": [
+        "Ian Coble",
+        "Licensing Rights and Photography",
+        "Ian Coble Photography",
+        "Ian Coble Licensing Rights and Photography Ian Coble Photography"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4874",
+      "podcast_index": "78",
+      "csv_guest": "",
+      "csv_name": "EP 78: Ian Coble | Licensing Rights and Photography | Ian Coble Photography",
+      "candidate_indexes": [
+        "78"
+      ]
+    },
+    {
+      "source_file": "EP 79. Rick Saez _ The Podcast Opportunity for Brands _ Outdoor Biz Podcast.docx",
+      "file_ep": 79,
+      "docx_speakers": [
+        "Rick Saez",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Rick Saez"
+      ],
+      "filename_hints": [
+        "Rick Saez",
+        "The Podcast Opportunity for Brands",
+        "Outdoor Biz Podcast",
+        "Rick Saez The Podcast Opportunity for Brands Outdoor Biz Podcast"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4876",
+      "podcast_index": "79",
+      "csv_guest": "Rick Saez",
+      "csv_name": "Ep 79: Rick Saez | The Podcast Opportunity for Brands | Outdoor Biz Podcast",
+      "candidate_indexes": [
+        "237",
+        "239",
+        "79"
+      ]
+    },
+    {
+      "source_file": "EP 8. Charlie Lozner _ Climate Change and Responsibility in the Outdoor Industry _ Backbone Media.docx",
+      "file_ep": 8,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Charlie Lozner",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "Charlie Lozner"
+      ],
+      "filename_hints": [
+        "Charlie Lozner",
+        "Climate Change and Responsibility in the Outdoor Industry",
+        "Backbone Media",
+        "Charlie Lozner Climate Change and Responsibility in the Outdoor Industry Backbone Media"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c482a",
+      "podcast_index": "8",
+      "csv_guest": "",
+      "csv_name": "Ep 8: Charlie Lozner | Climate Change and Personal Responsibility in the Outdoor Industry | Backbone Medi‪a‬",
+      "candidate_indexes": [
+        "8"
+      ]
+    },
+    {
+      "source_file": "EP 80. Darren Kinnaird _ Event Marketing Maintaining Sponsorships and COVID _ Crankworx.docx",
+      "file_ep": 80,
+      "docx_speakers": [
+        "Darren Kinnaird",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Darren Kinnaird"
+      ],
+      "filename_hints": [
+        "Darren Kinnaird",
+        "Event Marketing Maintaining Sponsorships and COVID",
+        "Crankworx",
+        "Darren Kinnaird Event Marketing Maintaining Sponsorships and COVID Crankworx"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4878",
+      "podcast_index": "80",
+      "csv_guest": "Darren Kinnaird",
+      "csv_name": "Ep 80: Darren Kinnaird | Event Marketing, Maintaining Sponsorships and COVID | Crankworx",
+      "candidate_indexes": [
+        "80"
+      ]
+    },
+    {
+      "source_file": "EP 81. Jonathan Ronzio _ Why Process Leads to Better Creativity _ Trainual.docx",
+      "file_ep": 81,
+      "docx_speakers": [
+        "Jonathan Ronzio",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Jonathan Ronzio"
+      ],
+      "filename_hints": [
+        "Jonathan Ronzio",
+        "Why Process Leads to Better Creativity",
+        "Trainual",
+        "Jonathan Ronzio Why Process Leads to Better Creativity Trainual"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4879",
+      "podcast_index": "81",
+      "csv_guest": "Jonathan Ronzio",
+      "csv_name": "Ep 81: Jonathan Ronzio | Why Process Leads to Better Creativity | Trainual",
+      "candidate_indexes": [
+        "81"
+      ]
+    },
+    {
+      "source_file": "EP 82. Al Perkinson _ 5 Steps to Building a Community _ Bajio Sunglasses - Part 2.docx",
+      "file_ep": 82,
+      "docx_speakers": [
+        "Al Perkinson",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Al Perkinson"
+      ],
+      "filename_hints": [
+        "Al Perkinson",
+        "5 Steps to Building a Community",
+        "Bajio Sunglasses - Part 2",
+        "Al Perkinson 5 Steps to Building a Community Bajio Sunglasses Part 2"
+      ],
+      "status": "filled",
+      "reason": "guest match narrowed by filename title hint",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4877",
+      "podcast_index": "82",
+      "csv_guest": "Al Perkinson",
+      "csv_name": "Ep 82: Al Perkinson | 5 Steps to Building a Community | Bajio Sunglasses",
+      "candidate_indexes": [
+        "21",
+        "224",
+        "77",
+        "82",
+        "92"
+      ]
+    },
+    {
+      "source_file": "EP 83. Jeremy Jensen _ Using Flow State to Improve Creativity and Productivity _ Crux Academy.docx",
+      "file_ep": 83,
+      "docx_speakers": [
+        "Jeremy Jensen",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Jeremy Jensen"
+      ],
+      "filename_hints": [
+        "Jeremy Jensen",
+        "Using Flow State to Improve Creativity and Productivity",
+        "Crux Academy",
+        "Jeremy Jensen Using Flow State to Improve Creativity and Productivity Crux Academy"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c487d",
+      "podcast_index": "83",
+      "csv_guest": "",
+      "csv_name": "Ep 83: Jeremy Jensen | Using Flow State to Improve Creativity and Productivity | Crux Academy",
+      "candidate_indexes": [
+        "83"
+      ]
+    },
+    {
+      "source_file": "EP 84. Viktor Marohnic _ User Acquisition and Lowering the Point of Entry _ 57 Hours.docx",
+      "file_ep": 84,
+      "docx_speakers": [
+        "Viktor Marohnic",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Viktor Marohnic"
+      ],
+      "filename_hints": [
+        "Viktor Marohnic",
+        "User Acquisition and Lowering the Point of Entry",
+        "57 Hours",
+        "Viktor Marohnic User Acquisition and Lowering the Point of Entry 57 Hours"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c487a",
+      "podcast_index": "84",
+      "csv_guest": "",
+      "csv_name": "Ep 84: Viktor Marohnic | User Acquisition and Lowering the Point of Entry | 57 Hours",
+      "candidate_indexes": [
+        "84"
+      ]
+    },
+    {
+      "source_file": "EP 9. Jess Anthony _ Kickstarter Success and Equality in the Outdoors _ Oru Kayak.docx",
+      "file_ep": 9,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Jess Anthony"
+      ],
+      "guest_speakers": [
+        "Jess Anthony"
+      ],
+      "filename_hints": [
+        "Jess Anthony",
+        "Kickstarter Success and Equality in the Outdoors",
+        "Oru Kayak",
+        "Jess Anthony Kickstarter Success and Equality in the Outdoors Oru Kayak"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c482b",
+      "podcast_index": "9",
+      "csv_guest": "",
+      "csv_name": "Ep 9: Jess Anthony |Kickstarter Success and Finding Equality in the Outdoors | Oru Kaya‪k‬",
+      "candidate_indexes": [
+        "9"
+      ]
+    },
+    {
+      "source_file": "EP 93. Nicole Handel _ Consumer Psychology and Marketing _ MAMMUT.docx",
+      "file_ep": 93,
+      "docx_speakers": [
+        "Nicole Handel",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Nicole Handel"
+      ],
+      "filename_hints": [
+        "Nicole Handel",
+        "Consumer Psychology and Marketing",
+        "MAMMUT",
+        "Nicole Handel Consumer Psychology and Marketing MAMMUT"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c487b",
+      "podcast_index": "85",
+      "csv_guest": "",
+      "csv_name": "Ep 85: Nicole Handel | Consumer Psychology and Decision Making | MAMMUT",
+      "candidate_indexes": [
+        "85"
+      ]
+    },
+    {
+      "source_file": "EP 94. Liz Esche _ Marketing Through a Re-Brand _ Gnarly Nutrition.docx",
+      "file_ep": 94,
+      "docx_speakers": [
+        "Liz Esche",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Liz Esche"
+      ],
+      "filename_hints": [
+        "Liz Esche",
+        "Marketing Through a Re-Brand",
+        "Gnarly Nutrition",
+        "Liz Esche Marketing Through a Re Brand Gnarly Nutrition"
+      ],
+      "status": "filled",
+      "reason": "guest match narrowed by filename title hint",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4883",
+      "podcast_index": "90",
+      "csv_guest": "Liz Esche",
+      "csv_name": "Ep 90: Liz Esche | Marketing Through a Re-Brand | Gnarly Nutrition",
+      "candidate_indexes": [
+        "160",
+        "90"
+      ]
+    },
+    {
+      "source_file": "EP 95. Mike Arzt _ Camera Guy or Business Guy_ _ The Public Works.docx",
+      "file_ep": 95,
+      "docx_speakers": [
+        "Mike Artz",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Mike Artz"
+      ],
+      "filename_hints": [
+        "Mike Arzt",
+        "Camera Guy or Business Guy",
+        "The Public Works",
+        "Mike Arzt Camera Guy or Business Guy The Public Works"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4882",
+      "podcast_index": "91",
+      "csv_guest": "",
+      "csv_name": "Ep 91: Mike Arzt | Camera Guy or Business Guy? | The Public Works",
+      "candidate_indexes": [
+        "91"
+      ]
+    },
+    {
+      "source_file": "EP 97. Finding the Balance Between Vision and Expectations _ Mason Gravley _ Athletic Brewing.docx",
+      "file_ep": 97,
+      "docx_speakers": [
+        "Mason Gravely",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Mason Gravely"
+      ],
+      "filename_hints": [
+        "Finding the Balance Between Vision and Expectations",
+        "Mason Gravley",
+        "Athletic Brewing",
+        "Finding the Balance Between Vision and Expectations Mason Gravley Athletic Brewing"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 97 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c4885",
+      "podcast_index": "93",
+      "csv_guest": "",
+      "csv_name": "Ep 93: Finding the Balance Between Vision and Expectations | Mason Gravley | Athletic Brewing",
+      "candidate_indexes": [
+        "93"
+      ]
+    },
+    {
+      "source_file": "EP 98. Finding Your Focus As A Freelancer _ Jon Glassberg _ Louder Than 11.docx",
+      "file_ep": 98,
+      "docx_speakers": [
+        "Jon Glassberg",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Jon Glassberg"
+      ],
+      "filename_hints": [
+        "Finding Your Focus As A Freelancer",
+        "Jon Glassberg",
+        "Louder Than 11",
+        "Finding Your Focus As A Freelancer Jon Glassberg Louder Than 11"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match; filename EP 98 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c4886",
+      "podcast_index": "94",
+      "csv_guest": "",
+      "csv_name": "Ep 94: Finding Your Focus As A Freelancer | Jon Glassberg | Louder Than 11",
+      "candidate_indexes": [
+        "94"
+      ]
+    },
+    {
+      "source_file": "EP 99. Dealing with Money as a Freelancer _ Justine Mulliez _ Just a Wild Thought (1).docx",
+      "file_ep": 99,
+      "docx_speakers": [
+        "Justine Mulliez",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Justine Mulliez"
+      ],
+      "filename_hints": [
+        "Dealing with Money as a Freelancer",
+        "Justine Mulliez",
+        "Just a Wild Thought (1)",
+        "Dealing with Money as a Freelancer Justine Mulliez Just a Wild Thought (1)"
+      ],
+      "status": "filled",
+      "reason": "hard override → Podcast Index 95; filename EP 99 points at different CMS guest",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c4887",
+      "podcast_index": "95",
+      "csv_guest": "",
+      "csv_name": "Ep 95: Dealing With Money As A Freelancer | Justine Mulliez | Just a Wild Thought",
+      "candidate_indexes": [
+        "95"
+      ]
+    },
+    {
+      "source_file": "EP 99. Dealing with Money as a Freelancer _ Justine Mulliez _ Just a Wild Thought.docx",
+      "file_ep": 99,
+      "docx_speakers": [
+        "Justine Mulliez",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Justine Mulliez"
+      ],
+      "filename_hints": [
+        "Dealing with Money as a Freelancer",
+        "Justine Mulliez",
+        "Just a Wild Thought",
+        "Dealing with Money as a Freelancer Justine Mulliez Just a Wild Thought"
+      ],
+      "status": "ambiguous",
+      "reason": "multiple docx mapped to same item_id; kept EP 99. Dealing with Money as a Freelancer _ Justine Mulliez _ Just a Wild Thought (1).docx",
+      "ep_mismatch_warning": true,
+      "item_id": "68225dfc7bb476527f8c4887",
+      "podcast_index": "95",
+      "csv_guest": "",
+      "csv_name": "Ep 95: Dealing With Money As A Freelancer | Justine Mulliez | Just a Wild Thought",
+      "candidate_indexes": [
+        "95"
+      ]
+    },
+    {
+      "source_file": "Ep 122 - How Brands Can Build Loyal and True Fans - Backcountry Marketing Podcast.docx",
+      "file_ep": 122,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Becky Little",
+        "Alex Willie"
+      ],
+      "guest_speakers": [
+        "Becky Little",
+        "Alex Willie"
+      ],
+      "filename_hints": [
+        "How Brands Can Build Loyal and True Fans"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c489f",
+      "podcast_index": "122",
+      "csv_guest": "Alex Willie and Becky Lyttle",
+      "csv_name": "EP 122: How to Build Loyal and True Fans | Alex Willie & Becky Lyttle | ExpertVoice",
+      "candidate_indexes": [
+        "122"
+      ]
+    },
+    {
+      "source_file": "Ep 123. Website Development Tips for 2023 - Backcountry Marketing Podcast.docx",
+      "file_ep": 123,
+      "docx_speakers": [
+        "Tom Moreno",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Tom Moreno"
+      ],
+      "filename_hints": [
+        "Website Development Tips for 2023"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c48a0",
+      "podcast_index": "123",
+      "csv_guest": "Tom Moreno",
+      "csv_name": "EP: 123 Website Development for 2023 | Tom Moreno | Salomon",
+      "candidate_indexes": [
+        "123"
+      ]
+    },
+    {
+      "source_file": "Ep 124 - Why Conservation Depends on Storytelling - Backcountry Marketing Podcast.docx",
+      "file_ep": 124,
+      "docx_speakers": [
+        "Adam Cramer",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Adam Cramer"
+      ],
+      "filename_hints": [
+        "Why Conservation Depends on Storytelling"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c48a1",
+      "podcast_index": "124",
+      "csv_guest": "Adam Cramer",
+      "csv_name": "EP: 124 Why Conservation Depends on Storytelling | Adam Cramer | Outdoor Alliance",
+      "candidate_indexes": [
+        "124"
+      ]
+    },
+    {
+      "source_file": "Ep 125. How to Build an Internal Content Studio as a Brand.docx",
+      "file_ep": 125,
+      "docx_speakers": [
+        "Liv Faris",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Liv Faris"
+      ],
+      "filename_hints": [
+        "How to Build an Internal Content Studio as a Brand"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c48a5",
+      "podcast_index": "125",
+      "csv_guest": "Liv Faris",
+      "csv_name": "EP: 125  When to Build an Internal Production Studio | Liv Faris | Brooks Running",
+      "candidate_indexes": [
+        "125",
+        "220"
+      ]
+    },
+    {
+      "source_file": "Ep. 126 - Leading a Creative Team - Backcountry Marketing Podcast.docx",
+      "file_ep": 126,
+      "docx_speakers": [
+        "Ryan Coulter",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Ryan Coulter"
+      ],
+      "filename_hints": [
+        "Leading a Creative Team"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c48a2",
+      "podcast_index": "126",
+      "csv_guest": "Ryan Coulter",
+      "csv_name": "EP: 126 | Leading a Creative Team | Ryan Coulter | The James Brand",
+      "candidate_indexes": [
+        "126"
+      ]
+    },
+    {
+      "source_file": "Ep. 127 - Building a High Performing Team at Mammut.docx",
+      "file_ep": 127,
+      "docx_speakers": [
+        "David Russo",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "David Russo"
+      ],
+      "filename_hints": [
+        "Building a High Performing Team at Mammut"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c48a4",
+      "podcast_index": "127",
+      "csv_guest": "David Russo",
+      "csv_name": "EP: 127 How to Build a Team | David Russo | Mammut",
+      "candidate_indexes": [
+        "127"
+      ]
+    },
+    {
+      "source_file": "John Peabody audio episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "John Peabody",
+        "Cole Heilborn",
+        "Speaker 3"
+      ],
+      "guest_speakers": [
+        "John Peabody"
+      ],
+      "filename_hints": [
+        "John Peabody"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c48a8",
+      "podcast_index": "133",
+      "csv_guest": "John Peabody",
+      "csv_name": "EP: 133 How to Beat the Attention Economy | John G Peabody | Gear Patrol",
+      "candidate_indexes": [
+        "133"
+      ]
+    },
+    {
+      "source_file": "John Salzinger Trancscript.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [],
+      "filename_hints": [
+        "John Salzinger"
+      ],
+      "status": "ambiguous",
+      "reason": "multiple docx mapped to same item_id; kept EP 56. John Salzinger _ The Advertisers Responsibility _ MPOWERD.docx",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4863",
+      "podcast_index": "56",
+      "csv_guest": "John Salzinger",
+      "csv_name": "EP 56: John Salzinger | The Advertisers Responsibility | MPOWERD",
+      "candidate_indexes": [
+        "56"
+      ]
+    },
+    {
+      "source_file": "Jordan Williams audio episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Jordan Williams",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Jordan Williams"
+      ],
+      "filename_hints": [
+        "Jordan Williams"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4916",
+      "podcast_index": "154",
+      "csv_guest": "Jordan Williams",
+      "csv_name": "EP: 154 The Most Undervalued Tool in Marketing",
+      "candidate_indexes": [
+        "154"
+      ]
+    },
+    {
+      "source_file": "Lindsay Rogers audio episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Lindsay Rogers",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Lindsay Rogers"
+      ],
+      "filename_hints": [
+        "Lindsay Rogers"
+      ],
+      "status": "filled",
+      "reason": "unique missing-transcript guest match",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c491b",
+      "podcast_index": "157",
+      "csv_guest": "Lindsay Yaw Rogers",
+      "csv_name": "EP: 157 Beyond the Podium - Have We Setup Athletes to Fail?",
+      "candidate_indexes": [
+        "157"
+      ]
+    },
+    {
+      "source_file": "Mary Kate Baumann.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [],
+      "filename_hints": [
+        "Mary Kate Baumann"
+      ],
+      "status": "ambiguous",
+      "reason": "multiple docx mapped to same item_id; kept EP 43. Mary Kate Baumann _ The (huge) Social Dilemma _ GOAL ZERO.docx",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c4852",
+      "podcast_index": "43",
+      "csv_guest": "Mary Kate Baumann",
+      "csv_name": "Ep 43: Mary Kate Baumann | The (huge) Social Dilemma | GOAL ZER‪O‬",
+      "candidate_indexes": [
+        "43"
+      ]
+    },
+    {
+      "source_file": "Rick Wittenbraker Transcript.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [],
+      "filename_hints": [
+        "Rick Wittenbraker"
+      ],
+      "status": "ambiguous",
+      "reason": "multiple docx mapped to same item_id; kept EP 38. Rick Wittenbraker _ Community over Self _ Howler Brothers.docx",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c484a",
+      "podcast_index": "38",
+      "csv_guest": "Rick Wittenbraker",
+      "csv_name": "Ep 38: Rick Wittenbraker | Community over Self | Howler Brother‪s‬",
+      "candidate_indexes": [
+        "38"
+      ]
+    },
+    {
+      "source_file": "Sam Van Boxtel audio episode.docx",
+      "file_ep": null,
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Sam Van Boxtel"
+      ],
+      "guest_speakers": [
+        "Sam Van Boxtel"
+      ],
+      "filename_hints": [
+        "Sam Van Boxtel"
+      ],
+      "status": "filled",
+      "reason": "hard override → Podcast Index 131",
+      "ep_mismatch_warning": false,
+      "item_id": "68225dfc7bb476527f8c48a6",
+      "podcast_index": "131",
+      "csv_guest": "Sam Van Boxtel",
+      "csv_name": "EP: 131  How Brands are Wasting Money on Social media | Sam Van Boxtel | Climbers Crag",
+      "candidate_indexes": [
+        "131"
+      ]
+    }
+  ],
+  "validation_issues": [],
+  "empty_guest_names": [
+    {
+      "item_id": "68225dfc7bb476527f8c4874",
+      "podcast_index": "78",
+      "name": "EP 78: Ian Coble | Licensing Rights and Photography | Ian Coble Photography"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c483b",
+      "podcast_index": "10",
+      "name": "Ep 10: John Drake | A Life in the Ad World | Drake Coope‪r‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c482d",
+      "podcast_index": "12",
+      "name": "Ep 12: Josh Weichhand | Finding and Using your Voice | Chac‪o"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c482e",
+      "podcast_index": "13",
+      "name": "Ep 13: Chris Dickey | A New Era of PR | Purple Orange and Visabl‪y‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4832",
+      "podcast_index": "14",
+      "name": "Ep 14: Jill Nazeer | Brand Differentiation | Alta Cyclin‪g"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4830",
+      "podcast_index": "15",
+      "name": "Ep 15: Chad Perrin | Shot with a Purpose | Ride Concept‪s‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4831",
+      "podcast_index": "16",
+      "name": "Ep 16: Brennah Rosenthal | The Changing Production Landscape | Great Escape Medi‪a‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4834",
+      "podcast_index": "17",
+      "name": "Ep 17: Nate Nichols | Racism and the Ad Industry | Palette Grou‪p"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4835",
+      "podcast_index": "18",
+      "name": "Ep 18: Lisa Slagle | Loving the Process | Wheeli‪e‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c483a",
+      "podcast_index": "19",
+      "name": "Ep 19: Rachel Popp | Find a Mentor and Ask Questions | Big Fish Collectiv‪e‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4828",
+      "podcast_index": "1",
+      "name": "Ep 1: Brian Seales | Small Town Agency; Tasty Results | Ketchup and Mustard"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4836",
+      "podcast_index": "20",
+      "name": "Ep 20: Katie and Sara | Beyond the Name | Jetboi‪l‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4839",
+      "podcast_index": "21",
+      "name": "Ep 21: Becky Marcelliano | We All Have a Story | Salomo‪n"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4837",
+      "podcast_index": "22",
+      "name": "Ep 22: Ian McWilliams | Authenticity - It's Everywhere | Klean Kantee‪n‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4838",
+      "podcast_index": "23",
+      "name": "Ep 23: Ian Mathias | Get Out Of My Feed | Strav‪a‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c483c",
+      "podcast_index": "25",
+      "name": "Ep 25: Adam Saraceno | Kickstarter 101 | Peak Desig‪n"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c483d",
+      "podcast_index": "26",
+      "name": "Ep 26: Austin Whitman | Brand Power | Climate Neutra‪l‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c483e",
+      "podcast_index": "27",
+      "name": "Ep 27: Erica Rosen | One Watt at a Time | BioLit‪e‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4824",
+      "podcast_index": "",
+      "name": "Ep 2: Sean Fields | Sustainability in the Outdoor Industry | Gear Aid"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4825",
+      "podcast_index": "5",
+      "name": "Ep 5: Tom and Kyleigh | How YouTube has Grown their Business | Freedom Vans"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4829",
+      "podcast_index": "7",
+      "name": "Ep 7: Casey Lorenzen | Moving Backwards in Life by Giving up Working for Yourself? | Fjällräven"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c487d",
+      "podcast_index": "83",
+      "name": "Ep 83: Jeremy Jensen | Using Flow State to Improve Creativity and Productivity | Crux Academy"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c487a",
+      "podcast_index": "84",
+      "name": "Ep 84: Viktor Marohnic | User Acquisition and Lowering the Point of Entry | 57 Hours"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c487b",
+      "podcast_index": "85",
+      "name": "Ep 85: Nicole Handel | Consumer Psychology and Decision Making | MAMMUT"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c487c",
+      "podcast_index": "86",
+      "name": "Ep 86: Chris Cashbaugh | When to Blaze New Trail | SOG Knives"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4880",
+      "podcast_index": "87",
+      "name": "Ep 87: Chloe-Anne Swink | Value Based Marketing for Small Business Owners | Chloe-Anne Copy Agency"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c487f",
+      "podcast_index": "88",
+      "name": "Ep 88: Quinn Lanzon | Difference Between Agency and In-House | OneUp Components"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c482a",
+      "podcast_index": "8",
+      "name": "Ep 8: Charlie Lozner | Climate Change and Personal Responsibility in the Outdoor Industry | Backbone Medi‪a‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4882",
+      "podcast_index": "91",
+      "name": "Ep 91: Mike Arzt | Camera Guy or Business Guy? | The Public Works"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4884",
+      "podcast_index": "92",
+      "name": "Ep 92: Jonathan Wegner | Perceived Value of a Brand | SOG Knives"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4885",
+      "podcast_index": "93",
+      "name": "Ep 93: Finding the Balance Between Vision and Expectations | Mason Gravley | Athletic Brewing"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4886",
+      "podcast_index": "94",
+      "name": "Ep 94: Finding Your Focus As A Freelancer | Jon Glassberg | Louder Than 11"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4887",
+      "podcast_index": "95",
+      "name": "Ep 95: Dealing With Money As A Freelancer | Justine Mulliez | Just a Wild Thought"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c482b",
+      "podcast_index": "9",
+      "name": "Ep 9: Jess Anthony |Kickstarter Success and Finding Equality in the Outdoors | Oru Kaya‪k‬"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4896",
+      "podcast_index": "109",
+      "name": "Ep. 109: Product Design and Brand Development | Josh Buesseler | Delicious, LLC"
+    },
+    {
+      "item_id": "68225dfc7bb476527f8c4897",
+      "podcast_index": "110",
+      "name": "Ep. 110: Ambassador, Athlete or Influencer? | Maddie Duffy | Mystery Ranch (Throwback)"
+    }
+  ]
+}
