@@ -1,5 +1,6 @@
 import { useEffect, useId, useState, type FormEvent } from 'react';
 import { supabase } from '../lib/supabase';
+import closeIcon from '../assets/icon-close.svg';
 import './login-modal.scss';
 
 type LoginModalProps = {
@@ -8,49 +9,88 @@ type LoginModalProps = {
   onClose: () => void;
 };
 
+type Mode = 'signin' | 'signup';
+type Status = 'idle' | 'submitting' | 'confirm' | 'error';
+
 export default function LoginModal({
   open,
-  reason = 'manual',
   onClose,
 }: LoginModalProps) {
   const emailId = useId();
+  const passwordId = useId();
+  const [mode, setMode] = useState<Mode>('signin');
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>(
-    'idle'
-  );
+  const [password, setPassword] = useState('');
+  const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
+    setMode('signin');
+    setEmail('');
+    setPassword('');
     setStatus('idle');
     setError(null);
   }, [open]);
 
   if (!open) return null;
 
+  const isSignup = mode === 'signup';
+  const title = isSignup ? 'Create an account' : 'Sign in';
+  const secondaryLabel = isSignup ? 'Sign in' : 'Create an Account';
+  const busy = status === 'submitting';
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    const trimmed = email.trim();
-    if (!trimmed || status === 'sending') return;
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail || !password || busy) return;
 
-    setStatus('sending');
+    setStatus('submitting');
     setError(null);
 
-    const { error: otpError } = await supabase.auth.signInWithOtp({
-      email: trimmed,
-      options: {
-        emailRedirectTo: window.location.origin,
-        shouldCreateUser: true,
-      },
-    });
+    if (isSignup) {
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email: trimmedEmail,
+        password,
+        options: {
+          emailRedirectTo: window.location.origin,
+        },
+      });
 
-    if (otpError) {
-      setStatus('error');
-      setError(otpError.message);
+      if (signUpError) {
+        setStatus('error');
+        setError(signUpError.message);
+        return;
+      }
+
+      // If email confirmation is enabled, session may be null until verified.
+      if (!data.session) {
+        setStatus('confirm');
+        return;
+      }
+
+      setStatus('idle');
       return;
     }
 
-    setStatus('sent');
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: trimmedEmail,
+      password,
+    });
+
+    if (signInError) {
+      setStatus('error');
+      setError(signInError.message);
+      return;
+    }
+
+    setStatus('idle');
+  }
+
+  function switchMode() {
+    setMode((current) => (current === 'signin' ? 'signup' : 'signin'));
+    setStatus('idle');
+    setError(null);
   }
 
   return (
@@ -67,55 +107,82 @@ export default function LoginModal({
         onClick={onClose}
       />
       <div className="login-modal__panel">
-        <button
-          type="button"
-          className="login-modal__close"
-          aria-label="Close"
-          onClick={onClose}
-        >
-          ×
-        </button>
+        <div className="login-modal__header">
+          <h2
+            id="login-modal-title"
+            className={`login-modal__title${isSignup ? ' login-modal__title--compact' : ''}`}
+          >
+            {title}
+          </h2>
+          <button
+            type="button"
+            className="login-modal__close"
+            aria-label="Close"
+            onClick={onClose}
+          >
+            <img src={closeIcon} alt="" width={13} height={13} />
+          </button>
+        </div>
 
-        <h2 id="login-modal-title" className="login-modal__title">
-          {reason === 'gate' ? 'Sign in to keep chatting' : 'Sign in'}
-        </h2>
-        <p className="login-modal__copy">
-          {reason === 'gate'
-            ? "You've used your free question. Enter your email and we'll send a magic link to continue."
-            : "Enter your email and we'll send a magic link — no password needed."}
-        </p>
-
-        {status === 'sent' ? (
-          <p className="login-modal__sent" role="status">
-            Check <strong>{email.trim()}</strong> for a sign-in link. You can
-            close this window after clicking it.
+        {status === 'confirm' ? (
+          <p className="login-modal__confirm" role="status">
+            Check <strong>{email.trim()}</strong> to confirm your account, then
+            sign in.
           </p>
         ) : (
           <form className="login-modal__form" onSubmit={handleSubmit}>
-            <label htmlFor={emailId} className="login-modal__label">
-              Email
+            <label className="login-modal__field" htmlFor={emailId}>
+              <span className="visually-hidden">Email</span>
+              <input
+                id={emailId}
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                disabled={busy}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+              />
             </label>
-            <input
-              id={emailId}
-              type="email"
-              autoComplete="email"
-              required
-              value={email}
-              disabled={status === 'sending'}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@company.com"
-            />
+
+            <label className="login-modal__field" htmlFor={passwordId}>
+              <span className="visually-hidden">Password</span>
+              <input
+                id={passwordId}
+                type="password"
+                autoComplete={
+                  isSignup ? 'new-password' : 'current-password'
+                }
+                required
+                minLength={6}
+                value={password}
+                disabled={busy}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+              />
+            </label>
+
             {error && (
               <p className="login-modal__error" role="alert">
                 {error}
               </p>
             )}
+
             <button
               type="submit"
               className="login-modal__submit"
-              disabled={status === 'sending' || !email.trim()}
+              disabled={busy || !email.trim() || !password}
             >
-              {status === 'sending' ? 'Sending…' : 'Send magic link'}
+              {busy ? 'Submitting…' : 'Submit'}
+            </button>
+
+            <button
+              type="button"
+              className="login-modal__secondary"
+              onClick={switchMode}
+              disabled={busy}
+            >
+              {secondaryLabel}
             </button>
           </form>
         )}
