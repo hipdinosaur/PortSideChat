@@ -7,6 +7,7 @@ import LoginModal from './login-modal';
 import { useAuth } from '../hooks/use-auth';
 import { hasUsedFreeChat, markFreeChatUsed } from '../lib/free-chat';
 import { supabase } from '../lib/supabase';
+import loginArrow from '../assets/icon-login-arrow.svg';
 import './chat-window.scss';
 
 const SUGGESTIONS = [
@@ -17,9 +18,12 @@ const SUGGESTIONS = [
 const PORTSIDE_URL = 'https://www.portsidepro.com';
 /** Keep in sync with `$transition-exit` in chat-window.scss */
 const EXIT_MS = 700;
+const GATE_LABEL = 'Login to continue';
 
 type Phase = 'landing' | 'exiting' | 'chat';
-type Message = { role: 'user' | 'assistant'; content: string };
+type Message =
+  | { role: 'user' | 'assistant'; content: string }
+  | { role: 'gate'; content: typeof GATE_LABEL };
 type ConversationHistory = { role: 'user' | 'assistant'; content: string };
 type LoginReason = 'gate' | 'manual';
 
@@ -39,6 +43,7 @@ const ChatWindow = () => {
   const showLanding = phase === 'landing' || phase === 'exiting';
   const showChat = phase === 'exiting' || phase === 'chat';
   const canSendWithoutAuth = !freeChatUsed;
+  const submitLocked = !isAuthenticated && freeChatUsed;
 
   useEffect(() => {
     if (!showChat) return;
@@ -64,6 +69,10 @@ const ChatWindow = () => {
     setLoginOpen(true);
   }
 
+  function appendGateMessage() {
+    setMessages((prev) => [...prev, { role: 'gate', content: GATE_LABEL }]);
+  }
+
   function finishExit() {
     if (exitFallbackRef.current != null) {
       window.clearTimeout(exitFallbackRef.current);
@@ -83,7 +92,11 @@ const ChatWindow = () => {
     if (!userText || loading || phase === 'exiting') return;
 
     if (!isAuthenticated && !canSendWithoutAuth) {
-      openLogin('gate');
+      if (phase === 'landing') {
+        beginExit();
+      }
+      setInput('');
+      appendGateMessage();
       return;
     }
 
@@ -124,8 +137,10 @@ const ChatWindow = () => {
         if (code === 'login_required') {
           markFreeChatUsed();
           setFreeChatUsed(true);
-          setMessages((prev) => prev.slice(0, -1));
-          openLogin('gate');
+          setMessages((prev) => [
+            ...prev.slice(0, -1),
+            { role: 'gate', content: GATE_LABEL },
+          ]);
           return;
         }
         throw new Error(code);
@@ -221,6 +236,7 @@ const ChatWindow = () => {
               <ChatInput
                 value={phase === 'landing' ? input : ''}
                 disabled={loading || phase !== 'landing'}
+                submitDisabled={submitLocked}
                 landing
                 onChange={setInput}
                 onSubmit={() => handleSend()}
@@ -232,7 +248,7 @@ const ChatWindow = () => {
                     type="button"
                     className="chat-suggestion"
                     onClick={() => handleSend(suggestion)}
-                    disabled={loading || phase !== 'landing'}
+                    disabled={loading || phase !== 'landing' || submitLocked}
                   >
                     {suggestion}
                   </button>
@@ -246,13 +262,30 @@ const ChatWindow = () => {
           <div className="chat-window__conversation">
             <div className="chat-window__panel">
               <div className="chat-window__body">
-                {messages.map((msg, i) => (
-                  <div key={i} className={`message message--${msg.role}`}>
-                    {msg.role === 'assistant'
-                      ? parseHtml(msg.content)
-                      : msg.content}
-                  </div>
-                ))}
+                {messages.map((msg, i) =>
+                  msg.role === 'gate' ? (
+                    <button
+                      key={i}
+                      type="button"
+                      className="message message--gate"
+                      onClick={() => openLogin('gate')}
+                    >
+                      <span>{msg.content}</span>
+                      <img
+                        src={loginArrow}
+                        alt=""
+                        aria-hidden="true"
+                        className="message--gate__arrow"
+                      />
+                    </button>
+                  ) : (
+                    <div key={i} className={`message message--${msg.role}`}>
+                      {msg.role === 'assistant'
+                        ? parseHtml(msg.content)
+                        : msg.content}
+                    </div>
+                  ),
+                )}
                 {loading && (
                   <div
                     className="message message--thinking"
@@ -267,22 +300,14 @@ const ChatWindow = () => {
               </div>
             </div>
             <div className="chat-window__footer">
-              {!isAuthenticated && freeChatUsed ? (
-                <button
-                  type="button"
-                  className="chat-window__gate"
-                  onClick={() => openLogin('gate')}
-                >
-                  Sign in to ask another question
-                </button>
-              ) : (
-                <ChatInput
-                  value={input}
-                  disabled={loading}
-                  onChange={setInput}
-                  onSubmit={() => handleSend()}
-                />
-              )}
+              <ChatInput
+                value={input}
+                disabled={loading}
+                submitDisabled={submitLocked}
+                landing
+                onChange={setInput}
+                onSubmit={() => handleSend()}
+              />
             </div>
           </div>
         )}
@@ -309,6 +334,7 @@ const ChatWindow = () => {
 type ChatInputProps = {
   value: string;
   disabled: boolean;
+  submitDisabled?: boolean;
   landing?: boolean;
   onChange: (value: string) => void;
   onSubmit: () => void;
@@ -317,6 +343,7 @@ type ChatInputProps = {
 function ChatInput({
   value,
   disabled,
+  submitDisabled = false,
   landing = false,
   onChange,
   onSubmit,
@@ -350,7 +377,7 @@ function ChatInput({
         <button
           type="button"
           onClick={onSubmit}
-          disabled={disabled || !filled}
+          disabled={disabled || submitDisabled || !filled}
         >
           Submit
         </button>

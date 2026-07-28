@@ -21,15 +21,21 @@
 .login-modal__panel {
   position: relative;
   z-index: 1;
+  width: min(100%, 542px);
+  background: var(--white);
+  color: var(--black);
+  overflow: hidden;
+  will-change: height;
+}
+
+.login-modal__body {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 19px;
-  width: min(100%, 542px);
   padding: 20px;
-  background: var(--white);
-  color: var(--black);
-  overflow: clip;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .login-modal__header {
@@ -42,16 +48,19 @@
 
 .login-modal__title {
   margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
   font-family: var(--heading);
   font-size: clamp(36px, 6vw, 58px);
   font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.01em;
   color: var(--black);
+  white-space: nowrap;
 }
 
-.login-modal__title--compact {
-  font-size: clamp(28px, 5vw, 42px);
+.login-modal__title--wrap {
+  white-space: normal;
 }
 
 .login-modal__close {
@@ -74,14 +83,35 @@
   }
 }
 
-.login-modal__form {
+.login-modal__form,
+.login-modal__message {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 19px;
   width: 100%;
 }
 
-.login-modal__confirm {
+.login-modal__panel--signup .login-modal__form {
+  gap: 43px;
+}
+
+.login-modal__fields,
+.login-modal__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.login-modal__password-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.login-modal__message p {
   margin: 0;
   font-family: var(--sans);
   font-size: 16px;
@@ -89,7 +119,7 @@
   color: var(--black);
 }
 
-.login-modal__confirm strong {
+.login-modal__message strong {
   font-weight: 500;
 }
 
@@ -103,7 +133,7 @@
   box-sizing: border-box;
   width: 100%;
   margin: 0;
-  padding: 12px;
+  padding: 18px 12px;
   border: 1px solid var(--black);
   border-radius: var(--radius-button);
   background: var(--white);
@@ -128,8 +158,16 @@
   }
 }
 
+.login-modal__hint {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1;
+  color: #1e1e1e;
+}
+
 .login-modal__error {
-  margin: -8px 0 0;
+  margin: 0;
   color: var(--accent);
   font-family: var(--sans);
   font-size: 14px;
@@ -230,5 +268,12 @@
 
   .login-modal__title {
     font-size: 40px;
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-modal__panel {
+    transition: none !important;
   }
 }
