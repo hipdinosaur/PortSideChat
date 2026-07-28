@@ -10,7 +10,7 @@ type LoginModalProps = {
 };
 
 type Mode = 'signin' | 'signup';
-type Status = 'idle' | 'submitting' | 'confirm' | 'error';
+type Status = 'idle' | 'submitting' | 'confirm' | 'reset-sent' | 'error';
 
 export default function LoginModal({
   open,
@@ -87,6 +87,32 @@ export default function LoginModal({
     setStatus('idle');
   }
 
+  async function handleForgotPassword() {
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) {
+      setStatus('error');
+      setError('Enter your email to reset your password.');
+      document.getElementById(emailId)?.focus();
+      return;
+    }
+
+    setStatus('submitting');
+    setError(null);
+
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+      trimmedEmail,
+      { redirectTo: window.location.origin }
+    );
+
+    if (resetError) {
+      setStatus('error');
+      setError(resetError.message);
+      return;
+    }
+
+    setStatus('reset-sent');
+  }
+
   function switchMode() {
     setMode((current) => (current === 'signin' ? 'signup' : 'signin'));
     setStatus('idle');
@@ -124,10 +150,19 @@ export default function LoginModal({
           </button>
         </div>
 
-        {status === 'confirm' ? (
+        {status === 'confirm' || status === 'reset-sent' ? (
           <p className="login-modal__confirm" role="status">
-            Check <strong>{email.trim()}</strong> to confirm your account, then
-            sign in.
+            {status === 'reset-sent' ? (
+              <>
+                Check <strong>{email.trim()}</strong> for a password reset
+                link.
+              </>
+            ) : (
+              <>
+                Check <strong>{email.trim()}</strong> to confirm your account,
+                then sign in.
+              </>
+            )}
           </p>
         ) : (
           <form className="login-modal__form" onSubmit={handleSubmit}>
@@ -184,6 +219,17 @@ export default function LoginModal({
             >
               {secondaryLabel}
             </button>
+
+            {!isSignup && (
+              <button
+                type="button"
+                className="login-modal__forgot"
+                onClick={handleForgotPassword}
+                disabled={busy}
+              >
+                Forgot Password?
+              </button>
+            )}
           </form>
         )}
       </div>

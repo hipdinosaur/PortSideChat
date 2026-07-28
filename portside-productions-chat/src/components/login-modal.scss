@@ -179,6 +179,33 @@
   }
 }
 
+.login-modal__forgot {
+  appearance: none;
+  align-self: flex-end;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--black);
+  font-family: var(--heading);
+  font-size: 12px;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-position: from-font;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    opacity: 0.7;
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
