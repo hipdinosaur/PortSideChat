@@ -3,6 +3,10 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import parseHtml from 'html-react-parser';
 import ThinkingSpinner from './thinking-spinner';
+import LoginModal from './login-modal';
+import { useAuth } from '../hooks/use-auth';
+import { hasUsedFreeChat, markFreeChatUsed } from '../lib/free-chat';
+import { supabase } from '../lib/supabase';
 import './chat-window.scss';
 
 const SUGGESTIONS = [
@@ -17,18 +21,24 @@ const EXIT_MS = 700;
 type Phase = 'landing' | 'exiting' | 'chat';
 type Message = { role: 'user' | 'assistant'; content: string };
 type ConversationHistory = { role: 'user' | 'assistant'; content: string };
+type LoginReason = 'gate' | 'manual';
 
 const ChatWindow = () => {
+  const { accessToken, isAuthenticated } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [phase, setPhase] = useState<Phase>('landing');
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [loginReason, setLoginReason] = useState<LoginReason>('manual');
+  const [freeChatUsed, setFreeChatUsed] = useState(hasUsedFreeChat);
   const bottomRef = useRef<HTMLDivElement>(null);
   const conversationHistory = useRef<ConversationHistory[]>([]);
   const exitFallbackRef = useRef<number | null>(null);
 
   const showLanding = phase === 'landing' || phase === 'exiting';
   const showChat = phase === 'exiting' || phase === 'chat';
+  const canSendWithoutAuth = !freeChatUsed;
 
   useEffect(() => {
     if (!showChat) return;
@@ -42,6 +52,17 @@ const ChatWindow = () => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated && loginOpen) {
+      setLoginOpen(false);
+    }
+  }, [isAuthenticated, loginOpen]);
+
+  function openLogin(reason: LoginReason) {
+    setLoginReason(reason);
+    setLoginOpen(true);
+  }
 
   function finishExit() {
     if (exitFallbackRef.current != null) {
@@ -61,6 +82,11 @@ const ChatWindow = () => {
     const userText = (text ?? input).trim();
     if (!userText || loading || phase === 'exiting') return;
 
+    if (!isAuthenticated && !canSendWithoutAuth) {
+      openLogin('gate');
+      return;
+    }
+
     if (phase === 'landing') {
       beginExit();
     }
@@ -70,16 +96,40 @@ const ChatWindow = () => {
     setLoading(true);
 
     try {
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      if (accessToken) {
+        headers.Authorization = `Bearer ${accessToken}`;
+      }
+
       const res = await fetch('/api/anthropic-route', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
+        credentials: 'include',
         body: JSON.stringify({
           userText,
           conversationHistory: conversationHistory.current,
         }),
       });
+
+      if (res.status === 401) {
+        let code = 'login_required';
+        try {
+          const body = (await res.json()) as { error?: string };
+          if (body.error) code = body.error;
+        } catch {
+          // ignore parse errors
+        }
+        if (code === 'login_required') {
+          markFreeChatUsed();
+          setFreeChatUsed(true);
+          setMessages((prev) => prev.slice(0, -1));
+          openLogin('gate');
+          return;
+        }
+        throw new Error(code);
+      }
 
       if (!res.ok) {
         const errorText = await res.text();
@@ -88,6 +138,11 @@ const ChatWindow = () => {
 
       const data = await res.json();
       const answer = data.answer;
+
+      if (!isAuthenticated) {
+        markFreeChatUsed();
+        setFreeChatUsed(true);
+      }
 
       conversationHistory.current.push({ role: 'user', content: userText });
       conversationHistory.current.push({ role: 'assistant', content: answer });
@@ -111,6 +166,14 @@ const ChatWindow = () => {
     }
   }
 
+  async function handleAuthButton() {
+    if (isAuthenticated) {
+      await supabase.auth.signOut();
+      return;
+    }
+    openLogin('manual');
+  }
+
   return (
     <div className={`chat-window chat-window--${phase}`}>
       <div className="chat-window__backdrop" aria-hidden="true">
@@ -128,8 +191,12 @@ const ChatWindow = () => {
         >
           Port Side
         </a>
-        <button type="button" className="chat-window__login">
-          Login
+        <button
+          type="button"
+          className="chat-window__login"
+          onClick={handleAuthButton}
+        >
+          {isAuthenticated ? 'Log out' : 'Login'}
         </button>
       </header>
 
@@ -200,12 +267,22 @@ const ChatWindow = () => {
               </div>
             </div>
             <div className="chat-window__footer">
-              <ChatInput
-                value={input}
-                disabled={loading}
-                onChange={setInput}
-                onSubmit={() => handleSend()}
-              />
+              {!isAuthenticated && freeChatUsed ? (
+                <button
+                  type="button"
+                  className="chat-window__gate"
+                  onClick={() => openLogin('gate')}
+                >
+                  Sign in to ask another question
+                </button>
+              ) : (
+                <ChatInput
+                  value={input}
+                  disabled={loading}
+                  onChange={setInput}
+                  onSubmit={() => handleSend()}
+                />
+              )}
             </div>
           </div>
         )}
@@ -219,6 +296,12 @@ const ChatWindow = () => {
       >
         Return to Port side Productions
       </a>
+
+      <LoginModal
+        open={loginOpen}
+        reason={loginReason}
+        onClose={() => setLoginOpen(false)}
+      />
     </div>
   );
 };

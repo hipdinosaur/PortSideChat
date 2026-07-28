@@ -1,7 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
 
+const FREE_CHAT_COOKIE = "portside_guest_chat";
+
 type ApiRequest = {
   method?: string;
+  headers?: Record<string, string | string[] | undefined>;
   body: {
     userText?: string;
     conversationHistory?: Anthropic.MessageParam[];
@@ -9,6 +12,7 @@ type ApiRequest = {
 };
 
 type ApiResponse = {
+  setHeader: (name: string, value: string | string[]) => void;
   status: (code: number) => {
     json: (body: unknown) => void;
   };
@@ -24,6 +28,54 @@ type MatchedChunk = {
   end_timestamp: string | null;
   score: number;
 };
+
+function headerValue(
+  headers: ApiRequest["headers"],
+  name: string
+): string | undefined {
+  if (!headers) return undefined;
+  const direct = headers[name] ?? headers[name.toLowerCase()];
+  if (Array.isArray(direct)) return direct[0];
+  return direct;
+}
+
+function parseCookies(cookieHeader?: string): Record<string, string> {
+  if (!cookieHeader) return {};
+  return Object.fromEntries(
+    cookieHeader
+      .split(";")
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .map((part) => {
+        const eq = part.indexOf("=");
+        if (eq === -1) return [part, ""];
+        return [
+          decodeURIComponent(part.slice(0, eq)),
+          decodeURIComponent(part.slice(eq + 1)),
+        ];
+      })
+  );
+}
+
+async function getAuthenticatedUser(
+  authHeader?: string
+): Promise<{ id: string; email?: string } | null> {
+  if (!authHeader?.startsWith("Bearer ")) return null;
+  const token = authHeader.slice("Bearer ".length).trim();
+  if (!token) return null;
+
+  const res = await fetch(`${process.env.SUPABASE_URL}/auth/v1/user`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      apikey: process.env.SUPABASE_ANON_KEY!,
+    },
+  });
+
+  if (!res.ok) return null;
+  const user = (await res.json()) as { id?: string; email?: string };
+  if (!user.id) return null;
+  return { id: user.id, email: user.email };
+}
 
 async function embedQuery(text: string): Promise<number[]> {
   const res = await fetch("https://api.openai.com/v1/embeddings", {
@@ -125,6 +177,15 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         .json({ error: "Missing server environment variables" });
     }
 
+    const authHeader = headerValue(req.headers, "authorization");
+    const user = await getAuthenticatedUser(authHeader);
+    const cookies = parseCookies(headerValue(req.headers, "cookie"));
+    const guestUsedFreeChat = cookies[FREE_CHAT_COOKIE] === "1";
+
+    if (!user && guestUsedFreeChat) {
+      return res.status(401).json({ error: "login_required" });
+    }
+
     const anthropic = new Anthropic({
       apiKey: process.env.ANTHROPIC_API_KEY,
     });
@@ -182,6 +243,14 @@ Answer in a friendly, engaging, and conversational tone; keep responses generall
 
     const answer =
       answerMsg.content.find((b) => b.type === "text")?.text ?? "";
+
+    if (!user) {
+      // One free guest chat per browser (soft gate; auth unlocks unlimited).
+      res.setHeader(
+        "Set-Cookie",
+        `${FREE_CHAT_COOKIE}=1; Path=/; Max-Age=31536000; SameSite=Lax`
+      );
+    }
 
     return res.status(200).json({
       answer,
