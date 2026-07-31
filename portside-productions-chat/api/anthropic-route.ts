@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 
 const FREE_CHAT_COOKIE = "portside_guest_chat";
+const ANONYMOUS_PROMPT_MAX_LENGTH = 2000;
 
 type ApiRequest = {
   method?: string;
@@ -158,6 +159,48 @@ function formatContext(chunks: MatchedChunk[]): string {
     .join("\n\n");
 }
 
+/** Trim, length-cap, and redact obvious email/phone before sampling. */
+function sanitizeAnonymousPrompt(text: string): string {
+  return text
+    .trim()
+    .slice(0, ANONYMOUS_PROMPT_MAX_LENGTH)
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[email]")
+    .replace(
+      /(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{3}\)?[-.\s]?)\d{3}[-.\s]?\d{4}\b/g,
+      "[phone]"
+    );
+}
+
+/** Best-effort: never throws; never blocks chat on quota/errors. */
+async function trySampleAnonymousPrompt(userText: string): Promise<void> {
+  try {
+    const prompt = sanitizeAnonymousPrompt(userText);
+    if (!prompt) return;
+
+    const res = await fetch(
+      `${process.env.SUPABASE_URL}/rest/v1/rpc/try_sample_anonymous_prompt`,
+      {
+        method: "POST",
+        headers: {
+          apikey: process.env.SUPABASE_ANON_KEY!,
+          Authorization: `Bearer ${process.env.SUPABASE_ANON_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ p_prompt: prompt }),
+      }
+    );
+
+    if (!res.ok) {
+      console.error(
+        "try_sample_anonymous_prompt failed:",
+        await res.text()
+      );
+    }
+  } catch (err) {
+    console.error("try_sample_anonymous_prompt error:", err);
+  }
+}
+
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   try {
     const { userText, conversationHistory = [] } = req.body;
@@ -251,6 +294,9 @@ Answer in a friendly, engaging, and conversational tone; keep responses generall
         `${FREE_CHAT_COOKIE}=1; Path=/; Max-Age=31536000; SameSite=Lax`
       );
     }
+
+    // Fire-and-forget: at most 10 anonymized prompts per UTC day.
+    await trySampleAnonymousPrompt(userText);
 
     return res.status(200).json({
       answer,

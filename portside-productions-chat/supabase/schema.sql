@@ -249,3 +249,83 @@ create policy "Public read chunks"
   on public.chunks for select
   to anon, authenticated
   using (true);
+
+-- ---------------------------------------------------------------------------
+-- Anonymous prompt sampling (max 10 per UTC day, write-only via RPC)
+-- ---------------------------------------------------------------------------
+create table if not exists public.anonymous_prompt_samples (
+  id uuid primary key default gen_random_uuid(),
+  prompt text not null,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists anonymous_prompt_samples_created_at_idx
+  on public.anonymous_prompt_samples (created_at desc);
+
+create table if not exists public.anonymous_prompt_daily (
+  day date primary key,
+  sample_count integer not null default 0
+    check (sample_count >= 0 and sample_count <= 10)
+);
+
+alter table public.anonymous_prompt_samples enable row level security;
+alter table public.anonymous_prompt_daily enable row level security;
+
+-- No policies for anon/authenticated: table access is via service role or
+-- the security-definer RPC below.
+
+create or replace function public.try_sample_anonymous_prompt(p_prompt text)
+returns boolean
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  d date := (timezone('utc', now()))::date;
+  allowed boolean;
+  cleaned text;
+begin
+  cleaned := left(trim(coalesce(p_prompt, '')), 2000);
+  if cleaned = '' then
+    return false;
+  end if;
+
+  -- Redact obvious email/phone here (not just in the calling API layer) so
+  -- the RPC is safe even when invoked directly with the public anon key.
+  cleaned := regexp_replace(
+    cleaned,
+    '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}',
+    '[email]',
+    'g'
+  );
+  cleaned := regexp_replace(
+    cleaned,
+    '(\+?\d{1,3}[-.\s]?)?(\(?\d{3}\)?[-.\s]?)\d{3}[-.\s]?\d{4}',
+    '[phone]',
+    'g'
+  );
+
+  insert into public.anonymous_prompt_daily (day, sample_count)
+  values (d, 0)
+  on conflict (day) do nothing;
+
+  update public.anonymous_prompt_daily
+  set sample_count = sample_count + 1
+  where day = d
+    and sample_count < 10
+  returning true into allowed;
+
+  if not coalesce(allowed, false) then
+    return false;
+  end if;
+
+  insert into public.anonymous_prompt_samples (prompt)
+  values (cleaned);
+
+  return true;
+end;
+$$;
+
+revoke all on function public.try_sample_anonymous_prompt(text) from public;
+grant execute on function public.try_sample_anonymous_prompt(text)
+  to anon, authenticated;
