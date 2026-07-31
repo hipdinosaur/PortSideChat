@@ -64,6 +64,14 @@ const ChatWindow = () => {
     }
   }, [isAuthenticated, loginOpen]);
 
+  useEffect(() => {
+    if (!submitLocked || !showChat) return;
+    setMessages((prev) => {
+      if (prev.some((msg) => msg.role === 'gate')) return prev;
+      return [...prev, { role: 'gate', content: GATE_LABEL }];
+    });
+  }, [submitLocked, showChat]);
+
   function openLogin(reason: LoginReason) {
     setLoginReason(reason);
     setLoginOpen(true);
@@ -154,7 +162,8 @@ const ChatWindow = () => {
       const data = await res.json();
       const answer = data.answer;
 
-      if (!isAuthenticated) {
+      const wasGuest = !isAuthenticated;
+      if (wasGuest) {
         markFreeChatUsed();
         setFreeChatUsed(true);
       }
@@ -163,10 +172,16 @@ const ChatWindow = () => {
       conversationHistory.current.push({ role: 'assistant', content: answer });
       const html = await marked.parse(answer);
       const sanitizedHtml = DOMPurify.sanitize(html);
-      setMessages((prev) => [
-        ...prev,
-        { role: 'assistant', content: sanitizedHtml },
-      ]);
+      setMessages((prev) => {
+        const next: Message[] = [
+          ...prev,
+          { role: 'assistant', content: sanitizedHtml },
+        ];
+        if (wasGuest) {
+          next.push({ role: 'gate', content: GATE_LABEL });
+        }
+        return next;
+      });
     } catch (err) {
       console.error(err);
       setMessages((prev) => [
