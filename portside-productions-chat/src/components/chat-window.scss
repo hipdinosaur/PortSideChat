@@ -360,7 +360,7 @@ $easing: cubic-bezier(.3,0,0,1);
   background: var(--black);
   color: var(--white);
   border: 1px solid var(--border-chat);
-
+  
   p + p, p+blockquote, blockquote + p {
     margin-top: 1em;
   }
@@ -381,7 +381,7 @@ $easing: cubic-bezier(.3,0,0,1);
   }
   blockquote {
     border-left: 1px solid var(--white);
-    padding-left: 8px
+    padding-left: 8px;
     p{
       font-style: normal;
       font-family: monospace;
