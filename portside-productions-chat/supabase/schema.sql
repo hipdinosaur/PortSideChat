@@ -1,6 +1,7 @@
 -- Hybrid RAG schema for Backcountry Marketing Podcast transcripts
 -- Run in Supabase SQL editor after enabling the vector extension.
--- Safe to re-run: drops + recreates chunks/policies that may be half-created.
+-- Safe to re-run for functions/policies. Does NOT drop chunks (that would wipe RAG).
+-- For a clean chunks rebuild, drop manually then re-upload + re-embed.
 
 create extension if not exists vector;
 
@@ -66,13 +67,10 @@ as $$
     setweight(to_tsvector('english'::regconfig, coalesce(content, '')), 'C');
 $$;
 
--- Recreate chunks if a previous run failed mid-create.
-drop table if exists public.chunks cascade;
-
--- ---------------------------------------------------------------------------
--- Chunks (speaker-turn packed snippets for hybrid retrieval)
--- ---------------------------------------------------------------------------
-create table public.chunks (
+-- Chunks already exist in production — do not drop on re-run.
+-- If you need a clean rebuild: DROP TABLE public.chunks CASCADE; then re-run
+-- this file and re-upload + re-embed from Transcripts/supabase-ready/.
+create table if not exists public.chunks (
   id uuid primary key default gen_random_uuid(),
   episode_id uuid not null references public.episodes (id) on delete cascade,
   cms_item_id text not null,
