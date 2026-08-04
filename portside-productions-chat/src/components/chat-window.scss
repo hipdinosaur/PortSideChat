@@ -370,17 +370,20 @@ $easing: cubic-bezier(.3,0,0,1);
   border: 1px solid var(--border-chat);
   h1{
     line-height: 1.15;
-    margin-bottom: 0.75em;
+    margin-bottom: 0.65em;
   }
   h2, h3, h4, h5 {
     font-family: var(--text);
     font-weight: 500;
   }
   h2 + p{
-    margin-top: 0.3em;
+    margin-top: 0.2em;
   }
   p+h2{
     margin-top: 1.25em;
+  }
+  p{
+    opacity: 0.8;
   }
   
   p + p, p+blockquote, blockquote + p {
@@ -413,7 +416,7 @@ $easing: cubic-bezier(.3,0,0,1);
     padding-left: 16px;
     p{
       font-style: normal;
-      opacity: 0.8;
+      opacity: 1;
     }
   }
 }
