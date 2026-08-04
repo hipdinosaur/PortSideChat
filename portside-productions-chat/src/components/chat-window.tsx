@@ -13,6 +13,7 @@ import './chat-window.scss';
 const SUGGESTIONS = [
   "What's unique about marketing for the outdoor industry?",
   'How do I build an audience for my outdoor brand?',
+  'How do you justify content marketing spend to leadership?',
 ] as const;
 
 const PORTSIDE_URL = 'https://www.portsidepro.com';
