@@ -301,6 +301,10 @@ $easing: cubic-bezier(.3,0,0,1);
   background: var(--white);
   border-radius: var(--radius-input);
   overflow: scroll;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .chat-window__body {
@@ -362,13 +366,13 @@ $easing: cubic-bezier(.3,0,0,1);
   border: 1px solid var(--border-chat);
   h2, h3, h4, h5 {
     font-family: var(--text);
-    font-weight: 600;
+    font-weight: 500;
   }
   h2 + p{
-    margin-top: 0.5em;
+    margin-top: 0.35em;
   }
   p+h2{
-    margin-top: 1.5em;
+    margin-top: 1.75em;
   }
   
   p + p, p+blockquote, blockquote + p {
@@ -383,12 +387,7 @@ $easing: cubic-bezier(.3,0,0,1);
   blockquote +h4{
     margin-top: 1em;
   }
-  blockquote +h5{
-  ul,
-  ol {
-    margin: 0.75em 0;
-    padding-left: 1.25em;
-  }
+
   h2+p, h3+p, h4+p, h5+p {
     margin-top: 1em;
   }
@@ -410,7 +409,7 @@ $easing: cubic-bezier(.3,0,0,1);
     }
   }
 }
-}
+
 
 .message--thinking {
   align-self: flex-start;
