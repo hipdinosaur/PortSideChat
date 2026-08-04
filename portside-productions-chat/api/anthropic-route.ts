@@ -265,7 +265,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     });
 
     const answerMsg = await anthropic.messages.create({
-      model: "claude-haiku-4-5",
+      model: "claude-sonnet-5",
       max_tokens: 1200,
       system: [
         {
@@ -278,11 +278,10 @@ Provide answers that are relevant to the question and the podcast transcript con
 Not all brands or products are directly related to the outdoor industry but engage an audience within that space; tailor answers assuming the audience is interested in the outdoor industry.
 When citing, prefer episode name/number and guest when available, and you may mention the episode URL.
 Answer in a friendly, engaging, and conversational tone;
-Quotations should be formatted as blockquotes.
-Avoid titling the conversation but structure the answer with headings and subheadings.
+Quotations should be formatted as blockqu otes.
+Avoid titling the conversation but structure the answer with subheadings.
 If there are competing ideas or concepts, provide a comparison of the ideas and concepts.
-If the question is about a specific episode or person, provide a quote from that episode or person.
-At the end of the answer provide a key takeaway in bold.`,
+If the question is about a specific episode or person, provide a quote from that episode or person.`,
           cache_control: { type: "ephemeral" },
         },
       ],
