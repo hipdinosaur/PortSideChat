@@ -364,11 +364,23 @@ $easing: cubic-bezier(.3,0,0,1);
   p + p, p+blockquote, blockquote + p {
     margin-top: 1em;
   }
-
+  blockquote +h2{
+    margin-top: 1em;
+  }
+  blockquote +h3{
+    margin-top: 1em;
+  }
+  blockquote +h4{
+    margin-top: 1em;
+  }
+  blockquote +h5{
   ul,
   ol {
     margin: 0.75em 0;
     padding-left: 1.25em;
+  }
+  h2+p, h3+p, h4+p, h5+p {
+    margin-top: 1em;
   }
 
   a {
