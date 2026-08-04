@@ -79,3 +79,6 @@ env/
 
 .vercel
 .env*.local
+
+# Local RAG retrieval/answer evaluation harness (not part of the build)
+scripts/eval/

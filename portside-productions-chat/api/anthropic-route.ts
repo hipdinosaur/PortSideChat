@@ -2,6 +2,26 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const FREE_CHAT_COOKIE = "portside_guest_chat";
 const ANONYMOUS_PROMPT_MAX_LENGTH = 2000;
+const ANTHROPIC_MODEL = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-5";
+/** Condensing a follow-up into a search query is a cheap, mechanical task. */
+const REWRITE_MODEL = process.env.ANTHROPIC_REWRITE_MODEL ?? "claude-haiku-4-5";
+const MATCH_COUNT = 12;
+/** Turns of prior conversation resent to the model (user + assistant pairs). */
+const MAX_HISTORY_TURNS = 6;
+/** Prior answers are long; the rewrite step only needs their gist. */
+const REWRITE_TURN_MAX_CHARS = 500;
+
+/**
+ * Anthropic rejects `temperature` outright on the current model generation
+ * (claude-sonnet-5 and siblings), which use a single version number. Older
+ * two-part names like claude-haiku-4-5 still accept it.
+ */
+function temperatureFor(
+  model: string,
+  value: number
+): { temperature?: number } {
+  return /^claude-[a-z]+-\d+$/.test(model) ? {} : { temperature: value };
+}
 
 type ApiRequest = {
   method?: string;
@@ -118,7 +138,8 @@ async function matchChunks(
       body: JSON.stringify({
         query_embedding: queryEmbedding,
         query_text: queryText,
-        match_count: 5,
+        match_count: MATCH_COUNT,
+        max_per_episode: 3,
       }),
     }
   );
@@ -138,8 +159,8 @@ function formatContext(chunks: MatchedChunk[]): string {
       const ep =
         c.podcast_index != null
           ? `EP ${c.podcast_index}: ${c.episode_name}`
-          : c.episode_name;
-      const guest = c.guest_name ? `Guest: ${c.guest_name}` : "";
+          : `Episode number: unknown — ${c.episode_name}`;
+      const guest = `Guest: ${c.guest_name ?? "unknown"}`;
       const time =
         c.start_timestamp || c.end_timestamp
           ? `Timestamp: ${c.start_timestamp ?? "?"}–${c.end_timestamp ?? "?"}`
@@ -151,12 +172,62 @@ function formatContext(chunks: MatchedChunk[]): string {
         time,
         `URL: ${c.web_url}`,
         "",
+        "Transcript (speaker labels are authoritative for attribution):",
         c.content,
       ]
         .filter(Boolean)
         .join("\n");
     })
     .join("\n\n");
+}
+
+/** Tolerates malformed history: conversationHistory is client-supplied. */
+function messageText(message: Anthropic.MessageParam | undefined): string {
+  const content = message?.content;
+  if (typeof content === "string") return content;
+  if (!Array.isArray(content)) return "";
+  return content.find((b) => b.type === "text")?.text ?? "";
+}
+
+/**
+ * Follow-ups like "tell me more about that" embed to noise on their own, so
+ * condense the recent turns into a self-contained query before retrieval.
+ * Never throws: retrieval falls back to the raw message.
+ */
+async function toStandaloneQuery(
+  anthropic: Anthropic,
+  userText: string,
+  history: Anthropic.MessageParam[]
+): Promise<string> {
+  if (history.length === 0) return userText;
+
+  try {
+    const transcript = history
+      .slice(-MAX_HISTORY_TURNS * 2)
+      .map((m) => `${m.role}: ${messageText(m).slice(0, REWRITE_TURN_MAX_CHARS)}`)
+      .join("\n");
+
+    const msg = await anthropic.messages.create({
+      model: REWRITE_MODEL,
+      max_tokens: 100,
+      ...temperatureFor(REWRITE_MODEL, 0),
+      system:
+        "You rewrite the latest message in a conversation into a standalone search query for a podcast transcript search engine. Resolve pronouns and implicit references using the earlier turns, and keep any guest names, episode numbers, brands, or topics that the search needs. Reply with the query text only — no quotes, labels, or explanation. If the latest message already stands on its own, repeat it unchanged.",
+      messages: [
+        {
+          role: "user",
+          content: `Conversation so far:\n${transcript}\n\nLatest message: ${userText}\n\nStandalone search query:`,
+        },
+      ],
+    });
+
+    const rewritten =
+      msg.content.find((b) => b.type === "text")?.text.trim() ?? "";
+    return rewritten || userText;
+  } catch (err) {
+    console.error("query rewrite failed, using raw text:", err);
+    return userText;
+  }
 }
 
 /** Trim, length-cap, and redact obvious email/phone before sampling. */
@@ -233,21 +304,25 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       apiKey: process.env.ANTHROPIC_API_KEY,
     });
 
-    const queryEmbedding = await embedQuery(userText);
-    const chunks = await matchChunks(queryEmbedding, userText);
+    const searchQuery = await toStandaloneQuery(
+      anthropic,
+      userText,
+      conversationHistory
+    );
+    const queryEmbedding = await embedQuery(searchQuery);
+    const chunks = await matchChunks(queryEmbedding, searchQuery);
     const context = formatContext(chunks);
 
     // conversationHistory is resent unchanged on every call. Marking its last
     // message as a cache breakpoint lets Anthropic reuse the (system + prior
     // turns) prefix at ~10% of input price once it's grown past the ~1024
     // token minimum block size — a no-op below that, but free to leave on.
-    const messages: Anthropic.MessageParam[] = [...conversationHistory];
+    const messages: Anthropic.MessageParam[] = conversationHistory.slice(
+      -MAX_HISTORY_TURNS * 2
+    );
     if (messages.length > 0) {
       const last = messages[messages.length - 1];
-      const lastText =
-        typeof last.content === "string"
-          ? last.content
-          : last.content.find((b) => b.type === "text")?.text ?? "";
+      const lastText = messageText(last);
       messages[messages.length - 1] = {
         ...last,
         content: [
@@ -265,8 +340,9 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     });
 
     const answerMsg = await anthropic.messages.create({
-      model: "claude-haiku-4-5",
+      model: ANTHROPIC_MODEL,
       max_tokens: 1200,
+      ...temperatureFor(ANTHROPIC_MODEL, 0.2),
       system: [
         {
           type: "text",
@@ -278,6 +354,14 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
           - Produced by: Portside Productions (portsidepro.com)
           - Premise: Interviews and conversations with marketers, creators, and industry leaders in the outdoor industry, tackling common challenges such as audience building, content, brand authenticity, and practical lessons from the field.
           - Use this block to answer general questions about the show, host, or producer. Do not invent guests, episode counts, or other details not in this block or the retrieved passages.
+
+          Grounding rules (these override all formatting rules below):
+          - Every quote must appear verbatim in one of the "Relevant podcast passages" below. Never paraphrase into a blockquote. Never write a quote that is not present in a passage.
+          - Attribute each quote to the speaker label that precedes it inside the passage text, not to the "Guest:" header. Passages contain host turns as well as guest turns.
+          - Only cite an episode number or guest name if it is stated in that passage's header. If the header says "unknown", omit it rather than guessing.
+          - If the passages do not answer the question, say so plainly and describe what the passages do cover. Do not fill the gap from general marketing knowledge.
+          - If the passages section says no relevant passages were found, say you could not find anything in the podcast on that topic and invite a rephrase. Do not answer from memory.
+          - A well-grounded answer with fewer quotes is better than a fuller answer with invented ones.
 
           Understand the users intent and answer the question accordingly:
           - Favor quotes and insights from interviewees over the host or producer.

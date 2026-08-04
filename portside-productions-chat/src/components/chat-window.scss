@@ -424,6 +424,40 @@ $easing: cubic-bezier(.3,0,0,1);
 }
 
 
+.message__sources {
+  margin-top: 1.25em;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-chat);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.message__sources-label {
+  display: block;
+  margin-bottom: 6px;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+}
+
+.message__sources-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a {
+    opacity: 0.8;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
 .message--thinking {
   align-self: flex-start;
   display: inline-flex;

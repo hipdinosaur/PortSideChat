@@ -133,6 +133,34 @@ grant execute on function public.update_chunk_embeddings(jsonb) to service_role;
 -- ---------------------------------------------------------------------------
 -- Hybrid match: vector similarity + full-text, optional category filter
 -- ---------------------------------------------------------------------------
+
+-- websearch_to_tsquery ANDs every term, so a natural-language question only
+-- matches a chunk containing all of its words — in practice zero rows, which
+-- silently reduced the hybrid search to vector-only. OR the lexemes instead
+-- and let ts_rank_cd reward chunks that match more of them.
+create or replace function public.or_tsquery(q text)
+returns tsquery
+language sql
+immutable
+parallel safe
+as $$
+  select nullif(
+    array_to_string(
+      array(
+        select distinct lexeme
+        from unnest(to_tsvector('english'::regconfig, coalesce(q, '')))
+        order by lexeme
+      ),
+      ' | '
+    ),
+    ''
+  )::tsquery;
+$$;
+
+-- Signature gained max_per_episode; drop the old overload so PostgREST does
+-- not see two candidates for the same RPC name.
+drop function if exists public.match_chunks(vector(1536), text, int, text[], float, float, int);
+
 create or replace function public.match_chunks(
   query_embedding vector(1536),
   query_text text,
@@ -140,7 +168,10 @@ create or replace function public.match_chunks(
   filter_categories text[] default null,
   full_text_weight float default 1.0,
   semantic_weight float default 1.0,
-  rrf_k int default 50
+  -- 50 flattened the fusion so far that a rank-3 keyword hit lost to a
+  -- rank-12 semantic one; 20 restores 100% recall on scripts/eval.
+  rrf_k int default 20,
+  max_per_episode int default 3
 )
 returns table (
   id uuid,
@@ -164,6 +195,8 @@ returns table (
 )
 language sql
 stable
+-- Must be >= the semantic candidate limit below or HNSW recall degrades.
+set hnsw.ef_search = 120
 as $$
   with semantic as (
     select
@@ -177,25 +210,25 @@ as $$
         or c.categories && filter_categories
       )
     order by c.embedding <=> query_embedding
-    limit least(match_count * 4, 40)
+    limit least(match_count * 6, 80)
   ),
   keyword as (
     select
       c.id,
       row_number() over (
-        order by ts_rank_cd(c.fts, websearch_to_tsquery('english', query_text)) desc
+        order by ts_rank_cd(c.fts, public.or_tsquery(query_text)) desc
       ) as rank
     from public.chunks c
     where query_text is not null
-      and length(trim(query_text)) > 0
-      and c.fts @@ websearch_to_tsquery('english', query_text)
+      and public.or_tsquery(query_text) is not null
+      and c.fts @@ public.or_tsquery(query_text)
       and (
         filter_categories is null
         or cardinality(filter_categories) = 0
         or c.categories && filter_categories
       )
-    order by ts_rank_cd(c.fts, websearch_to_tsquery('english', query_text)) desc
-    limit least(match_count * 4, 40)
+    order by ts_rank_cd(c.fts, public.or_tsquery(query_text)) desc
+    limit least(match_count * 6, 80)
   ),
   fused as (
     select
@@ -204,29 +237,56 @@ as $$
         + coalesce(1.0 / (rrf_k + k.rank), 0) * full_text_weight as score
     from semantic s
     full outer join keyword k on s.id = k.id
+  ),
+  -- Cap chunks per episode so one transcript cannot crowd out the corpus.
+  ranked as (
+    select
+      c.id,
+      c.episode_id,
+      c.cms_item_id,
+      c.chunk_index,
+      c.content,
+      c.speakers,
+      c.start_timestamp,
+      c.end_timestamp,
+      c.podcast_index,
+      c.episode_name,
+      c.slug,
+      c.web_url,
+      c.guest_name,
+      c.guest_title,
+      c.categories,
+      c.short_description,
+      c.podcast_length,
+      f.score,
+      row_number() over (
+        partition by c.episode_id order by f.score desc, c.chunk_index
+      ) as per_ep
+    from fused f
+    join public.chunks c on c.id = f.id
   )
   select
-    c.id,
-    c.episode_id,
-    c.cms_item_id,
-    c.chunk_index,
-    c.content,
-    c.speakers,
-    c.start_timestamp,
-    c.end_timestamp,
-    c.podcast_index,
-    c.episode_name,
-    c.slug,
-    c.web_url,
-    c.guest_name,
-    c.guest_title,
-    c.categories,
-    c.short_description,
-    c.podcast_length,
-    f.score::float
-  from fused f
-  join public.chunks c on c.id = f.id
-  order by f.score desc
+    r.id,
+    r.episode_id,
+    r.cms_item_id,
+    r.chunk_index,
+    r.content,
+    r.speakers,
+    r.start_timestamp,
+    r.end_timestamp,
+    r.podcast_index,
+    r.episode_name,
+    r.slug,
+    r.web_url,
+    r.guest_name,
+    r.guest_title,
+    r.categories,
+    r.short_description,
+    r.podcast_length,
+    r.score::float
+  from ranked r
+  where max_per_episode is null or r.per_ep <= max_per_episode
+  order by r.score desc
   limit match_count;
 $$;
 
