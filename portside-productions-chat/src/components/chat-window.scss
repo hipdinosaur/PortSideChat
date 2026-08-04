@@ -403,12 +403,13 @@ $easing: cubic-bezier(.3,0,0,1);
   }
   blockquote {
     border-left: 1px solid var(--white);
-    padding-left: 8px;
+    padding-left: 16px;
     p{
       font-style: normal;
       font-family: monospace;
     }
   }
+}
 }
 
 .message--thinking {
