@@ -369,7 +369,7 @@ $easing: cubic-bezier(.3,0,0,1);
   color: var(--white);
   border: 1px solid var(--border-chat);
   h1{
-    line-height: 1.05;
+    line-height: 1.15;
     margin-bottom: 0.75em;
   }
   h2, h3, h4, h5 {
@@ -377,10 +377,10 @@ $easing: cubic-bezier(.3,0,0,1);
     font-weight: 500;
   }
   h2 + p{
-    margin-top: 0.35em;
+    margin-top: 0.3em;
   }
   p+h2{
-    margin-top: 1.75em;
+    margin-top: 1.25em;
   }
   
   p + p, p+blockquote, blockquote + p {
@@ -413,7 +413,7 @@ $easing: cubic-bezier(.3,0,0,1);
     padding-left: 16px;
     p{
       font-style: normal;
-      font-family: monospace;
+      opacity: 0.8;
     }
   }
 }
