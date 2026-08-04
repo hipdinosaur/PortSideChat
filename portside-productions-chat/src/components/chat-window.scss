@@ -315,6 +315,10 @@ $easing: cubic-bezier(.3,0,0,1);
   justify-content: flex-end;
   gap: 24px;
   overflow-y: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   overflow-x: hidden;
   padding: 32px 32px;
   min-height: 0;
@@ -364,6 +368,10 @@ $easing: cubic-bezier(.3,0,0,1);
   background: var(--black);
   color: var(--white);
   border: 1px solid var(--border-chat);
+  h1{
+    line-height: 1.05;
+    margin-bottom: 0.75em;
+  }
   h2, h3, h4, h5 {
     font-family: var(--text);
     font-weight: 500;
