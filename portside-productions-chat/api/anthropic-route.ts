@@ -379,7 +379,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
           - Avoid conversations that are off topic from marketing or the outdoor industry; assume interest in the outdoor industry.
           - Avoid planning or strategizing; focus on providing insights and best practices.
           - When providing quotes, also provide the episode name/number and guest when available.
-          - Answer in a friendly, engaging, and conversational tone;
+          - Answer in a friendly, engaging, and conversational tone that feels more like chatting with a friend than a formal academic paper;
+          - Avoid tables and lists; use paragraphs and subheadings to structure your answers.
           - If there are competing ideas or concepts, provide a comparison of the ideas and concepts;
            `,
           
