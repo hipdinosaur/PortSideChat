@@ -144,6 +144,64 @@ def format_turn(turn: dict) -> str:
     return f"{speaker}: {body}"
 
 
+SENTENCE_BOUNDARY_RE = re.compile(r"(?<=[.!?])\s+")
+
+
+def split_long_turn(text: str, target_tokens: int, max_tokens: int) -> list[str]:
+    """Break an over-long turn into ~target_tokens pieces at sentence boundaries.
+
+    Solo and Fireside Chat episodes carry a single speaker header and then the
+    whole transcript as one turn, so without this a full episode becomes one
+    unretrievable chunk that also overflows the embedding input limit.
+    """
+    pieces: list[str] = []
+    buf: list[str] = []
+    buf_tokens = 0
+
+    def flush() -> None:
+        nonlocal buf, buf_tokens
+        if buf:
+            pieces.append(" ".join(buf))
+            buf = []
+            buf_tokens = 0
+
+    for sentence in SENTENCE_BOUNDARY_RE.split(text):
+        sentence = sentence.strip()
+        if not sentence:
+            continue
+
+        # Unpunctuated runs can exceed max on their own; hard-wrap on words.
+        while estimate_tokens(sentence) > max_tokens:
+            words = sentence.split()
+            take = max(1, len(words) * max_tokens // max(1, estimate_tokens(sentence)))
+            flush()
+            pieces.append(" ".join(words[:take]))
+            sentence = " ".join(words[take:])
+
+        s_tokens = estimate_tokens(sentence)
+        if buf and buf_tokens + s_tokens > target_tokens:
+            flush()
+        buf.append(sentence)
+        buf_tokens += s_tokens
+
+    flush()
+    return pieces
+
+
+def expand_long_turns(
+    turns: list[dict], target_tokens: int, max_tokens: int
+) -> list[dict]:
+    """Replace any turn larger than max_tokens with same-speaker sub-turns."""
+    out: list[dict] = []
+    for turn in turns:
+        if estimate_tokens(format_turn(turn)) <= max_tokens:
+            out.append(turn)
+            continue
+        for part in split_long_turn(turn.get("text") or "", target_tokens, max_tokens):
+            out.append({**turn, "text": part})
+    return out
+
+
 def pack_chunks(
     turns: list[dict],
     *,
@@ -151,7 +209,7 @@ def pack_chunks(
     max_tokens: int = MAX_TOKENS,
     min_tokens: int = MIN_TOKENS,
 ) -> list[dict]:
-    """Pack speaker turns into ~target_tokens chunks, never splitting a turn."""
+    """Pack speaker turns into ~target_tokens chunks, splitting only over-long turns."""
     if not turns:
         return []
 
@@ -181,15 +239,9 @@ def pack_chunks(
         buf = []
         buf_tokens = 0
 
-    for turn in turns:
+    for turn in expand_long_turns(turns, target_tokens, max_tokens):
         piece = format_turn(turn)
         t_tokens = estimate_tokens(piece)
-
-        if t_tokens > max_tokens and not buf:
-            buf = [turn]
-            buf_tokens = t_tokens
-            flush()
-            continue
 
         if buf and buf_tokens + t_tokens > target_tokens and buf_tokens >= min_tokens:
             flush()

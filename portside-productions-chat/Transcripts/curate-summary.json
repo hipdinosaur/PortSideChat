@@ -2,7 +2,8 @@
   "source_merged_csv": "/Users/nathanlindahl/Library/CloudStorage/Dropbox/freelance/portside-pro/chatbot/portside-productions-chat/Transcripts/Port Side - Podcast-feeds - merged.csv",
   "merge_report": "/Users/nathanlindahl/Library/CloudStorage/Dropbox/freelance/portside-pro/chatbot/portside-productions-chat/Transcripts/transcript-merge-report.json",
   "episodes_in_merged": 234,
-  "episodes_kept": 122,
+  "episodes_kept": 211,
+  "docx_backed_items": 211,
   "dropped_throwback": [
     {
       "podcast_index": "108",
@@ -17,251 +18,18 @@
       "item_id": "68225dfc7bb476527f8c4897"
     }
   ],
-  "dropped_no_local_docx": 110,
+  "dropped_no_local_docx": 21,
   "dropped_no_transcript": [],
-  "dropped_no_docx_sample": [
+  "dropped_no_slug": [],
+  "items_with_multiple_docx": {},
+  "unmatched_docx": [
     {
-      "podcast_index": "224",
-      "name": "2025, the Year that Almost Broke Us",
-      "guest": "Cole Heilborn",
-      "item_id": "6942f8bf0488c6a93c814dcb"
-    },
-    {
-      "podcast_index": "228",
-      "name": "Are Brand Impressions Irrelevant?",
-      "guest": "Ryan Watson",
-      "item_id": "6994bdfc401ccc51663a9960"
-    },
-    {
-      "podcast_index": "199",
-      "name": "Bad Creative Briefs and Bold Ideas",
-      "guest": "Matt Trappe",
-      "item_id": "68225dfc7bb476527f8c496a"
-    },
-    {
-      "podcast_index": "218",
-      "name": "Brand Is Social, Social Is Brand: How Outdoor Brands Can Rethink Social Media",
-      "guest": "Maren Hamilton",
-      "item_id": "68e6b8a3b5466e68fb6ce22c"
-    },
-    {
-      "podcast_index": "233",
-      "name": "Brand Is Social, Social Is Brand: How Outdoor Brands Can Rethink Social Media",
-      "guest": "Maren Hamilton",
-      "item_id": "69f10ba40fa9c1cd94662fc8"
-    },
-    {
-      "podcast_index": "225",
-      "name": "Brand Marketing is a Comfortable Lie Without Product Marketing",
-      "guest": "Alex Maier",
-      "item_id": "695d8a20ee2d9010efcced66"
-    },
-    {
-      "podcast_index": "196",
-      "name": "Content in Motion: Traditional vs. Outdoor Sports ",
-      "guest": "Myles McCutcheon",
-      "item_id": "68225dfc7bb476527f8c4964"
-    },
-    {
-      "podcast_index": "221",
-      "name": "Creatives Aren\u2019t Commodities: Red Bull\u2019s Chris Whitten",
-      "guest": "Chris Whitten",
-      "item_id": "690ae463fa9187605c9d31ea"
-    },
-    {
-      "podcast_index": "118",
-      "name": "EP 118: Fire Your Marketing Guy | Stix Nilsen | Liquid Death",
-      "guest": "Stix Nilsen",
-      "item_id": "68225dfc7bb476527f8c489d"
-    },
-    {
-      "podcast_index": "156",
-      "name": "EP 156: The Missing Ingredient in Outdoor Storytelling",
-      "guest": "Cole Heilborn",
-      "item_id": "68225dfc7bb476527f8c491c"
-    },
-    {
-      "podcast_index": "159",
-      "name": "EP 159: Is Your Jacket Really Unique?",
-      "guest": "Cole Heilborn",
-      "item_id": "68225dfc7bb476527f8c491f"
-    },
-    {
-      "podcast_index": "161",
-      "name": "EP 161: The ROI of Brand Loyalty and Building Loyalty through Brand Storytelling",
-      "guest": "Cole Heilborn",
-      "item_id": "68225dfc7bb476527f8c4923"
-    },
-    {
-      "podcast_index": "162",
-      "name": "EP 162: Stop Marketing My Town - Marketing & Overtourism",
-      "guest": "Kylie Kullack ",
-      "item_id": "68225dfc7bb476527f8c4920"
-    },
-    {
-      "podcast_index": "163",
-      "name": "EP 163: The Bedrock of Storytelling - The Art of the Interview",
-      "guest": "Cole Heilborn",
-      "item_id": "68225dfc7bb476527f8c4924"
-    },
-    {
-      "podcast_index": "165",
-      "name": "EP 165: What Makes a Compelling Story?",
-      "guest": "Cole Heilborn",
-      "item_id": "68225dfc7bb476527f8c4926"
-    },
-    {
-      "podcast_index": "167",
-      "name": "EP 167: Can Storytelling Transform our Industry?",
-      "guest": "Cole Heilborn",
-      "item_id": "68225dfc7bb476527f8c4921"
-    },
-    {
-      "podcast_index": "168",
-      "name": "EP 168: When In Doubt, Care About Your Audience",
-      "guest": "Mike Rogge",
-      "item_id": "68225dfc7bb476527f8c4927"
-    },
-    {
-      "podcast_index": "169",
-      "name": "EP 169: What Can Democracy and Marvel Teach Us About Impactful Storytelling?",
-      "guest": "Cole Heilborn",
-      "item_id": "68225dfc7bb476527f8c492a"
-    },
-    {
-      "podcast_index": "173",
-      "name": "EP 173: Mountainfilm Uncovered: The Future of Storytelling in Marketing",
-      "guest": "Biz Young, Greg Balkin, Roo Smith",
-      "item_id": "68225dfc7bb476527f8c492b"
-    },
-    {
-      "podcast_index": "176",
-      "name": "EP 176: Back to the Basics - Performance Marketing is Changing",
-      "guest": "Diana Ochenrider",
-      "item_id": "68225dfc7bb476527f8c492f"
-    },
-    {
-      "podcast_index": "58",
-      "name": "EP 58: Drew Eakins | To Specialize or Not? | Hestra Gloves",
-      "guest": "Drew Eakins",
-      "item_id": "68225dfc7bb476527f8c485e"
-    },
-    {
-      "podcast_index": "68",
-      "name": "EP 68: Lloyd Vogel | Finding Success as a Cottage Brand | Garage Grown Gear",
-      "guest": "Lloyd Vogel",
-      "item_id": "68225dfc7bb476527f8c486a"
-    },
-    {
-      "podcast_index": "129",
-      "name": "EP: 129 | The Next Frontier in Product Sustainability | Amanda Smith | Monday Creative",
-      "guest": "Amanda Lee Smith",
-      "item_id": "68225dfc7bb476527f8c48a7"
-    },
-    {
-      "podcast_index": "130",
-      "name": "EP: 130 | How Brands Can Support Retail in 2023 | Davide Giardini | Full Cycle Bikes",
-      "guest": "Davide Giardini",
-      "item_id": "68225dfc7bb476527f8c48ab"
-    },
-    {
-      "podcast_index": "132",
-      "name": "EP: 132 How to Scale a Brand | Jon Bausman | Previously Vitality, Airhead Sports Group, Cabela's, and Columbia Sportswear",
-      "guest": "Jon Bausman",
-      "item_id": "68225dfc7bb476527f8c48a9"
-    },
-    {
-      "podcast_index": "134",
-      "name": "EP: 134 Building a Global Brand | Andrew Katz | Athletic Brewing Company",
-      "guest": "Andrew Katz",
-      "item_id": "68225dfc7bb476527f8c48aa"
-    },
-    {
-      "podcast_index": "135",
-      "name": "EP: 135 The Journey to Brand Maturity | Jonathan McKenzie | Turtlebox Audio",
-      "guest": "Jonathan McKenzie",
-      "item_id": "68225dfc7bb476527f8c48ac"
-    },
-    {
-      "podcast_index": "136",
-      "name": "EP: 136 Consumer Attention is Fragmented - Brands Need to Meet Consumers | Patrick Finnegan | Swanson Russell",
-      "guest": "Patrick Finnegan",
-      "item_id": "68225dfc7bb476527f8c48ad"
-    },
-    {
-      "podcast_index": "137",
-      "name": "EP: 137 Rebranding Gone Wrong | Brock Ellis | Mountain Equipment Company",
-      "guest": "Brock Ellis",
-      "item_id": "68225dfc7bb476527f8c48ae"
-    },
-    {
-      "podcast_index": "138",
-      "name": "EP: 138 How to Leverage YouTube as a Brand | Nick Symmonds | Nick Symmonds LLC",
-      "guest": "Nick Symmonds",
-      "item_id": "68225dfc7bb476527f8c48b0"
-    },
-    {
-      "podcast_index": "139",
-      "name": "EP: 139 The Power of Stories | Storytelling Series Part 1 of 4 | Roo Smith | Filmmaker",
-      "guest": "Roo Smith",
-      "item_id": "68225dfc7bb476527f8c48af"
-    },
-    {
-      "podcast_index": "140",
-      "name": "EP: 140 Understanding Your Audience | Storytelling Series Part 2 of 4 | Megan Prettyman | Gear Patrol",
-      "guest": "Megan Prettyman",
-      "item_id": "68225dfc7bb476527f8c48b1"
-    },
-    {
-      "podcast_index": "141",
-      "name": "EP: 141 Developing Insights | Storytelling Series Part 3 of 4 | Tony Sattler | Swanson Russell",
-      "guest": "Tony Sattler",
-      "item_id": "68225dfc7bb476527f8c48b2"
-    },
-    {
-      "podcast_index": "142",
-      "name": "EP: 142 | The Art of the Creative Brief | Storytelling Series Part 4 of 4 | Evan Swinehart | Lumenati",
-      "guest": "Evan Swinehart",
-      "item_id": "68225dfc7bb476527f8c4910"
-    },
-    {
-      "podcast_index": "143",
-      "name": "EP: 143  How to Start an Agency | Scot Keith | One Twenty Three West",
-      "guest": "Scot Keith",
-      "item_id": "68225dfc7bb476527f8c490e"
-    },
-    {
-      "podcast_index": "144",
-      "name": "EP: 144 | YouTube is the Future for Outdoor Media | Sam Van Boxtel | Climbers Crag",
-      "guest": "Sam Van Boxtel",
-      "item_id": "68225dfc7bb476527f8c490f"
-    },
-    {
-      "podcast_index": "146",
-      "name": "EP: 146 What is the Future of Industry Events?",
-      "guest": "Yoon Kim",
-      "item_id": "68225dfc7bb476527f8c4914"
-    },
-    {
-      "podcast_index": "147",
-      "name": "EP: 147 Strategy Roadmap: How to Develop a Business Strategy",
-      "guest": "Sharon Scott",
-      "item_id": "68225dfc7bb476527f8c4911"
-    },
-    {
-      "podcast_index": "148",
-      "name": "EP: 148 Is The \"Why\" Behind a Brand Still Important?",
-      "guest": "James Merrill",
-      "item_id": "68225dfc7bb476527f8c4912"
-    },
-    {
-      "podcast_index": "149",
-      "name": "EP: 149 Passion Alone Won't Land You The Job: How to Get Hired in 2024",
-      "guest": "Tony O'Neill",
-      "item_id": "68225dfc7bb476527f8c4913"
+      "source_file": "EP 241_How Brands Grow According to Research_Jenni Romaniuk.docx",
+      "file_ep": 241,
+      "reason": "no CMS row for episode 241"
     }
   ],
-  "kept_indexes": [
+  "kept_episode_numbers": [
     1,
     3,
     4,
@@ -271,15 +39,20 @@
     8,
     9,
     10,
+    11,
     12,
     14,
     16,
     17,
     18,
+    19,
+    20,
+    21,
     22,
     23,
     24,
     25,
+    26,
     27,
     28,
     29,
@@ -309,6 +82,7 @@
     54,
     56,
     57,
+    58,
     59,
     60,
     61,
@@ -317,6 +91,7 @@
     65,
     66,
     67,
+    68,
     69,
     70,
     71,
@@ -334,8 +109,11 @@
     83,
     84,
     85,
+    87,
+    88,
     90,
     91,
+    92,
     93,
     94,
     95,
@@ -354,6 +132,7 @@
     109,
     115,
     116,
+    118,
     119,
     120,
     121,
@@ -363,58 +142,102 @@
     125,
     126,
     127,
+    129,
+    130,
     131,
-    133,
+    132,
+    134,
+    135,
+    136,
+    137,
+    138,
+    139,
+    140,
+    141,
+    142,
+    143,
+    144,
     145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152,
     154,
+    155,
+    156,
     157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
     164,
+    165,
+    166,
+    168,
+    170,
+    172,
     174,
+    175,
+    176,
     177,
     178,
+    179,
+    180,
     181,
     182,
     183,
+    184,
     185,
+    186,
+    187,
     188,
+    189,
     190,
     191,
     192,
-    195
-  ],
-  "sam_van_boxtel": [
-    {
-      "podcast_index": "131",
-      "name": "EP: 131  How Brands are Wasting Money on Social media | Sam Van Boxtel | Climbers Crag",
-      "has_transcript": true,
-      "docx": [
-        "Sam Van Boxtel audio episode.docx"
-      ]
-    },
-    {
-      "podcast_index": "144",
-      "name": "EP: 144 | YouTube is the Future for Outdoor Media | Sam Van Boxtel | Climbers Crag",
-      "has_transcript": false,
-      "docx": []
-    }
-  ],
-  "justine": [
-    {
-      "podcast_index": "52",
-      "name": "Ep 53: Justine Mulliez | Creatives in the Wild | Just a Wild Thought",
-      "has_transcript": false,
-      "kept": false,
-      "docx": []
-    },
-    {
-      "podcast_index": "95",
-      "name": "Ep 95: Dealing With Money As A Freelancer | Justine Mulliez | Just a Wild Thought",
-      "has_transcript": true,
-      "kept": true,
-      "docx": [
-        "EP 99. Dealing with Money as a Freelancer _ Justine Mulliez _ Just a Wild Thought (1).docx"
-      ]
-    }
+    193,
+    194,
+    195,
+    196,
+    197,
+    199,
+    200,
+    201,
+    202,
+    203,
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210,
+    212,
+    213,
+    214,
+    215,
+    216,
+    218,
+    220,
+    221,
+    222,
+    223,
+    224,
+    225,
+    226,
+    228,
+    229,
+    230,
+    231,
+    232,
+    234,
+    235,
+    238
   ],
   "output_csv": "/Users/nathanlindahl/Library/CloudStorage/Dropbox/freelance/portside-pro/chatbot/portside-productions-chat/Transcripts/Port Side - Podcast-feeds - curated.csv"
 }

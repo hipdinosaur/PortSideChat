@@ -3,9 +3,12 @@
 Curate the merged CMS CSV for Supabase upload.
 
 Keeps only episodes that:
-  - were linked to a local .docx (filled or already_present in the merge report)
+  - had a local .docx merged into them (status "filled" in the merge report)
   - are not throwbacks / re-publishes
-  - have a non-empty Transcript
+  - have a non-empty Transcript and a Slug (the chatbot cites by web_url)
+
+Episodes whose only transcript came from the CMS export are dropped: the
+corpus is deliberately limited to the verified docx set.
 
 Writes:
   Transcripts/Port Side - Podcast-feeds - curated.csv
@@ -22,8 +25,18 @@ from pathlib import Path
 
 
 def is_throwback(row: dict) -> bool:
-    name = row.get("Name") or ""
-    return bool(re.search(r"\bthrowback\b|\bre-?publish\b|\bencore\b", name, re.I))
+    return bool(
+        re.search(r"\bthrowback\b|\bre-?publish\b|\bencore\b", row.get("Name") or "", re.I)
+    )
+
+
+def meta(row: dict) -> dict:
+    return {
+        "podcast_index": row.get("Podcast Index"),
+        "name": row.get("Name"),
+        "guest": row.get("Guest Name"),
+        "item_id": row.get("Item ID"),
+    }
 
 
 def main() -> None:
@@ -52,16 +65,12 @@ def main() -> None:
     args = parser.parse_args()
 
     report = json.loads(args.report.read_text(encoding="utf-8"))
-    keep_ids: set[str] = set()
     docx_by_item: dict[str, list[str]] = {}
     for d in report.get("decisions", []):
-        if d.get("status") not in {"filled", "already_present"}:
+        if d.get("status") != "filled" or not d.get("item_id"):
             continue
-        iid = d.get("item_id")
-        if not iid:
-            continue
-        keep_ids.add(iid)
-        docx_by_item.setdefault(iid, []).append(d.get("source_file") or "")
+        docx_by_item.setdefault(d["item_id"], []).append(d.get("source_file") or "")
+    keep_ids = set(docx_by_item)
 
     with args.merged_csv.open(newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -72,29 +81,19 @@ def main() -> None:
     dropped_throwback: list[dict] = []
     dropped_no_docx: list[dict] = []
     dropped_no_transcript: list[dict] = []
+    dropped_no_slug: list[dict] = []
 
     for row in rows:
-        iid = row.get("Item ID") or ""
-        name = row.get("Name") or ""
-        has_t = bool((row.get("Transcript") or "").strip())
-        meta = {
-            "podcast_index": row.get("Podcast Index"),
-            "name": name,
-            "guest": row.get("Guest Name"),
-            "item_id": iid,
-        }
-
         if is_throwback(row):
-            dropped_throwback.append(meta)
-            continue
-        if iid not in keep_ids:
-            dropped_no_docx.append(meta)
-            continue
-        if not has_t:
-            dropped_no_transcript.append(meta)
-            continue
-
-        kept.append(row)
+            dropped_throwback.append(meta(row))
+        elif (row.get("Item ID") or "") not in keep_ids:
+            dropped_no_docx.append(meta(row))
+        elif not (row.get("Transcript") or "").strip():
+            dropped_no_transcript.append(meta(row))
+        elif not (row.get("Slug") or "").strip():
+            dropped_no_slug.append(meta(row))
+        else:
+            kept.append(row)
 
     args.out_csv.parent.mkdir(parents=True, exist_ok=True)
     with args.out_csv.open("w", newline="", encoding="utf-8") as f:
@@ -102,57 +101,44 @@ def main() -> None:
         writer.writeheader()
         writer.writerows(kept)
 
+    multi = {k: v for k, v in docx_by_item.items() if len(v) > 1}
     summary = {
         "source_merged_csv": str(args.merged_csv),
         "merge_report": str(args.report),
         "episodes_in_merged": len(rows),
         "episodes_kept": len(kept),
+        "docx_backed_items": len(keep_ids),
         "dropped_throwback": dropped_throwback,
         "dropped_no_local_docx": len(dropped_no_docx),
         "dropped_no_transcript": dropped_no_transcript,
-        "dropped_no_docx_sample": dropped_no_docx[:40],
-        "kept_indexes": sorted(
+        "dropped_no_slug": dropped_no_slug,
+        "items_with_multiple_docx": multi,
+        "unmatched_docx": report.get("unmatched", []),
+        "kept_episode_numbers": sorted(
             {
                 int(r["Podcast Index"])
                 for r in kept
                 if str(r.get("Podcast Index") or "").isdigit()
             }
         ),
-        "sam_van_boxtel": [
-            {
-                "podcast_index": r.get("Podcast Index"),
-                "name": r.get("Name"),
-                "has_transcript": bool((r.get("Transcript") or "").strip()),
-                "docx": docx_by_item.get(r["Item ID"], []),
-            }
-            for r in rows
-            if "van boxtel" in ((r.get("Guest Name") or "") + (r.get("Name") or "")).lower()
-        ],
-        "justine": [
-            {
-                "podcast_index": r.get("Podcast Index"),
-                "name": r.get("Name"),
-                "has_transcript": bool((r.get("Transcript") or "").strip()),
-                "kept": r["Item ID"] in {x["Item ID"] for x in kept},
-                "docx": docx_by_item.get(r["Item ID"], []),
-            }
-            for r in rows
-            if "justine" in ((r.get("Guest Name") or "") + (r.get("Name") or "")).lower()
-        ],
         "output_csv": str(args.out_csv),
     }
-    args.summary.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    args.summary.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
 
     print("=== Curated transcript corpus ===")
-    print(f"Merged episodes:     {len(rows)}")
-    print(f"Kept (docx-backed):  {len(kept)}")
-    print(f"Dropped throwbacks:  {len(dropped_throwback)}")
+    print(f"Merged episodes:       {len(rows)}")
+    print(f"Docx-backed items:     {len(keep_ids)}")
+    print(f"Kept:                  {len(kept)}")
+    print(f"Dropped throwbacks:    {len(dropped_throwback)}")
     for t in dropped_throwback:
         print(f"  - EP {t['podcast_index']}: {t['name']}")
     print(f"Dropped no local docx: {len(dropped_no_docx)}")
     print(f"Dropped no transcript: {len(dropped_no_transcript)}")
-    print(f"Wrote: {args.out_csv}")
-    print(f"Summary: {args.summary}")
+    print(f"Dropped no slug:       {len(dropped_no_slug)}")
+    for t in dropped_no_slug:
+        print(f"  - EP {t['podcast_index']}: {t['name']}")
+    print(f"Wrote:                 {args.out_csv}")
+    print(f"Summary:               {args.summary}")
 
 
 if __name__ == "__main__":

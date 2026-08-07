@@ -18,46 +18,23 @@ const SUGGESTIONS = [
 
 const PORTSIDE_URL = 'https://www.portsidepro.com';
 /** Retrieval returns many chunks per answer; show a few episodes, not all. */
-const MAX_SOURCES = 4;
+
 /** Keep in sync with `$transition-exit` in chat-window.scss */
 const EXIT_MS = 700;
 const GATE_LABEL = 'Login to continue';
 
 type Phase = 'landing' | 'exiting' | 'chat';
-type Source = {
-  episode_name: string;
-  podcast_index: number | null;
-  guest_name: string | null;
-  web_url: string;
-};
+
 type Message =
   | { role: 'user'; content: string }
-  | { role: 'assistant'; content: string; sources?: Source[] }
+  | { role: 'assistant'; content: string }
   | { role: 'gate'; content: typeof GATE_LABEL };
 type ConversationHistory = { role: 'user' | 'assistant'; content: string };
 type LoginReason = 'gate' | 'manual';
 
-/** Several chunks usually share an episode; collapse to one link each. */
-function dedupeSources(sources: unknown): Source[] {
-  if (!Array.isArray(sources)) return [];
-  const seen = new Set<string>();
-  const unique: Source[] = [];
-  for (const source of sources as Source[]) {
-    if (!source?.web_url || seen.has(source.web_url)) continue;
-    seen.add(source.web_url);
-    unique.push(source);
-    if (unique.length === MAX_SOURCES) break;
-  }
-  return unique;
-}
 
-function sourceLabel(source: Source): string {
-  const episode =
-    source.podcast_index != null
-      ? `EP ${source.podcast_index}`
-      : source.episode_name;
-  return source.guest_name ? `${episode} — ${source.guest_name}` : episode;
-}
+
+
 
 const ChatWindow = () => {
   const { accessToken, isAuthenticated } = useAuth();
@@ -193,7 +170,7 @@ const ChatWindow = () => {
 
       const data = await res.json();
       const answer = data.answer;
-      const sources = dedupeSources(data.sources);
+      
 
       const wasGuest = !isAuthenticated;
       if (wasGuest) {
@@ -208,7 +185,7 @@ const ChatWindow = () => {
       setMessages((prev) => {
         const next: Message[] = [
           ...prev,
-          { role: 'assistant', content: sanitizedHtml, sources },
+          { role: 'assistant', content: sanitizedHtml },
         ];
         if (wasGuest) {
           next.push({ role: 'gate', content: GATE_LABEL });
@@ -331,26 +308,7 @@ const ChatWindow = () => {
                       {msg.role === 'assistant'
                         ? parseHtml(msg.content)
                         : msg.content}
-                      {msg.role === 'assistant' && msg.sources?.length ? (
-                        <div className="message__sources">
-                          <span className="message__sources-label">
-                            Sources
-                          </span>
-                          <ul className="message__sources-list">
-                            {msg.sources.map((source) => (
-                              <li key={source.web_url}>
-                                <a
-                                  href={source.web_url}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                >
-                                  {sourceLabel(source)}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ) : null}
+                          
                     </div>
                   ),
                 )}
