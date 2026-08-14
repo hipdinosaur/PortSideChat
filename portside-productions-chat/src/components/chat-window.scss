@@ -44,7 +44,7 @@ $easing: cubic-bezier(.3,0,0,1);
 
 .chat-window--exiting .chat-window__backdrop-image--soft,
 .chat-window--chat .chat-window__backdrop-image--soft {
-  opacity: 0.13;
+  opacity: 0.2;
 }
 
 .chat-window__grid {
@@ -53,27 +53,19 @@ $easing: cubic-bezier(.3,0,0,1);
   background-image:
     linear-gradient(
       to right,
-      rgba(255, 255, 255, 0.22) 0,
-      rgba(255, 255, 255, 0.22) 1px,
+      rgba(120, 120, 120, 0.05) 0,
+      rgba(120, 120, 120, 0.05) 1px,
       transparent 1px
     ),
     linear-gradient(
       to bottom,
-      rgba(255, 255, 255, 0.22) 0,
-      rgba(255, 255, 255, 0.22) 1px,
+      rgba(120, 120, 120, 0.05) 0,
+      rgba(120, 120, 120, 0.05) 1px,
       transparent 1px
     );
   /* Approximate Figma guides: 4 vertical columns × 4 horizontal bands */
   background-size: 25% 100%, 100% 25%;
   background-position: 0 0, 0 0;
-  mix-blend-mode: soft-light;
-  opacity: 0.5;
-  transition: opacity 0.7s $easing;
-}
-
-.chat-window--exiting .chat-window__grid,
-.chat-window--chat .chat-window__grid {
-  opacity: 0.35;
 }
 
 .chat-window__header {
@@ -528,11 +520,33 @@ $easing: cubic-bezier(.3,0,0,1);
     inset: 0;
     border-radius: var(--radius-glass);
     background: var(--glass);
-    border: 0.5px solid var(--white);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     pointer-events: none;
     z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-glass);
+    padding: 0.5px;
+    background: radial-gradient(
+      80.63% 80.51% at 81.75% -10.24%,
+      #fff 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
   }
 
   .chat-input__inner {
