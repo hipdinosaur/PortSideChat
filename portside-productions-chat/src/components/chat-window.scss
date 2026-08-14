@@ -223,8 +223,9 @@ $easing: cubic-bezier(.3,0,0,1);
 }
 
 .question-marquee {
-  width: 100vw;
-  margin-inline: calc(50% - 50vw);
+  width: calc(100% + 80px);
+  max-width: calc(var(--column-width) + 80px);
+  margin-inline: -40px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -232,15 +233,15 @@ $easing: cubic-bezier(.3,0,0,1);
   mask-image: linear-gradient(
     to right,
     transparent,
-    #000 72px,
-    #000 calc(100% - 72px),
+    #000 40px,
+    #000 calc(100% - 40px),
     transparent
   );
   -webkit-mask-image: linear-gradient(
     to right,
     transparent,
-    #000 72px,
-    #000 calc(100% - 72px),
+    #000 40px,
+    #000 calc(100% - 40px),
     transparent
   );
 
@@ -570,41 +571,6 @@ $easing: cubic-bezier(.3,0,0,1);
   background: transparent;
   overflow: visible;
 
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: var(--radius-glass);
-    background: var(--glass);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: var(--radius-glass);
-    padding: 0.5px;
-    background: radial-gradient(
-      80.63% 80.51% at 81.75% -10.24%,
-      #fff 0%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    pointer-events: none;
-    z-index: 0;
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-  }
-
   .chat-input__inner {
     position: relative;
     z-index: 1;
@@ -621,6 +587,50 @@ $easing: cubic-bezier(.3,0,0,1);
 
 .chat-input:not(.chat-input--landing) .chat-input__inner {
   display: contents;
+}
+
+.chat-input__glass {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-glass);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.chat-input__glass-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.chat-input__glass-stroke {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  isolation: isolate;
+}
+
+.chat-input__glass-stroke::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    80.63% 80.51% at 81.75% -10.24%,
+    #fff 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.chat-input__glass-stroke-cut {
+  position: absolute;
+  inset: 0.5px;
+  border-radius: calc(var(--radius-glass) - 0.5px);
+  background: #000;
+  mix-blend-mode: destination-out;
 }
 
 .chat-input__field {
@@ -768,20 +778,9 @@ $easing: cubic-bezier(.3,0,0,1);
   }
 
   .question-marquee {
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      #000 24px,
-      #000 calc(100% - 24px),
-      transparent
-    );
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent,
-      #000 24px,
-      #000 calc(100% - 24px),
-      transparent
-    );
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
   }
 
   .message--user,

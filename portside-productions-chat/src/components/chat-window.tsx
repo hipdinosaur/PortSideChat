@@ -425,6 +425,14 @@ function ChatInput({
     <div
       className={`chat-input${filled ? ' chat-input--filled' : ''}${landing ? ' chat-input--landing' : ''}`}
     >
+      {landing && (
+        <div className="chat-input__glass" aria-hidden="true">
+          <span className="chat-input__glass-fill" />
+          <span className="chat-input__glass-stroke">
+            <span className="chat-input__glass-stroke-cut" />
+          </span>
+        </div>
+      )}
       <div className="chat-input__inner">
         <div className="chat-input__field">
           <label htmlFor={inputId} className="chat-input__label">
