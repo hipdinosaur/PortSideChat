@@ -10,10 +10,33 @@ import { supabase } from '../lib/supabase';
 import loginArrow from '../assets/icon-login-arrow.svg';
 import './chat-window.scss';
 
-const SUGGESTIONS = [
-  "What's unique about marketing for the outdoor industry?",
-  'How do I build an audience for my outdoor brand?',
-  'How do you justify content marketing spend to leadership?',
+const SUGGESTION_ROWS = [
+  [
+    "What's unique about marketing for the outdoor industry?",
+    'How do I build an audience for my outdoor brand?',
+    'What are the best social media platforms for outdoor enthusiasts?',
+    'How can I leverage influencer marketing to promote my outdoor gear?',
+    'What content strategies engage hikers and campers effectively?',
+    'How do I create compelling storytelling around my outdoor products?',
+    'How do you justify content marketing spend to leadership?',
+  ],
+  [
+    "What partnerships can help expand my outdoor brand's reach?",
+    'How do I optimize my website for outdoor adventure seekers?',
+    'What role does sustainability play in attracting outdoor consumers?',
+    'How do I find my brand voice on social?',
+    'How should brands support retail partners?',
+    "What's the difference between building a brand and an online retailer?",
+    'How do I work with an agency on outdoor campaigns?',
+  ],
+  [
+    'What makes a compelling outdoor story?',
+    'How do I develop consumer insights for my brand?',
+    'Is print media still relevant for outdoor brands?',
+    'How can brands use YouTube effectively?',
+    'How do I scale an outdoor brand?',
+    'How do I hire and build a high-performing marketing team?',
+  ],
 ] as const;
 
 const PORTSIDE_URL = 'https://www.portsidepro.com';
@@ -266,17 +289,38 @@ const ChatWindow = () => {
                 onChange={setInput}
                 onSubmit={() => handleSend()}
               />
-              <div className="chat-landing__suggestions">
-                {SUGGESTIONS.map((suggestion) => (
-                  <button
-                    key={suggestion}
-                    type="button"
-                    className="chat-suggestion"
-                    onClick={() => handleSend(suggestion)}
-                    disabled={loading || phase !== 'landing' || submitLocked}
+              <div
+                className="question-marquee"
+                aria-label="Suggested questions"
+              >
+                {SUGGESTION_ROWS.map((row, rowIndex) => (
+                  <div
+                    key={rowIndex}
+                    className={`question-marquee__row question-marquee__row--${rowIndex + 1}`}
                   >
-                    {suggestion}
-                  </button>
+                    {[0, 1].map((copy) => (
+                      <div
+                        key={copy}
+                        className="question-marquee__group"
+                        aria-hidden={copy === 1}
+                      >
+                        {row.map((suggestion) => (
+                          <button
+                            key={`${copy}-${suggestion}`}
+                            type="button"
+                            className="chat-suggestion"
+                            tabIndex={copy === 1 ? -1 : undefined}
+                            onClick={() => handleSend(suggestion)}
+                            disabled={
+                              loading || phase !== 'landing' || submitLocked
+                            }
+                          >
+                            {suggestion}
+                          </button>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
                 ))}
               </div>
             </div>

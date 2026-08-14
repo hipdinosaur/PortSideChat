@@ -222,11 +222,65 @@ $easing: cubic-bezier(.3,0,0,1);
   gap: 48px;
 }
 
-.chat-landing__suggestions {
+.question-marquee {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 12px;
-  align-items: flex-start;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 72px,
+    #000 calc(100% - 72px),
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 72px,
+    #000 calc(100% - 72px),
+    transparent
+  );
+
+  &:hover,
+  &:focus-within {
+    .question-marquee__row {
+      animation-play-state: paused;
+    }
+  }
+}
+
+.question-marquee__row {
+  display: flex;
+  width: max-content;
+  animation: question-marquee 48s linear infinite;
+}
+
+.question-marquee__row--2 {
+  animation-duration: 56s;
+  animation-delay: -18s;
+}
+
+.question-marquee__row--3 {
+  animation-duration: 42s;
+  animation-delay: -9s;
+}
+
+.question-marquee__group {
+  display: flex;
+  gap: 12px;
+  padding-right: 12px;
+}
+
+@keyframes question-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .chat-suggestion {
@@ -243,6 +297,8 @@ $easing: cubic-bezier(.3,0,0,1);
   border-radius: var(--radius-button);
   cursor: pointer;
   text-align: center;
+  white-space: nowrap;
+  flex-shrink: 0;
 
   &:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.08);
@@ -667,7 +723,8 @@ $easing: cubic-bezier(.3,0,0,1);
   .chat-window__grid,
   .chat-window__main,
   .chat-landing,
-  .chat-window__conversation {
+  .chat-window__conversation,
+  .question-marquee__row {
     transition: none !important;
     animation: none !important;
   }
@@ -710,12 +767,21 @@ $easing: cubic-bezier(.3,0,0,1);
     gap: 24px;
   }
 
-  .chat-landing__suggestions {
-    flex-direction: column;
-  }
-
-  .chat-suggestion {
-    width: 100%;
+  .question-marquee {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 24px,
+      #000 calc(100% - 24px),
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 24px,
+      #000 calc(100% - 24px),
+      transparent
+    );
   }
 
   .message--user,
