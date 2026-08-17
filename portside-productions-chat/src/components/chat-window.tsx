@@ -567,14 +567,8 @@ const ChatWindow = () => {
                     like this one.
                   </p>
                 </div>
-                <a
-                  className="chat-support__bmc"
-                  href={BUY_ME_A_COFFEE_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img src={bmcButton} alt="Buy me a coffee" />
-                </a>
+                <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="coleheilborn" data-color="#f31b13" data-emoji="🔊"  data-font="Arial" data-text="Want To Support Us?" data-outline-color="#ffffff" data-font-color="#ffffff" data-coffee-color="#FFDD00" ></script>
+
               </div>
               <div className="chat-support__footer">
                 <a href={PORTSIDE_URL} target="_blank" rel="noreferrer">
