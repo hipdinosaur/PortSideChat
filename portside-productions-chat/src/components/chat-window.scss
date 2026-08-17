@@ -5,7 +5,7 @@ $easing: cubic-bezier(.3,0,0,1);
   --lyr-y: -35%;
   --lyr: radial-gradient(
     105% 86% at var(--lyr-x) var(--lyr-y),
-    var(235,255,245) 0%,
+    rgba(255,255,255, 1) 0%,
     rgba(255, 255, 255, 0) 100%
   );
   position: relative;
