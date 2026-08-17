@@ -455,10 +455,11 @@ function ChatInput({
     >
       {landing && (
         <div className="chat-input__glass" aria-hidden="true">
-          <span className="chat-input__glass-fill" />
+          
           <span className="chat-input__glass-stroke">
             <span className="chat-input__glass-stroke-cut" />
           </span>
+          <span className="chat-input__glass-fill" />
         </div>
       )}
       <div className="chat-input__inner">
