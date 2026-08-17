@@ -8,7 +8,6 @@ import { useAuth } from '../hooks/use-auth';
 import { hasUsedFreeChat, markFreeChatUsed } from '../lib/free-chat';
 import { supabase } from '../lib/supabase';
 import loginArrow from '../assets/icon-login-arrow.svg';
-import bmcButton from '../assets/bmc-button.png';
 import './chat-window.scss';
 
 const SUGGESTION_ROWS = [
@@ -42,7 +41,6 @@ const SUGGESTION_ROWS = [
 
 const PORTSIDE_URL = 'https://www.portsidepro.com';
 const PRIVACY_URL = `${PORTSIDE_URL}/privacy-policy`;
-const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/portsidepro';
 /** Retrieval returns many chunks per answer; show a few episodes, not all. */
 
 /** Keep in sync with `$transition-exit` in chat-window.scss */
