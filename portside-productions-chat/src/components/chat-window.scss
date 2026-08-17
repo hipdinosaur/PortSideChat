@@ -259,16 +259,6 @@ $easing: cubic-bezier(.3,0,0,1);
   animation: question-marquee 48s linear infinite;
 }
 
-.question-marquee__row--2 {
-  animation-duration: 56s;
-  animation-delay: -18s;
-}
-
-.question-marquee__row--3 {
-  animation-duration: 42s;
-  animation-delay: -9s;
-}
-
 .question-marquee__group {
   display: flex;
   gap: 12px;

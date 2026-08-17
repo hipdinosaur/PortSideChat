@@ -45,6 +45,7 @@ const PORTSIDE_URL = 'https://www.portsidepro.com';
 /** Keep in sync with `$transition-exit` in chat-window.scss */
 const EXIT_MS = 700;
 const GATE_LABEL = 'Login to continue';
+const MARQUEE_PX_PER_SEC = 40;
 
 type Phase = 'landing' | 'exiting' | 'chat';
 
@@ -69,6 +70,7 @@ const ChatWindow = () => {
   const [loginReason, setLoginReason] = useState<LoginReason>('manual');
   const [freeChatUsed, setFreeChatUsed] = useState(hasUsedFreeChat);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const marqueeRef = useRef<HTMLDivElement>(null);
   const conversationHistory = useRef<ConversationHistory[]>([]);
   const exitFallbackRef = useRef<number | null>(null);
 
@@ -89,6 +91,34 @@ const ChatWindow = () => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    const root = marqueeRef.current;
+    if (!root) return;
+
+    const syncDurations = () => {
+      root.querySelectorAll<HTMLElement>('.question-marquee__row').forEach((row) => {
+        const group = row.querySelector<HTMLElement>('.question-marquee__group');
+        if (!group) return;
+        row.style.animationDuration = `${group.offsetWidth / MARQUEE_PX_PER_SEC}s`;
+      });
+    };
+
+    let cancelled = false;
+    const syncIfMounted = () => {
+      if (!cancelled) syncDurations();
+    };
+
+    syncIfMounted();
+    const observer = new ResizeObserver(syncIfMounted);
+    observer.observe(root);
+    document.fonts?.ready.then(syncIfMounted);
+
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+    };
+  }, [showLanding]);
 
   useEffect(() => {
     if (isAuthenticated && loginOpen) {
@@ -290,14 +320,12 @@ const ChatWindow = () => {
                 onSubmit={() => handleSend()}
               />
               <div
+                ref={marqueeRef}
                 className="question-marquee"
                 aria-label="Suggested questions"
               >
                 {SUGGESTION_ROWS.map((row, rowIndex) => (
-                  <div
-                    key={rowIndex}
-                    className={`question-marquee__row question-marquee__row--${rowIndex + 1}`}
-                  >
+                  <div key={rowIndex} className="question-marquee__row">
                     {[0, 1].map((copy) => (
                       <div
                         key={copy}
