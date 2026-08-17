@@ -1,5 +1,12 @@
 $easing: cubic-bezier(.3,0,0,1);
 .chat-window {
+  --lyr-x: 17%;
+  --lyr-y: -35%;
+  --lyr: radial-gradient(
+    55% 75% at var(--lyr-x) var(--lyr-y),
+    var(--white) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
   position: relative;
   width: 100%;
   min-height: 100svh;
@@ -9,6 +16,45 @@ $easing: cubic-bezier(.3,0,0,1);
   overflow: clip;
   background: var(--bg);
   color: var(--text);
+}
+
+/* TEMP: lyric gradient position debug */
+.lyr-debug {
+  position: fixed;
+  z-index: 9999;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 11px;
+  line-height: 1.2;
+  pointer-events: auto;
+}
+
+.lyr-debug__control {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 160px;
+}
+
+.lyr-debug__label {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.lyr-debug input[type='range'] {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--accent);
 }
 
 .chat-window__backdrop {
@@ -560,6 +606,7 @@ $easing: cubic-bezier(.3,0,0,1);
   border-radius: var(--radius-glass);
   background: transparent;
   overflow: visible;
+  position: relative;
 
   .chat-input__inner {
     position: relative;
@@ -594,34 +641,32 @@ $easing: cubic-bezier(.3,0,0,1);
   background: var(--glass);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  
 }
 
 .chat-input__glass-stroke {
   position: absolute;
-  inset: 0;
+  z-index: 1;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
   border-radius: inherit;
-  isolation: isolate;
-}
+  &:before {
+    content: '';
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    border-radius: inherit;
+    border: 1px solid #fff;
+    mask: var(--lyr) padding-box exclude, var(--lyr);
 
-.chat-input__glass-stroke::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    80.63% 80.51% at 81.75% -10.24%,
-    #fff 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
-}
+  }
 
-.chat-input__glass-stroke-cut {
-  position: absolute;
-  inset: 0.5px;
-  border-radius: calc(var(--radius-glass) - 0.5px);
-  background: rbga(0, 0, 0, 0);
-  mix-blend-mode: destination-out;
-}
+}   
+
 
 .chat-input__field {
   position: relative;

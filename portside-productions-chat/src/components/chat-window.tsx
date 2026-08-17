@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useId } from 'react';
+import { useState, useEffect, useRef, useId, type CSSProperties } from 'react';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import parseHtml from 'html-react-parser';
@@ -46,6 +46,68 @@ const PORTSIDE_URL = 'https://www.portsidepro.com';
 const EXIT_MS = 700;
 const GATE_LABEL = 'Login to continue';
 const MARQUEE_PX_PER_SEC = 40;
+const LYR_DEFAULT_X = 17;
+const LYR_DEFAULT_Y = -35;
+const LYR_GLASS_RIGHT_X = 100;
+const LYR_SCREEN_RIGHT_X = 143;
+const LYR_TOP_Y = 0;
+const LYR_BOTTOM_Y = 80;
+const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
+const LYR_MOUSE_TRACKING = true;
+
+function nearestGlassRect(
+  root: HTMLElement,
+  clientX: number,
+  clientY: number,
+): DOMRect | null {
+  const glasses = root.querySelectorAll<HTMLElement>('.chat-input__glass');
+  let best: DOMRect | null = null;
+  let bestDist = Infinity;
+
+  glasses.forEach((el) => {
+    const rect = el.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return;
+    const clampedX = Math.min(Math.max(clientX, rect.left), rect.right);
+    const clampedY = Math.min(Math.max(clientY, rect.top), rect.bottom);
+    const dist =
+      (clientX - clampedX) * (clientX - clampedX) +
+      (clientY - clampedY) * (clientY - clampedY);
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = rect;
+    }
+  });
+
+  return best;
+}
+
+function lyrFromMouse(
+  clientX: number,
+  clientY: number,
+  glass: DOMRect,
+): { x: number; y: number } {
+  const viewportRight = window.innerWidth;
+  let x: number;
+  if (clientX <= glass.right || viewportRight <= glass.right) {
+    x = ((clientX - glass.left) / glass.width) * LYR_GLASS_RIGHT_X;
+  } else {
+    const t = (clientX - glass.right) / (viewportRight - glass.right);
+    x =
+      LYR_GLASS_RIGHT_X +
+      t * (LYR_SCREEN_RIGHT_X - LYR_GLASS_RIGHT_X);
+  }
+
+  const y = Math.min(
+    LYR_BOTTOM_Y,
+    Math.max(
+      LYR_TOP_Y,
+      ((clientY - glass.top) / glass.height) * (LYR_BOTTOM_Y - LYR_TOP_Y) +
+        LYR_TOP_Y,
+    ),
+  );
+
+  return { x, y };
+}
 
 type Phase = 'landing' | 'exiting' | 'chat';
 
@@ -69,6 +131,9 @@ const ChatWindow = () => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [loginReason, setLoginReason] = useState<LoginReason>('manual');
   const [freeChatUsed, setFreeChatUsed] = useState(hasUsedFreeChat);
+  const [lyrX, setLyrX] = useState(LYR_DEFAULT_X);
+  const [lyrY, setLyrY] = useState(LYR_DEFAULT_Y);
+  const rootRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
   const conversationHistory = useRef<ConversationHistory[]>([]);
@@ -133,6 +198,76 @@ const ChatWindow = () => {
       return [...prev, { role: 'gate', content: GATE_LABEL }];
     });
   }, [submitLocked, showChat]);
+
+  useEffect(() => {
+    if (!LYR_MOUSE_TRACKING) return;
+
+    const root = rootRef.current;
+    if (!root) return;
+
+    const finePointer = window.matchMedia(FINE_POINTER_QUERY);
+    let frame = 0;
+    let nextX = LYR_DEFAULT_X;
+    let nextY = LYR_DEFAULT_Y;
+
+    const applyLyr = (x: number, y: number) => {
+      setLyrX(Math.round(x * 10) / 10);
+      setLyrY(Math.round(y * 10) / 10);
+    };
+
+    const resetLyr = () => {
+      nextX = LYR_DEFAULT_X;
+      nextY = LYR_DEFAULT_Y;
+      applyLyr(LYR_DEFAULT_X, LYR_DEFAULT_Y);
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerType === 'touch' || event.pointerType === 'pen') {
+        resetLyr();
+        return;
+      }
+      if (!finePointer.matches && event.pointerType !== 'mouse') return;
+
+      const glass = nearestGlassRect(root, event.clientX, event.clientY);
+      if (!glass) {
+        resetLyr();
+        return;
+      }
+
+      const { x, y } = lyrFromMouse(event.clientX, event.clientY, glass);
+      nextX = x;
+      nextY = y;
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        applyLyr(nextX, nextY);
+      });
+    };
+
+    const onPointerLeaveWindow = (event: MouseEvent) => {
+      if (event.relatedTarget != null) return;
+      resetLyr();
+    };
+
+    const onFinePointerChange = () => {
+      if (!finePointer.matches) resetLyr();
+    };
+
+    applyLyr(LYR_DEFAULT_X, LYR_DEFAULT_Y);
+    window.addEventListener('pointermove', onPointerMove);
+    document.documentElement.addEventListener('mouseleave', onPointerLeaveWindow);
+    finePointer.addEventListener('change', onFinePointerChange);
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener('pointermove', onPointerMove);
+      document.documentElement.removeEventListener(
+        'mouseleave',
+        onPointerLeaveWindow,
+      );
+      finePointer.removeEventListener('change', onFinePointerChange);
+    };
+  }, []);
 
   function openLogin(reason: LoginReason) {
     setLoginReason(reason);
@@ -268,7 +403,47 @@ const ChatWindow = () => {
   }
 
   return (
-    <div className={`chat-window chat-window--${phase}`}>
+    <div
+      ref={rootRef}
+      className={`chat-window chat-window--${phase}`}
+      style={
+        {
+          '--lyr-x': `${lyrX}%`,
+          '--lyr-y': `${lyrY}%`,
+          '--lyr': `radial-gradient(55% 75% at ${lyrX}% ${lyrY}%, var(--white) 0%, rgba(255, 255, 255, 0) 100%)`,
+        } as CSSProperties
+      }
+    >
+      <div className="lyr-debug">
+        <label className="lyr-debug__control">
+          <span className="lyr-debug__label">
+            <span>lyr X</span>
+            <span>{lyrX}%</span>
+          </span>
+          <input
+            type="range"
+            min={-50}
+            max={160}
+            step={0.1}
+            value={lyrX}
+            onChange={(e) => setLyrX(Number(e.target.value))}
+          />
+        </label>
+        <label className="lyr-debug__control">
+          <span className="lyr-debug__label">
+            <span>lyr Y</span>
+            <span>{lyrY}%</span>
+          </span>
+          <input
+            type="range"
+            min={-80}
+            max={80}
+            step={0.1}
+            value={lyrY}
+            onChange={(e) => setLyrY(Number(e.target.value))}
+          />
+        </label>
+      </div>
       <div className="chat-window__backdrop" aria-hidden="true">
         <div className="chat-window__backdrop-image chat-window__backdrop-image--sharp" />
         <div className="chat-window__backdrop-image chat-window__backdrop-image--soft" />
@@ -455,10 +630,9 @@ function ChatInput({
     >
       {landing && (
         <div className="chat-input__glass" aria-hidden="true">
+          
+          <span className="chat-input__glass-stroke" />
           <span className="chat-input__glass-fill" />
-          <span className="chat-input__glass-stroke">
-            <span className="chat-input__glass-stroke-cut" />
-          </span>
           
         </div>
       )}
