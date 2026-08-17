@@ -233,14 +233,14 @@ $easing: cubic-bezier(.3,0,0,1);
   mask-image: linear-gradient(
     to right,
     transparent,
-    #000 40px,
+    #000 80px,
     #000 calc(100% - 40px),
     transparent
   );
   -webkit-mask-image: linear-gradient(
     to right,
     transparent,
-    #000 40px,
+    #000 80px,
     #000 calc(100% - 40px),
     transparent
   );
@@ -619,7 +619,7 @@ $easing: cubic-bezier(.3,0,0,1);
   position: absolute;
   inset: 0.5px;
   border-radius: calc(var(--radius-glass) - 0.5px);
-  background: #000;
+  background: rbga(0, 0, 0, 0);
   mix-blend-mode: destination-out;
 }
 
