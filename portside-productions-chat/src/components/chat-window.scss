@@ -1,10 +1,11 @@
 $easing: cubic-bezier(.3,0,0,1);
 .chat-window {
+  --parallax-y: 0px;
   --lyr-x: 17%;
   --lyr-y: -35%;
   --lyr: radial-gradient(
-    55% 75% at var(--lyr-x) var(--lyr-y),
-    var(--white) 0%,
+    105% 86% at var(--lyr-x) var(--lyr-y),
+    var(235,255,245) 0%,
     rgba(255, 255, 255, 0) 100%
   );
   position: relative;
@@ -18,8 +19,13 @@ $easing: cubic-bezier(.3,0,0,1);
   color: var(--text);
 }
 
+.chat-window--landing {
+  overflow-x: clip;
+  overflow-y: auto;
+}
+
 .chat-window__backdrop {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
@@ -28,10 +34,15 @@ $easing: cubic-bezier(.3,0,0,1);
 
 .chat-window__backdrop-image {
   position: absolute;
-  inset: 0;
+  top: -15%;
+  left: 0;
+  right: 0;
+  height: 130%;
   background:
     url('../assets/hero-mountains.jpg') center 42% / cover no-repeat;
+  transform: translate3d(0, var(--parallax-y), 0);
   transition: opacity 0.7s $easing;
+  will-change: transform;
 }
 
 .chat-window__backdrop-image--sharp {
@@ -41,7 +52,7 @@ $easing: cubic-bezier(.3,0,0,1);
 .chat-window__backdrop-image--soft {
   opacity: 0;
   filter: blur(32px);
-  transform: scale(1.08);
+  transform: scale(1.08) translate3d(0, var(--parallax-y), 0);
 }
 
 .chat-window--exiting .chat-window__backdrop-image--sharp,
@@ -54,25 +65,40 @@ $easing: cubic-bezier(.3,0,0,1);
   opacity: 0.2;
 }
 
+.chat-window__backdrop-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  transition: opacity 0.7s $easing;
+}
+
+.chat-window--exiting .chat-window__backdrop-overlay,
+.chat-window--chat .chat-window__backdrop-overlay {
+  opacity: 0;
+}
+
 .chat-window__grid {
   position: absolute;
   inset: 0;
   background-image:
     linear-gradient(
       to right,
-      rgba(120, 120, 120, 0.05) 0,
-      rgba(120, 120, 120, 0.05) 1px,
+      rgba(240, 240, 240, 0.05) 0,
+      rgba(240, 240, 240, 0.05) 1px,
       transparent 1px
     ),
     linear-gradient(
       to bottom,
-      rgba(120, 120, 120, 0.05) 0,
-      rgba(120, 120, 120, 0.05) 1px,
+      rgba(240, 240, 240, 0.05) 0,
+      rgba(240, 240, 240, 0.05) 1px,
       transparent 1px
     );
   /* Approximate Figma guides: 4 vertical columns × 4 horizontal bands */
-  background-size: 25% 100%, 100% 25%;
+  background-size: 20% 100%, 100% 20%;
   background-position: 0 0, 0 0;
+  mix-blend-mode: color-dodge;
 }
 
 .chat-window__header {
@@ -155,48 +181,67 @@ $easing: cubic-bezier(.3,0,0,1);
     padding 0.55s $easing;
 }
 
-.chat-window__return {
+.chat-window--landing .chat-window__main {
+  height: auto;
+  min-height: 100svh;
+  padding-block: 96px 72px;
+}
+
+.chat-window__return-links {
   position: absolute;
   z-index: 3;
   left: 50%;
   bottom: 24px;
   transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 25px;
   margin: 0;
-  font-family: var(--sans);
-  font-size: 12px;
-  line-height: 1;
-  color: var(--white);
-  text-transform: uppercase;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  white-space: nowrap;
 
-  &:hover {
-    opacity: 0.85;
+  a {
+    margin: 0;
+    font-family: var(--heading);
+    font-size: 12px;
+    line-height: 1;
+    color: var(--white);
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+
+    &:hover {
+      opacity: 0.85;
+    }
   }
 }
 
-/* —— Landing —— */
+.chat-window__return-links {
+  grid-area: 1 / 1;
+  width: 100%;
+  min-height: calc(100svh - 144px);
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  z-index: 2;
+}
 
-.chat-window--landing .chat-window__main {
-  padding-block: 96px 72px;
+.chat-window--exiting .chat-landing-page {
+  pointer-events: none;
+  animation: landing-exit 0.55s $easing forwards;
 }
 
 .chat-landing {
-  grid-area: 1 / 1;
   width: 100%;
-  align-self: center;
-  justify-self: center;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 30px;
-  z-index: 2;
 }
 
 .chat-window--exiting .chat-landing {
   pointer-events: none;
-  animation: landing-exit 0.55s $easing forwards;
 }
 
 @keyframes landing-exit {
@@ -211,14 +256,18 @@ $easing: cubic-bezier(.3,0,0,1);
 }
 
 .chat-landing__headline {
-  max-width: 868px;
+  width: 120%;
   text-align: center;
   font-size: clamp(32px, 4.2vw, 58px);
   line-height: 1.05;
   letter-spacing: -0.01em;
-  font-weight: 400;
+  font-weight: 500;
   font-family: var(--heading);
   color: var(--white);
+  margin-top: 10svw;
+}
+.chat-landing__subtitle{
+  text-align: center;
 }
 
 .chat-landing__composer {
@@ -230,9 +279,9 @@ $easing: cubic-bezier(.3,0,0,1);
 }
 
 .question-marquee {
-  width: calc(100% + 80px);
-  max-width: calc(var(--column-width) + 120px);
-  margin-inline: -40px;
+  width: calc(100% + 240px);
+  max-width: calc(var(--column-width) + 240px);
+  margin-inline: -120px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -307,6 +356,112 @@ $easing: cubic-bezier(.3,0,0,1);
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+}
+
+/* —— Support —— */
+
+.chat-support {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: flex-start;
+  margin-top:15svw;
+}
+
+.chat-support__content {
+  width: 100%;
+  max-width: 502px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chat-support__heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chat-support__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border: 1.5px solid var(--white);
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--white);
+}
+
+.chat-support__title {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--white);
+}
+
+.chat-support__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--white);
+
+  p {
+    margin: 0;
+  }
+}
+
+.chat-support__bmc {
+  display: block;
+  width: 104px;
+  height: 29px;
+  flex-shrink: 0;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover {
+    opacity: 0.92;
+  }
+}
+
+.chat-support__footer {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+
+  a {
+    font-family: var(--heading);
+    font-size: 12px;
+    line-height: 1;
+    color: var(--white);
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+
+    &:hover {
+      opacity: 0.85;
+    }
   }
 }
 
@@ -623,7 +778,7 @@ $easing: cubic-bezier(.3,0,0,1);
     right:0;
     bottom:0;
     border-radius: inherit;
-    border: 1px solid #fff;
+    border: .5px solid #eaece2;
     mask: var(--lyr) padding-box exclude, var(--lyr);
 
   }
@@ -727,9 +882,18 @@ $easing: cubic-bezier(.3,0,0,1);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .chat-window__backdrop-image {
+    transform: none;
+  }
+
+  .chat-window__backdrop-image--soft {
+    transform: scale(1.08);
+  }
+
   .chat-window__backdrop-image,
   .chat-window__grid,
   .chat-window__main,
+  .chat-landing-page,
   .chat-landing,
   .chat-window__conversation,
   .question-marquee__row {
@@ -737,7 +901,7 @@ $easing: cubic-bezier(.3,0,0,1);
     animation: none !important;
   }
 
-  .chat-window--exiting .chat-landing {
+  .chat-window--exiting .chat-landing-page {
     opacity: 0;
   }
 
@@ -796,10 +960,31 @@ $easing: cubic-bezier(.3,0,0,1);
 
   .chat-input--landing .chat-input__inner {
     flex-wrap: wrap;
+}
+
+/* —— Landing —— */
+
+.chat-landing-page {
+    gap: 48px;
+    min-height: auto;
   }
 
-  .chat-window__return {
+  .chat-support__content,
+  .chat-support__footer {
+    max-width: 100%;
+  }
+
+  .chat-support__footer {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+
+  .chat-window__return-links {
     bottom: 16px;
-    font-size: 11px;
+    gap: 16px;
+
+    a {
+      font-size: 11px;
+    }
   }
 }

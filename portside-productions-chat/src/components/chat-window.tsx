@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/use-auth';
 import { hasUsedFreeChat, markFreeChatUsed } from '../lib/free-chat';
 import { supabase } from '../lib/supabase';
 import loginArrow from '../assets/icon-login-arrow.svg';
+import bmcButton from '../assets/bmc-button.png';
 import './chat-window.scss';
 
 const SUGGESTION_ROWS = [
@@ -40,6 +41,8 @@ const SUGGESTION_ROWS = [
 ] as const;
 
 const PORTSIDE_URL = 'https://www.portsidepro.com';
+const PRIVACY_URL = `${PORTSIDE_URL}/privacy-policy`;
+const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/portsidepro';
 /** Retrieval returns many chunks per answer; show a few episodes, not all. */
 
 /** Keep in sync with `$transition-exit` in chat-window.scss */
@@ -53,7 +56,9 @@ const LYR_SCREEN_RIGHT_X = 143;
 const LYR_TOP_Y = 0;
 const LYR_BOTTOM_Y = 80;
 const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 const LYR_MOUSE_TRACKING = true;
+const PARALLAX_FACTOR = -0.1;
 
 function nearestGlassRect(
   root: HTMLElement,
@@ -133,6 +138,7 @@ const ChatWindow = () => {
   const [freeChatUsed, setFreeChatUsed] = useState(hasUsedFreeChat);
   const [lyrX, setLyrX] = useState(LYR_DEFAULT_X);
   const [lyrY, setLyrY] = useState(LYR_DEFAULT_Y);
+  const [parallaxY, setParallaxY] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
@@ -198,6 +204,35 @@ const ChatWindow = () => {
       return [...prev, { role: 'gate', content: GATE_LABEL }];
     });
   }, [submitLocked, showChat]);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
+    let frame = 0;
+    let nextY = 0;
+
+    const applyParallax = () => {
+      nextY = reducedMotion.matches ? 0 : window.scrollY * PARALLAX_FACTOR;
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        setParallaxY(Math.round(nextY * 10) / 10);
+      });
+    };
+
+    const onReducedMotionChange = () => {
+      applyParallax();
+    };
+
+    applyParallax();
+    window.addEventListener('scroll', applyParallax, { passive: true });
+    reducedMotion.addEventListener('change', onReducedMotionChange);
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', applyParallax);
+      reducedMotion.removeEventListener('change', onReducedMotionChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (!LYR_MOUSE_TRACKING) return;
@@ -408,45 +443,17 @@ const ChatWindow = () => {
       className={`chat-window chat-window--${phase}`}
       style={
         {
+          '--parallax-y': `${parallaxY}px`,
           '--lyr-x': `${lyrX}%`,
           '--lyr-y': `${lyrY}%`,
           '--lyr': `radial-gradient(55% 75% at ${lyrX}% ${lyrY}%, var(--white) 0%, rgba(255, 255, 255, 0) 100%)`,
         } as CSSProperties
       }
     >
-      <div className="lyr-debug">
-        <label className="lyr-debug__control">
-          <span className="lyr-debug__label">
-            <span>lyr X</span>
-            <span>{lyrX}%</span>
-          </span>
-          <input
-            type="range"
-            min={-50}
-            max={160}
-            step={0.1}
-            value={lyrX}
-            onChange={(e) => setLyrX(Number(e.target.value))}
-          />
-        </label>
-        <label className="lyr-debug__control">
-          <span className="lyr-debug__label">
-            <span>lyr Y</span>
-            <span>{lyrY}%</span>
-          </span>
-          <input
-            type="range"
-            min={-80}
-            max={80}
-            step={0.1}
-            value={lyrY}
-            onChange={(e) => setLyrY(Number(e.target.value))}
-          />
-        </label>
-      </div>
       <div className="chat-window__backdrop" aria-hidden="true">
         <div className="chat-window__backdrop-image chat-window__backdrop-image--sharp" />
         <div className="chat-window__backdrop-image chat-window__backdrop-image--soft" />
+        <div className="chat-window__backdrop-overlay" />
         <div className="chat-window__grid" />
       </div>
 
@@ -471,7 +478,7 @@ const ChatWindow = () => {
       <div className="chat-window__main">
         {showLanding && (
           <div
-            className="chat-landing"
+            className="chat-landing-page"
             aria-hidden={phase === 'exiting'}
             onAnimationEnd={(event) => {
               if (
@@ -482,51 +489,102 @@ const ChatWindow = () => {
               }
             }}
           >
-            <h1 className="chat-landing__headline">
-              Learn the fundamentals of marketing for the outdoor industries
-            </h1>
-            <div className="chat-landing__composer">
-              <ChatInput
-                value={phase === 'landing' ? input : ''}
-                disabled={loading || phase !== 'landing'}
-                submitDisabled={submitLocked}
-                landing
-                onChange={setInput}
-                onSubmit={() => handleSend()}
-              />
-              <div
-                ref={marqueeRef}
-                className="question-marquee"
-                aria-label="Suggested questions"
-              >
-                {SUGGESTION_ROWS.map((row, rowIndex) => (
-                  <div key={rowIndex} className="question-marquee__row">
-                    {[0, 1].map((copy) => (
-                      <div
-                        key={copy}
-                        className="question-marquee__group"
-                        aria-hidden={copy === 1}
-                      >
-                        {row.map((suggestion) => (
-                          <button
-                            key={`${copy}-${suggestion}`}
-                            type="button"
-                            className="chat-suggestion"
-                            tabIndex={copy === 1 ? -1 : undefined}
-                            onClick={() => handleSend(suggestion)}
-                            disabled={
-                              loading || phase !== 'landing' || submitLocked
-                            }
-                          >
-                            {suggestion}
-                          </button>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                ))}
+            <div className="chat-landing">
+              <h1 className="chat-landing__headline">
+                250 hours is a lot to listen to.
+                <br />
+                What if you could search all of it?
+              </h1>
+              <p className="chat-landing__subtitle">The Backcountry Marketing Podcast has become a library of conversations with some of the brightest minds in the outdoor industry. Instead of digging through hundreds of episodes, you can search the transcripts and find the ideas, advice, and conversations you need in seconds.</p>
+              <div className="chat-landing__composer">
+                <ChatInput
+                  value={phase === 'landing' ? input : ''}
+                  disabled={loading || phase !== 'landing'}
+                  submitDisabled={submitLocked}
+                  landing
+                  onChange={setInput}
+                  onSubmit={() => handleSend()}
+                />
+                <div
+                  ref={marqueeRef}
+                  className="question-marquee"
+                  aria-label="Suggested questions"
+                >
+                  {SUGGESTION_ROWS.map((row, rowIndex) => (
+                    <div key={rowIndex} className="question-marquee__row">
+                      {[0, 1].map((copy) => (
+                        <div
+                          key={copy}
+                          className="question-marquee__group"
+                          aria-hidden={copy === 1}
+                        >
+                          {row.map((suggestion) => (
+                            <button
+                              key={`${copy}-${suggestion}`}
+                              type="button"
+                              className="chat-suggestion"
+                              tabIndex={copy === 1 ? -1 : undefined}
+                              onClick={() => handleSend(suggestion)}
+                              disabled={
+                                loading || phase !== 'landing' || submitLocked
+                              }
+                            >
+                              {suggestion}
+                            </button>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
+
+            <section className="chat-support" aria-label="Support Port Side">
+              <div className="chat-support__content">
+                <div className="chat-support__heading">
+                  <span className="chat-support__icon" aria-hidden="true">
+                    !
+                  </span>
+                  <p className="chat-support__title">
+                    Help us keep this thing going.
+                  </p>
+                </div>
+                <div className="chat-support__body">
+                  <p>
+                    We&apos;ve bootstrapped this podcast from day one and
+                    invested tens of thousands of dollars into producing it. Has
+                    it paid off? Sure. But if you&apos;ve found value in the
+                    show over the years, we&apos;d love your support in helping
+                    us continue to make it.
+                  </p>
+                  <p>
+                    This new search tool also costs us about six cents every
+                    time someone uses it. So at the very least, we&apos;d ask
+                    that you help cover the cost of your searches. Anything
+                    beyond that helps us keep producing the podcast, having
+                    better conversations, and building more useful resources
+                    like this one.
+                  </p>
+                </div>
+                <a
+                  className="chat-support__bmc"
+                  href={BUY_ME_A_COFFEE_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={bmcButton} alt="Buy me a coffee" />
+                </a>
+              </div>
+              <div className="chat-support__footer">
+                <a href={PORTSIDE_URL} target="_blank" rel="noreferrer">
+                  Return to Port side Productions
+                </a>
+                <a href={PRIVACY_URL} target="_blank" rel="noreferrer">
+                  Privacy Policy
+                </a>
+              </div>
+            </section>
           </div>
         )}
 
@@ -586,14 +644,16 @@ const ChatWindow = () => {
         )}
       </div>
 
-      <a
-        className="chat-window__return"
-        href={PORTSIDE_URL}
-        target="_blank"
-        rel="noreferrer"
-      >
-        Return to Port side Productions
-      </a>
+      {showChat && (
+        <div className="chat-window__return-links">
+          <a href={PORTSIDE_URL} target="_blank" rel="noreferrer">
+            Return to Port side Productions
+          </a>
+          <a href={PRIVACY_URL} target="_blank" rel="noreferrer">
+            Privacy Policy
+          </a>
+        </div>
+      )}
 
       <LoginModal
         open={loginOpen}
