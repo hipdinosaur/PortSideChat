@@ -9,6 +9,7 @@ import { hasUsedFreeChat, markFreeChatUsed } from '../lib/free-chat';
 import { supabase } from '../lib/supabase';
 import loginArrow from '../assets/icon-login-arrow.svg';
 import './chat-window.scss';
+import bmcButton from '../assets/bmc-button.svg';
 
 const SUGGESTION_ROWS = [
   [
@@ -41,6 +42,7 @@ const SUGGESTION_ROWS = [
 
 const PORTSIDE_URL = 'https://www.portsidepro.com';
 const PRIVACY_URL = `${PORTSIDE_URL}/privacy-policy`;
+const BMC_URL = 'https://buymeacoffee.com/coleheilborn';
 /** Retrieval returns many chunks per answer; show a few episodes, not all. */
 
 /** Keep in sync with `$transition-exit` in chat-window.scss */
@@ -573,7 +575,14 @@ const ChatWindow = () => {
                     like this one.
                   </p>
                 </div>
-                <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="coleheilborn" data-color="#f31b13" data-emoji="🔊"  data-font="Arial" data-text="Want To Support Us?" data-outline-color="#ffffff" data-font-color="#ffffff" data-coffee-color="#FFDD00" ></script>
+                <a
+                  className="chat-support__bmc"
+                  href={BMC_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={bmcButton} alt="Buy me a coffee" />
+                </a>
 
               </div>
               <div className="chat-support__footer">
