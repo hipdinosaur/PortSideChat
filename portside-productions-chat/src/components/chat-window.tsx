@@ -8,6 +8,8 @@ import { useAuth } from '../hooks/use-auth';
 import { hasUsedFreeChat, markFreeChatUsed } from '../lib/free-chat';
 import { supabase } from '../lib/supabase';
 import loginArrow from '../assets/icon-login-arrow.svg';
+import pauseIcon from '../assets/icon-pause.svg';
+import playIcon from '../assets/icon-play.svg';
 import './chat-window.scss';
 import bmcButton from '../assets/bmc-button.svg';
 
@@ -124,6 +126,29 @@ type Message =
 type ConversationHistory = { role: 'user' | 'assistant'; content: string };
 type LoginReason = 'gate' | 'manual';
 
+function centerMarqueeSuggestion(button: HTMLElement) {
+  const marquee = button.closest('.question-marquee');
+  const track = button.closest('.question-marquee__track');
+  if (!(marquee instanceof HTMLElement) || !(track instanceof HTMLElement)) {
+    return;
+  }
+
+  const marqueeRect = marquee.getBoundingClientRect();
+  const buttonRect = button.getBoundingClientRect();
+  const currentX = new DOMMatrix(getComputedStyle(track).transform).e;
+  const delta =
+    marqueeRect.left +
+    marqueeRect.width / 2 -
+    (buttonRect.left + buttonRect.width / 2);
+  track.style.transform = `translateX(${currentX + delta}px)`;
+}
+
+function resetMarqueeTracks(root: ParentNode) {
+  root.querySelectorAll<HTMLElement>('.question-marquee__track').forEach((track) => {
+    track.style.transform = '';
+  });
+}
+
 
 
 
@@ -141,6 +166,9 @@ const ChatWindow = () => {
   const [lyrY, setLyrY] = useState(LYR_DEFAULT_Y);
   const [parallaxY, setParallaxY] = useState(0);
   const [gridParallaxY, setGridParallaxY] = useState(0);
+  const [marqueePaused, setMarqueePaused] = useState(
+    () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
+  );
   const rootRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
@@ -514,36 +542,87 @@ const ChatWindow = () => {
                   onSubmit={() => handleSend()}
                 />
                 <div
-                  ref={marqueeRef}
-                  className="question-marquee"
-                  aria-label="Suggested questions"
+                  className={`question-marquee-wrap${marqueePaused ? ' question-marquee-wrap--paused' : ''}`}
+                  onFocusCapture={(event) => {
+                    const target = event.target;
+                    if (
+                      !(target instanceof HTMLElement) ||
+                      !target.classList.contains('chat-suggestion')
+                    ) {
+                      return;
+                    }
+                    window.requestAnimationFrame(() => {
+                      centerMarqueeSuggestion(target);
+                    });
+                  }}
+                  onBlurCapture={(event) => {
+                    const wrap = event.currentTarget;
+                    window.requestAnimationFrame(() => {
+                      const active = document.activeElement;
+                      if (
+                        active instanceof HTMLElement &&
+                        wrap.contains(active) &&
+                        active.classList.contains('chat-suggestion')
+                      ) {
+                        return;
+                      }
+                      resetMarqueeTracks(wrap);
+                    });
+                  }}
                 >
-                  {SUGGESTION_ROWS.map((row, rowIndex) => (
-                    <div key={rowIndex} className="question-marquee__row">
-                      {[0, 1].map((copy) => (
-                        <div
-                          key={copy}
-                          className="question-marquee__group"
-                          aria-hidden={copy === 1}
-                        >
-                          {row.map((suggestion) => (
-                            <button
-                              key={`${copy}-${suggestion}`}
-                              type="button"
-                              className="chat-suggestion"
-                              tabIndex={copy === 1 ? -1 : undefined}
-                              onClick={() => handleSend(suggestion)}
-                              disabled={
-                                loading || phase !== 'landing' || submitLocked
-                              }
+                  <div
+                    ref={marqueeRef}
+                    className="question-marquee"
+                    aria-label="Suggested questions"
+                  >
+                    {SUGGESTION_ROWS.map((row, rowIndex) => (
+                      <div key={rowIndex} className="question-marquee__row">
+                        <div className="question-marquee__track">
+                          {[0, 1].map((copy) => (
+                            <div
+                              key={copy}
+                              className="question-marquee__group"
+                              aria-hidden={copy === 1}
                             >
-                              {suggestion}
-                            </button>
+                              {row.map((suggestion) => (
+                                <button
+                                  key={`${copy}-${suggestion}`}
+                                  type="button"
+                                  className="chat-suggestion"
+                                  tabIndex={copy === 1 ? -1 : undefined}
+                                  onClick={() => handleSend(suggestion)}
+                                  disabled={
+                                    loading ||
+                                    phase !== 'landing' ||
+                                    submitLocked
+                                  }
+                                >
+                                  {suggestion}
+                                </button>
+                              ))}
+                            </div>
                           ))}
                         </div>
-                      ))}
-                    </div>
-                  ))}
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    className="question-marquee__control"
+                    aria-label={
+                      marqueePaused
+                        ? 'Play suggested questions'
+                        : 'Pause suggested questions'
+                    }
+                    onClick={() => setMarqueePaused((paused) => !paused)}
+                  >
+                    <img
+                      src={marqueePaused ? playIcon : pauseIcon}
+                      alt=""
+                      width={16}
+                      height={16}
+                    />
+                  </button>
                 </div>
               </div>
             </div>
