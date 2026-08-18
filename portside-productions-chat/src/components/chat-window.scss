@@ -750,8 +750,13 @@ $easing: cubic-bezier(.3,0,0,1);
     gap: 12px;
     width: 100%;
     padding: 12px;
+    border: 2px solid transparent;
     border-radius: var(--radius-input);
     background: var(--white);
+
+    &:has(input:focus-visible) {
+      border-color: var(--gray-light);
+    }
   }
 }
 

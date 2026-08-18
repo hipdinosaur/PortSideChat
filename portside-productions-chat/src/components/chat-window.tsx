@@ -600,7 +600,13 @@ const ChatWindow = () => {
         {showChat && (
           <div className="chat-window__conversation">
             <div className="chat-window__panel">
-              <div className="chat-window__body">
+              <div
+                className="chat-window__body"
+                role="log"
+                aria-live="polite"
+                aria-relevant="additions"
+                aria-label="Conversation"
+              >
                 {messages.map((msg, i) =>
                   msg.role === 'gate' ? (
                     <button
@@ -609,6 +615,7 @@ const ChatWindow = () => {
                       className="message message--gate"
                       onClick={() => openLogin('gate')}
                     >
+                      <span className="visually-hidden">Port Side</span>
                       <span>{msg.content}</span>
                       <img
                         src={loginArrow}
@@ -619,19 +626,18 @@ const ChatWindow = () => {
                     </button>
                   ) : (
                     <div key={i} className={`message message--${msg.role}`}>
+                      <span className="visually-hidden">
+                        {msg.role === 'user' ? 'You' : 'Port Side'}
+                      </span>
                       {msg.role === 'assistant'
                         ? parseHtml(msg.content)
                         : msg.content}
-                          
                     </div>
                   ),
                 )}
                 {loading && (
-                  <div
-                    className="message message--thinking"
-                    aria-live="polite"
-                    aria-busy="true"
-                  >
+                  <div className="message message--thinking">
+                    <span className="visually-hidden">Port Side</span>
                     <span>Thinking</span>
                     <ThinkingSpinner />
                   </div>

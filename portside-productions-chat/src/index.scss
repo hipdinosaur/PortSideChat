@@ -2,6 +2,7 @@
   --black: #121212;
   --white: #ffffff;
   --gray: #262626;
+  --gray-light: #9a9a9a;
   --surface: #232323;
   --border-chat: #464646;
   --accent: #e31c23;
@@ -83,5 +84,16 @@ code {
 
 blockquote {
   margin: 0;
+}
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
