@@ -57,6 +57,7 @@ const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 const LYR_MOUSE_TRACKING = true;
 const PARALLAX_FACTOR = -0.1;
+const GRID_PARALLAX_FACTOR = -0.2;
 
 function nearestGlassRect(
   root: HTMLElement,
@@ -137,6 +138,7 @@ const ChatWindow = () => {
   const [lyrX, setLyrX] = useState(LYR_DEFAULT_X);
   const [lyrY, setLyrY] = useState(LYR_DEFAULT_Y);
   const [parallaxY, setParallaxY] = useState(0);
+  const [gridParallaxY, setGridParallaxY] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
@@ -149,9 +151,9 @@ const ChatWindow = () => {
   const submitLocked = !isAuthenticated && freeChatUsed;
 
   useEffect(() => {
-    if (!showChat) return;
+    if (phase !== 'chat') return;
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, loading, showChat]);
+  }, [messages, loading, phase]);
 
   useEffect(() => {
     return () => {
@@ -207,13 +209,17 @@ const ChatWindow = () => {
     const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
     let frame = 0;
     let nextY = 0;
+    let nextGridY = 0;
 
     const applyParallax = () => {
-      nextY = reducedMotion.matches ? 0 : window.scrollY * PARALLAX_FACTOR;
+      const scrollY = window.scrollY;
+      nextY = reducedMotion.matches ? 0 : scrollY * PARALLAX_FACTOR;
+      nextGridY = reducedMotion.matches ? 0 : scrollY * GRID_PARALLAX_FACTOR;
       if (frame) return;
       frame = window.requestAnimationFrame(() => {
         frame = 0;
         setParallaxY(Math.round(nextY * 10) / 10);
+        setGridParallaxY(Math.round(nextGridY * 10) / 10);
       });
     };
 
@@ -321,6 +327,7 @@ const ChatWindow = () => {
 
   function beginExit() {
     if (phase !== 'landing') return;
+    window.scrollTo(0, 0);
     setPhase('exiting');
     exitFallbackRef.current = window.setTimeout(finishExit, EXIT_MS);
   }
@@ -442,6 +449,7 @@ const ChatWindow = () => {
       style={
         {
           '--parallax-y': `${parallaxY}px`,
+          '--grid-parallax-y': `${gridParallaxY}px`,
           '--lyr-x': `${lyrX}%`,
           '--lyr-y': `${lyrY}%`,
           '--lyr': `radial-gradient(55% 75% at ${lyrX}% ${lyrY}%, var(--white) 0%, rgba(255, 255, 255, 0) 100%)`,

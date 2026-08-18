@@ -1,6 +1,7 @@
 $easing: cubic-bezier(.3,0,0,1);
 .chat-window {
   --parallax-y: 0px;
+  --grid-parallax-y: 0px;
   --lyr-x: 17%;
   --lyr-y: -35%;
   --lyr: radial-gradient(
@@ -62,7 +63,7 @@ $easing: cubic-bezier(.3,0,0,1);
 
 .chat-window--exiting .chat-window__backdrop-image--soft,
 .chat-window--chat .chat-window__backdrop-image--soft {
-  opacity: 0.2;
+  opacity: 0.32;
 }
 
 .chat-window__backdrop-overlay {
@@ -81,7 +82,10 @@ $easing: cubic-bezier(.3,0,0,1);
 
 .chat-window__grid {
   position: absolute;
-  inset: 0;
+  top: -25%;
+  left: 0;
+  right: 0;
+  height: 150%;
   background-image:
     linear-gradient(
       to right,
@@ -96,8 +100,10 @@ $easing: cubic-bezier(.3,0,0,1);
       transparent 1px
     );
   /* Approximate Figma guides: 4 vertical columns × 4 horizontal bands */
-  background-size: 20% 100%, 100% 20%;
+  background-size: 20% 100%, 100% 20vh;
   background-position: 0 0, 0 0;
+  transform: translate3d(0, var(--grid-parallax-y), 0);
+  will-change: transform;
   mix-blend-mode: color-dodge;
 }
 
@@ -178,7 +184,9 @@ $easing: cubic-bezier(.3,0,0,1);
   padding: 8px 16px 48px;
   transition:
     max-width 0.55s $easing,
-    padding 0.55s $easing;
+    padding 0.55s $easing,
+    height 0.55s $easing,
+    min-height 0.55s $easing;
 }
 
 .chat-window--landing .chat-window__main {
@@ -198,6 +206,10 @@ $easing: cubic-bezier(.3,0,0,1);
 }
 
 .chat-window--exiting .chat-landing-page {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  min-height: 0;
   pointer-events: none;
   animation: landing-exit 0.55s $easing forwards;
 }
@@ -447,21 +459,26 @@ $easing: cubic-bezier(.3,0,0,1);
 
 .chat-window--exiting .chat-window__main,
 .chat-window--chat .chat-window__main {
+  height: 100%;
   max-width: var(--chat-column-width);
   min-height: 0;
-  padding-top: 64px;
+  padding-top: 96px;
   padding-bottom: 24px;
   overflow: hidden;
 }
 
 .chat-window__conversation {
+  --return-links-size: 12px;
+  --return-links-gap: 24px;
   grid-area: 1 / 1;
+  position: relative;
   min-height: 0;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 24px;
+  padding-bottom: calc(var(--return-links-size) + var(--return-links-gap));
   overflow: hidden;
   z-index: 1;
   animation: conversation-enter 0.6s $easing 0.12s both;
@@ -523,7 +540,11 @@ $easing: cubic-bezier(.3,0,0,1);
 }
 
 .chat-window__return-links {
-  flex-shrink: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--return-links-size);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -894,6 +915,10 @@ $easing: cubic-bezier(.3,0,0,1);
     transform: scale(1.08);
   }
 
+  .chat-window__grid {
+    transform: none;
+  }
+
   .chat-window__backdrop-image,
   .chat-window__grid,
   .chat-window__main,
@@ -981,6 +1006,10 @@ $easing: cubic-bezier(.3,0,0,1);
   .chat-support__footer {
     flex-wrap: wrap;
     row-gap: 12px;
+  }
+
+  .chat-window__conversation {
+    --return-links-size: 11px;
   }
 
   .chat-window__return-links {
