@@ -601,11 +601,7 @@ const ChatWindow = () => {
                                   className="chat-suggestion"
                                   tabIndex={copy === 1 ? -1 : undefined}
                                   onClick={() => handleSend(suggestion)}
-                                  disabled={
-                                    loading ||
-                                    phase !== 'landing' ||
-                                    submitLocked
-                                  }
+                                  disabled={loading || phase !== 'landing'}
                                 >
                                   {suggestion}
                                 </button>
