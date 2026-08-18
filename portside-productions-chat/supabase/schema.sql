@@ -197,6 +197,9 @@ language sql
 stable
 -- Must be >= the semantic candidate limit below or HNSW recall degrades.
 set hnsw.ef_search = 120
+-- anon's role timeout is 3s; this hybrid scan regularly exceeds that via
+-- PostgREST and the chat UI then shows "Something went wrong".
+set statement_timeout = '15s'
 as $$
   with semantic as (
     select

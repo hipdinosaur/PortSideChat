@@ -632,20 +632,17 @@ const ChatWindow = () => {
                 onSubmit={() => handleSend()}
               />
             </div>
+            <div className="chat-window__return-links">
+              <a href={PORTSIDE_URL} target="_blank" rel="noreferrer">
+                Return to Port side Productions
+              </a>
+              <a href={PRIVACY_URL} target="_blank" rel="noreferrer">
+                Privacy Policy
+              </a>
+            </div>
           </div>
         )}
       </div>
-
-      {showChat && (
-        <div className="chat-window__return-links">
-          <a href={PORTSIDE_URL} target="_blank" rel="noreferrer">
-            Return to Port side Productions
-          </a>
-          <a href={PRIVACY_URL} target="_blank" rel="noreferrer">
-            Privacy Policy
-          </a>
-        </div>
-      )}
 
       <LoginModal
         open={loginOpen}
