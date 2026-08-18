@@ -439,11 +439,19 @@ $easing: cubic-bezier(.3,0,0,1);
 
 /* —— Conversation —— */
 
+.chat-window--exiting,
+.chat-window--chat {
+  height: 100svh;
+  overflow: hidden;
+}
+
 .chat-window--exiting .chat-window__main,
 .chat-window--chat .chat-window__main {
   max-width: var(--chat-column-width);
+  min-height: 0;
   padding-top: 64px;
   padding-bottom: 24px;
+  overflow: hidden;
 }
 
 .chat-window__conversation {
@@ -454,6 +462,7 @@ $easing: cubic-bezier(.3,0,0,1);
   display: flex;
   flex-direction: column;
   gap: 24px;
+  overflow: hidden;
   z-index: 1;
   animation: conversation-enter 0.6s $easing 0.12s both;
 }
@@ -470,12 +479,13 @@ $easing: cubic-bezier(.3,0,0,1);
 }
 
 .chat-window__panel {
+  flex: 1 1 0;
   min-height: 0;
-  flex: 1;
   width: 100%;
   background: var(--white);
   border-radius: var(--radius-input);
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
@@ -484,20 +494,17 @@ $easing: cubic-bezier(.3,0,0,1);
 
 .chat-window__body {
   position: relative;
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   gap: 24px;
-  overflow-y: auto;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  overflow-x: hidden;
+  box-sizing: border-box;
+  min-height: 100%;
   padding: 32px 32px;
-  min-height: 0;
   border-radius: var(--radius-input);
+
+  > :first-child {
+    margin-top: auto;
+  }
 }
 
 .chat-window__scrim {
