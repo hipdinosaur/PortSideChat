@@ -26,6 +26,10 @@
   color: var(--black);
   overflow: hidden;
   will-change: height;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .login-modal__body {

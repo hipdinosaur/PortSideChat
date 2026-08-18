@@ -20,12 +20,30 @@ type Mode = 'signin' | 'signup' | 'forgot';
 type Status = 'idle' | 'submitting' | 'confirm' | 'reset-sent' | 'error';
 
 const RESIZE_MS = 420;
+const FOCUSABLE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(',');
+
+function getFocusable(root: HTMLElement) {
+  return [...root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)].filter(
+    (el) => !el.hasAttribute('disabled') && el.tabIndex !== -1,
+  );
+}
 
 export default function LoginModal({ open, onClose }: LoginModalProps) {
   const emailId = useId();
   const passwordId = useId();
+  const dialogRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
   const [mode, setMode] = useState<Mode>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,6 +52,20 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
   const [panelHeight, setPanelHeight] = useState<number | null>(null);
   const [animateHeight, setAnimateHeight] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [wasOpen, setWasOpen] = useState(open);
+
+  if (open !== wasOpen) {
+    setWasOpen(open);
+    if (open) {
+      setMode('signin');
+      setEmail('');
+      setPassword('');
+      setStatus('idle');
+      setError(null);
+      setPanelHeight(null);
+      setAnimateHeight(false);
+    }
+  }
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -42,17 +74,6 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
     media.addEventListener('change', sync);
     return () => media.removeEventListener('change', sync);
   }, []);
-
-  useEffect(() => {
-    if (!open) return;
-    setMode('signin');
-    setEmail('');
-    setPassword('');
-    setStatus('idle');
-    setError(null);
-    setPanelHeight(null);
-    setAnimateHeight(false);
-  }, [open]);
 
   useLayoutEffect(() => {
     if (!open || !bodyRef.current) return;
@@ -75,6 +96,68 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
       observer.disconnect();
     };
   }, [open, mode, status, error]);
+
+  useLayoutEffect(() => {
+    if (!open) return;
+
+    const previouslyFocused =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+
+    const dialog = dialogRef.current;
+    const panel = panelRef.current;
+    if (!dialog || !panel) return;
+
+    const siblings = [...(dialog.parentElement?.children ?? [])].filter(
+      (el): el is HTMLElement => el instanceof HTMLElement && el !== dialog,
+    );
+    siblings.forEach((el) => {
+      el.inert = true;
+    });
+
+    const focusTarget =
+      emailRef.current ?? getFocusable(panel)[0] ?? panel;
+    focusTarget.focus();
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onCloseRef.current();
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+
+      const nodes = getFocusable(panel);
+      if (nodes.length === 0) {
+        event.preventDefault();
+        panel.focus();
+        return;
+      }
+
+      const first = nodes[0];
+      const last = nodes[nodes.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && (active === first || active === panel)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      siblings.forEach((el) => {
+        el.inert = false;
+      });
+      previouslyFocused?.focus();
+    };
+  }, [open]);
 
   if (!open) return null;
 
@@ -200,21 +283,18 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
       : undefined;
 
   return (
-    <div
-      className="login-modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="login-modal-title"
-    >
-      <button
-        type="button"
+    <div ref={dialogRef} className="login-modal">
+      <div
         className="login-modal__backdrop"
-        aria-label="Close login"
         onClick={onClose}
       />
       <div
         ref={panelRef}
         className={`login-modal__panel login-modal__panel--${mode}`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="login-modal-title"
+        tabIndex={-1}
         style={panelStyle}
       >
         <div ref={bodyRef} className="login-modal__body">
@@ -264,6 +344,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
                 <label className="login-modal__field" htmlFor={emailId}>
                   <span className="visually-hidden">Email</span>
                   <input
+                    ref={emailRef}
                     id={emailId}
                     type="email"
                     autoComplete="email"

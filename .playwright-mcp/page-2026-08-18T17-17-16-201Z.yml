@@ -1,0 +1,99 @@
+- generic [ref=f3e3]:
+  - banner:
+    - link "Port Side" [ref=f3e4] [cursor=pointer]:
+      - /url: /
+    - button "Login" [active] [ref=f3e5] [cursor=pointer]
+  - generic [ref=f3e7]:
+    - generic [ref=f3e8]:
+      - heading "250 hours is a lot to listen to. What if you could search all of it?" [level=1] [ref=f3e9]: 250 hours is a lot to listen to.What if you could search all of it?
+      - paragraph [ref=f3e10]: The Backcountry Marketing Podcast has become a library of conversations with some of the brightest minds in the outdoor industry. Instead of digging through hundreds of episodes, you can search the transcripts and find the ideas, advice, and conversations you need in seconds.
+      - generic [ref=f3e11]:
+        - generic [ref=f3e13]:
+          - generic [ref=f3e14]:
+            - generic: Ask anything
+            - textbox "Ask anything" [ref=f3e15]
+          - button "Submit" [disabled] [ref=f3e16]
+        - generic "Suggested questions" [ref=f3e17]:
+          - generic [ref=f3e18]:
+            - generic [ref=f3e19]:
+              - button "What's unique about marketing for the outdoor industry?" [ref=f3e20] [cursor=pointer]
+              - button "How do I build an audience for my outdoor brand?" [ref=f3e21] [cursor=pointer]
+              - button "What are the best social media platforms for outdoor enthusiasts?" [ref=f3e22] [cursor=pointer]
+              - button "How can I leverage influencer marketing to promote my outdoor gear?" [ref=f3e23] [cursor=pointer]
+              - button "What content strategies engage hikers and campers effectively?" [ref=f3e24] [cursor=pointer]
+              - button "How do I create compelling storytelling around my outdoor products?" [ref=f3e25] [cursor=pointer]
+              - button "How do you justify content marketing spend to leadership?" [ref=f3e26] [cursor=pointer]
+            - generic [ref=f3e27]:
+              - button [ref=f3e28] [cursor=pointer]: What's unique about marketing for the outdoor industry?
+              - button [ref=f3e29] [cursor=pointer]: How do I build an audience for my outdoor brand?
+              - button [ref=f3e30] [cursor=pointer]: What are the best social media platforms for outdoor enthusiasts?
+              - button [ref=f3e31] [cursor=pointer]: How can I leverage influencer marketing to promote my outdoor gear?
+              - button [ref=f3e32] [cursor=pointer]: What content strategies engage hikers and campers effectively?
+              - button [ref=f3e33] [cursor=pointer]: How do I create compelling storytelling around my outdoor products?
+              - button [ref=f3e34] [cursor=pointer]: How do you justify content marketing spend to leadership?
+          - generic [ref=f3e35]:
+            - generic [ref=f3e36]:
+              - button "What partnerships can help expand my outdoor brand's reach?" [ref=f3e37] [cursor=pointer]
+              - button "How do I optimize my website for outdoor adventure seekers?" [ref=f3e38] [cursor=pointer]
+              - button "What role does sustainability play in attracting outdoor consumers?" [ref=f3e39] [cursor=pointer]
+              - button "How do I find my brand voice on social?" [ref=f3e40] [cursor=pointer]
+              - button "How should brands support retail partners?" [ref=f3e41] [cursor=pointer]
+              - button "What's the difference between building a brand and an online retailer?" [ref=f3e42] [cursor=pointer]
+              - button "How do I work with an agency on outdoor campaigns?" [ref=f3e43] [cursor=pointer]
+            - generic [ref=f3e44]:
+              - button [ref=f3e45] [cursor=pointer]: What partnerships can help expand my outdoor brand's reach?
+              - button [ref=f3e46] [cursor=pointer]: How do I optimize my website for outdoor adventure seekers?
+              - button [ref=f3e47] [cursor=pointer]: What role does sustainability play in attracting outdoor consumers?
+              - button [ref=f3e48] [cursor=pointer]: How do I find my brand voice on social?
+              - button [ref=f3e49] [cursor=pointer]: How should brands support retail partners?
+              - button [ref=f3e50] [cursor=pointer]: What's the difference between building a brand and an online retailer?
+              - button [ref=f3e51] [cursor=pointer]: How do I work with an agency on outdoor campaigns?
+          - generic [ref=f3e52]:
+            - generic [ref=f3e53]:
+              - button "What makes a compelling outdoor story?" [ref=f3e54] [cursor=pointer]
+              - button "How do I develop consumer insights for my brand?" [ref=f3e55] [cursor=pointer]
+              - button "Is print media still relevant for outdoor brands?" [ref=f3e56] [cursor=pointer]
+              - button "How can brands use YouTube effectively?" [ref=f3e57] [cursor=pointer]
+              - button "How do I scale an outdoor brand?" [ref=f3e58] [cursor=pointer]
+              - button "How do I hire and build a high-performing marketing team?" [ref=f3e59] [cursor=pointer]
+            - generic [ref=f3e60]:
+              - button [ref=f3e61] [cursor=pointer]: What makes a compelling outdoor story?
+              - button [ref=f3e62] [cursor=pointer]: How do I develop consumer insights for my brand?
+              - button [ref=f3e63] [cursor=pointer]: Is print media still relevant for outdoor brands?
+              - button [ref=f3e64] [cursor=pointer]: How can brands use YouTube effectively?
+              - button [ref=f3e65] [cursor=pointer]: How do I scale an outdoor brand?
+              - button [ref=f3e66] [cursor=pointer]: How do I hire and build a high-performing marketing team?
+    - region "Support Port Side" [ref=f3e67]:
+      - generic [ref=f3e68]:
+        - generic [ref=f3e69]:
+          - generic [ref=f3e70]: "!"
+          - paragraph [ref=f3e71]: Help us keep this thing going.
+        - generic [ref=f3e72]:
+          - paragraph [ref=f3e73]: We've bootstrapped this podcast from day one and invested tens of thousands of dollars into producing it. Has it paid off? Sure. But if you've found value in the show over the years, we'd love your support in helping us continue to make it.
+          - paragraph [ref=f3e74]: This new search tool also costs us about six cents every time someone uses it. So at the very least, we'd ask that you help cover the cost of your searches. Anything beyond that helps us keep producing the podcast, having better conversations, and building more useful resources like this one.
+        - link [ref=f3e75] [cursor=pointer]:
+          - /url: https://buymeacoffee.com/coleheilborn
+          - img "Buy me a coffee" [ref=f3e76]
+      - generic [ref=f3e77]:
+        - link "Return to Port side Productions" [ref=f3e78] [cursor=pointer]:
+          - /url: https://www.portsidepro.com
+        - link "Privacy Policy" [ref=f3e79] [cursor=pointer]:
+          - /url: https://www.portsidepro.com/privacy-policy
+  - dialog [ref=f3e80]:
+    - button "Close login" [ref=f3e81] [cursor=pointer]
+    - generic [ref=f3e83]:
+      - generic [ref=f3e84]:
+        - heading "Sign in" [level=2] [ref=f3e85]
+        - button "Close" [ref=f3e86] [cursor=pointer]
+      - generic [ref=f3e87]:
+        - generic [ref=f3e88]:
+          - generic [ref=f3e89]:
+            - generic [ref=f3e90]: Email
+            - textbox "Email" [ref=f3e91]
+          - generic [ref=f3e93]:
+            - generic [ref=f3e94]: Password
+            - textbox "Password" [ref=f3e95]
+        - generic [ref=f3e96]:
+          - button "Submit" [disabled] [ref=f3e97]
+          - button "Create an Account" [ref=f3e98] [cursor=pointer]
+        - button "Forgot Password?" [ref=f3e99] [cursor=pointer]
