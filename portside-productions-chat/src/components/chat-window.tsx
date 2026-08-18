@@ -745,10 +745,13 @@ const ChatWindow = () => {
             </div>
             <div className="chat-window__return-links">
               <a href={PORTSIDE_URL} target="_blank" rel="noreferrer">
-                Return to Port side Productions
+                Return to Port Side
               </a>
               <a href={PRIVACY_URL} target="_blank" rel="noreferrer">
                 Privacy Policy
+              </a>
+              <a href={BMC_URL} target="_blank" rel="noreferrer">
+                Support this project
               </a>
             </div>
           </div>
