@@ -106,8 +106,9 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
         : null;
 
     const dialog = dialogRef.current;
-    const panel = panelRef.current;
-    if (!dialog || !panel) return;
+    const panelEl = panelRef.current;
+    if (!dialog || !panelEl) return;
+    const panel: HTMLElement = panelEl;
 
     const siblings = [...(dialog.parentElement?.children ?? [])].filter(
       (el): el is HTMLElement => el instanceof HTMLElement && el !== dialog,

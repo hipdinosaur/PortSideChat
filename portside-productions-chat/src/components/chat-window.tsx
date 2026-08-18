@@ -502,13 +502,23 @@ const ChatWindow = () => {
         >
           Port Side
         </a>
-        <button
-          type="button"
-          className="chat-window__login"
-          onClick={handleAuthButton}
-        >
-          {isAuthenticated ? 'Log out' : 'Login'}
-        </button>
+        <nav className="chat-window__nav" aria-label="Primary">
+          <a
+            className="chat-window__nav-btn chat-window__nav-btn--outline"
+            href={BMC_URL}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Support this tool
+          </a>
+          <button
+            type="button"
+            className="chat-window__nav-btn chat-window__nav-btn--solid"
+            onClick={handleAuthButton}
+          >
+            {isAuthenticated ? 'Log out' : 'Login'}
+          </button>
+        </nav>
       </header>
 
       <div className="chat-window__main">
@@ -633,9 +643,9 @@ const ChatWindow = () => {
                   <span className="chat-support__icon" aria-hidden="true">
                     !
                   </span>
-                  <p className="chat-support__title">
+                  <h2 className="chat-support__title">
                     Help us keep this thing going.
-                  </p>
+                  </h2>
                 </div>
                 <div className="chat-support__body">
                   <p>
@@ -666,10 +676,13 @@ const ChatWindow = () => {
               </div>
               <div className="chat-support__footer">
                 <a href={PORTSIDE_URL} target="_blank" rel="noreferrer">
-                  Return to Port side Productions
+                  Return to Port Side
                 </a>
                 <a href={PRIVACY_URL} target="_blank" rel="noreferrer">
                   Privacy Policy
+                </a>
+                <a href={BMC_URL} target="_blank" rel="noreferrer">
+                  Support this project
                 </a>
               </div>
             </section>

@@ -148,28 +148,43 @@ $easing: cubic-bezier(.3,0,0,1);
   }
 }
 
-.chat-window__login {
+.chat-window__nav {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.chat-window__nav-btn {
   appearance: none;
-  border: none;
   margin: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   padding: 12px 24px;
+  border: 1px solid var(--white);
   border-radius: var(--radius-button);
-  background: var(--white);
-  color: var(--black);
   font-family: var(--heading);
   font-size: 12px;
   line-height: 1;
   text-transform: uppercase;
   text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
 
   &:hover {
     opacity: 0.92;
   }
+}
+
+.chat-window__nav-btn--outline {
+  background: transparent;
+  color: var(--white);
+}
+
+.chat-window__nav-btn--solid {
+  background: var(--white);
+  color: var(--black);
 }
 
 .chat-window__main {
