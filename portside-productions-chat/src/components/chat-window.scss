@@ -782,7 +782,7 @@ $easing: cubic-bezier(.3,0,0,1);
     right:0;
     bottom:0;
     border-radius: inherit;
-    border: .5px solid rgba(211, 214, 201, 0.7);
+    border: .5px solid rgba(211, 214, 201, 0.35);
     mask: var(--lyr) padding-box exclude, var(--lyr);
 
   }
