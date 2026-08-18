@@ -458,7 +458,7 @@ const ChatWindow = () => {
       <header className="chat-window__header">
         <a
           className="chat-window__brand"
-          href={PORTSIDE_URL}
+          href='/'
           target="_blank"
           rel="noreferrer"
         >
