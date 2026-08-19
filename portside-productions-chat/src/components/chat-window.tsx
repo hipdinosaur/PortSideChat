@@ -1,17 +1,20 @@
 import { useState, useEffect, useRef, useId, type CSSProperties } from 'react';
+import { createPortal } from 'react-dom';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import parseHtml from 'html-react-parser';
+import gsap from 'gsap';
+import { InertiaPlugin } from 'gsap/InertiaPlugin';
 import ThinkingSpinner from './thinking-spinner';
 import LoginModal from './login-modal';
 import { useAuth } from '../hooks/use-auth';
 import { hasUsedFreeChat, markFreeChatUsed } from '../lib/free-chat';
 import { supabase } from '../lib/supabase';
 import loginArrow from '../assets/icon-login-arrow.svg';
-import pauseIcon from '../assets/icon-pause.svg';
-import playIcon from '../assets/icon-play.svg';
 import './chat-window.scss';
 import bmcButton from '../assets/bmc-button.svg';
+
+gsap.registerPlugin(InertiaPlugin);
 
 const SUGGESTION_ROWS = [
   [
@@ -50,7 +53,11 @@ const BMC_URL = 'https://buymeacoffee.com/coleheilborn';
 /** Keep in sync with `$transition-exit` in chat-window.scss */
 const EXIT_MS = 700;
 const GATE_LABEL = 'Login to continue';
-const MARQUEE_PX_PER_SEC = 40;
+const MARQUEE_DRAG_THRESHOLD = 8;
+const MARQUEE_INERTIA = {
+  resistance: 50,
+  duration: { min: 0.35, max: 2 },
+} as const;
 const LYR_DEFAULT_X = 17;
 const LYR_DEFAULT_Y = -35;
 const LYR_GLASS_RIGHT_X = 100;
@@ -59,6 +66,8 @@ const LYR_TOP_Y = 0;
 const LYR_BOTTOM_Y = 80;
 const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+const BALL_SIZE = 8;
+const BALL_DRAG_SIZE = 64;
 const LYR_MOUSE_TRACKING = true;
 const PARALLAX_FACTOR = -0.1;
 const GRID_PARALLAX_FACTOR = -0.2;
@@ -126,32 +135,67 @@ type Message =
 type ConversationHistory = { role: 'user' | 'assistant'; content: string };
 type LoginReason = 'gate' | 'manual';
 
-function centerMarqueeSuggestion(button: HTMLElement) {
-  const marquee = button.closest('.question-marquee');
-  const track = button.closest('.question-marquee__track');
-  if (!(marquee instanceof HTMLElement) || !(track instanceof HTMLElement)) {
-    return;
-  }
-
-  const marqueeRect = marquee.getBoundingClientRect();
-  const buttonRect = button.getBoundingClientRect();
-  const currentX = new DOMMatrix(getComputedStyle(track).transform).e;
-  const delta =
-    marqueeRect.left +
-    marqueeRect.width / 2 -
-    (buttonRect.left + buttonRect.width / 2);
-  track.style.transform = `translateX(${currentX + delta}px)`;
+function marqueeLoopWidth(row: HTMLElement) {
+  const group = row.querySelector<HTMLElement>('.question-marquee__group');
+  return group?.offsetWidth ?? 0;
 }
 
-function resetMarqueeTracks(root: ParentNode) {
-  root.querySelectorAll<HTMLElement>('.question-marquee__track').forEach((track) => {
-    track.style.transform = '';
+type MarqueeProxy = { x: number };
+
+function marqueeVelocity(samples: { t: number; x: number }[]) {
+  if (samples.length < 2) return 0;
+
+  let end = samples.length - 1;
+  while (end > 0 && samples[end].t - samples[end - 1].t > 64) {
+    end -= 1;
+  }
+  while (end > 0 && samples[end].x === samples[end - 1].x) {
+    end -= 1;
+  }
+
+  const last = samples[end];
+  const cutoff = last.t - 100;
+  let start = end;
+  while (start > 0 && samples[start - 1].t >= cutoff) {
+    start -= 1;
+  }
+
+  const first = samples[start];
+  const dt = last.t - first.t;
+  if (dt <= 0) return 0;
+  return ((last.x - first.x) / dt) * 1000;
+}
+
+function wrapMarqueeOffset(offset: number, loopWidth: number) {
+  if (loopWidth <= 0) return 0;
+  let x = offset % loopWidth;
+  if (x > 0) x -= loopWidth;
+  return x;
+}
+
+function applyMarqueeOffset(root: HTMLElement, offset: number) {
+  root.querySelectorAll<HTMLElement>('.question-marquee__row').forEach((row) => {
+    const track = row.querySelector<HTMLElement>('.question-marquee__track');
+    if (!track) return;
+    track.style.transform = `translateX(${wrapMarqueeOffset(offset, marqueeLoopWidth(row))}px)`;
   });
 }
 
+function centerMarqueeSuggestion(
+  button: HTMLElement,
+  offsetRef: { current: number },
+) {
+  const marquee = button.closest('.question-marquee');
+  if (!(marquee instanceof HTMLElement)) return;
 
-
-
+  const marqueeRect = marquee.getBoundingClientRect();
+  const buttonRect = button.getBoundingClientRect();
+  offsetRef.current +=
+    marqueeRect.left +
+    marqueeRect.width / 2 -
+    (buttonRect.left + buttonRect.width / 2);
+  applyMarqueeOffset(marquee, offsetRef.current);
+}
 
 const ChatWindow = () => {
   const { accessToken, isAuthenticated } = useAuth();
@@ -166,12 +210,13 @@ const ChatWindow = () => {
   const [lyrY, setLyrY] = useState(LYR_DEFAULT_Y);
   const [parallaxY, setParallaxY] = useState(0);
   const [gridParallaxY, setGridParallaxY] = useState(0);
-  const [marqueePaused, setMarqueePaused] = useState(
-    () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
-  );
   const rootRef = useRef<HTMLDivElement>(null);
+  const ballRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
+  const marqueeOffsetRef = useRef(0);
+  const marqueeDraggedRef = useRef(false);
+  const marqueeProxyRef = useRef<MarqueeProxy | null>(null);
   const conversationHistory = useRef<ConversationHistory[]>([]);
   const exitFallbackRef = useRef<number | null>(null);
 
@@ -195,29 +240,145 @@ const ChatWindow = () => {
 
   useEffect(() => {
     const root = marqueeRef.current;
-    if (!root) return;
+    if (!root || !showLanding) return;
 
-    const syncDurations = () => {
-      root.querySelectorAll<HTMLElement>('.question-marquee__row').forEach((row) => {
-        const group = row.querySelector<HTMLElement>('.question-marquee__group');
-        if (!group) return;
-        row.style.animationDuration = `${group.offsetWidth / MARQUEE_PX_PER_SEC}s`;
+    const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
+    const proxy: MarqueeProxy = { x: marqueeOffsetRef.current };
+    const samples: { t: number; x: number }[] = [];
+    marqueeProxyRef.current = proxy;
+
+    const applyFromProxy = () => {
+      marqueeOffsetRef.current = proxy.x;
+      applyMarqueeOffset(root, proxy.x);
+    };
+
+    applyFromProxy();
+    InertiaPlugin.track(proxy, 'x');
+
+    let pointerId: number | null = null;
+    let lastX = 0;
+    let startX = 0;
+    let dragging = false;
+    let moved = false;
+
+    const recordSample = () => {
+      const t = performance.now();
+      samples.push({ t, x: proxy.x });
+      while (samples.length > 1 && t - samples[0].t > 120) {
+        samples.shift();
+      }
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      gsap.killTweensOf(proxy);
+      proxy.x = marqueeOffsetRef.current;
+      pointerId = event.pointerId;
+      lastX = event.clientX;
+      startX = event.clientX;
+      dragging = true;
+      moved = false;
+      samples.length = 0;
+      recordSample();
+      root.classList.add('question-marquee--dragging');
+      root.classList.remove('question-marquee--coasting');
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (!dragging || event.pointerId !== pointerId) return;
+      if (event.pointerType === 'mouse' && event.buttons === 0) {
+        endDrag(event);
+        return;
+      }
+      if (
+        !moved &&
+        Math.abs(event.clientX - startX) < MARQUEE_DRAG_THRESHOLD
+      ) {
+        return;
+      }
+      moved = true;
+      proxy.x += event.clientX - lastX;
+      lastX = event.clientX;
+      recordSample();
+      applyFromProxy();
+      event.preventDefault();
+    };
+
+    const endDrag = (event: PointerEvent) => {
+      if (!dragging || event.pointerId !== pointerId) return;
+      dragging = false;
+      pointerId = null;
+      root.classList.remove('question-marquee--dragging');
+
+      if (!moved) return;
+
+      marqueeDraggedRef.current = true;
+      window.setTimeout(() => {
+        marqueeDraggedRef.current = false;
+      }, 0);
+
+      if (reducedMotion.matches) return;
+
+      recordSample();
+      let velocity = marqueeVelocity(samples);
+      if (Math.abs(velocity) < 40) {
+        const tracked = InertiaPlugin.getVelocity(
+          proxy as unknown as Element,
+          'x',
+        );
+        if (typeof tracked === 'number' && Number.isFinite(tracked)) {
+          velocity = tracked;
+        }
+      }
+      if (Math.abs(velocity) < 40) return;
+
+      root.classList.add('question-marquee--coasting');
+      gsap.to(proxy, {
+        inertia: {
+          x: { velocity },
+          resistance: MARQUEE_INERTIA.resistance,
+          duration: MARQUEE_INERTIA.duration,
+        },
+        onUpdate: applyFromProxy,
+        onComplete: () => {
+          root.classList.remove('question-marquee--coasting');
+        },
+        onInterrupt: () => {
+          root.classList.remove('question-marquee--coasting');
+        },
       });
     };
 
-    let cancelled = false;
-    const syncIfMounted = () => {
-      if (!cancelled) syncDurations();
+    const onMouseDown = (event: MouseEvent) => {
+      event.preventDefault();
     };
 
-    syncIfMounted();
-    const observer = new ResizeObserver(syncIfMounted);
+    const moveOptions: AddEventListenerOptions = {
+      capture: true,
+      passive: false,
+    };
+    const endOptions: AddEventListenerOptions = { capture: true };
+
+    root.addEventListener('pointerdown', onPointerDown);
+    root.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('pointermove', onPointerMove, moveOptions);
+    window.addEventListener('pointerup', endDrag, endOptions);
+    window.addEventListener('pointercancel', endDrag, endOptions);
+
+    const observer = new ResizeObserver(applyFromProxy);
     observer.observe(root);
-    document.fonts?.ready.then(syncIfMounted);
 
     return () => {
-      cancelled = true;
       observer.disconnect();
+      gsap.killTweensOf(proxy);
+      InertiaPlugin.untrack(proxy);
+      marqueeProxyRef.current = null;
+      root.removeEventListener('pointerdown', onPointerDown);
+      root.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('pointermove', onPointerMove, moveOptions);
+      window.removeEventListener('pointerup', endDrag, endOptions);
+      window.removeEventListener('pointercancel', endDrag, endOptions);
+      root.classList.remove('question-marquee--dragging', 'question-marquee--coasting');
     };
   }, [showLanding]);
 
@@ -265,6 +426,103 @@ const ChatWindow = () => {
       if (frame) window.cancelAnimationFrame(frame);
       window.removeEventListener('scroll', applyParallax);
       reducedMotion.removeEventListener('change', onReducedMotionChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    const ball = ballRef.current;
+    if (!ball) return;
+
+    const label = ball.querySelector<HTMLElement>('.mouse-ball__label');
+    const finePointer = window.matchMedia(FINE_POINTER_QUERY);
+    const xTo = gsap.quickTo(ball, 'x', { duration: 0.6, ease: 'power3' });
+    const yTo = gsap.quickTo(ball, 'y', { duration: 0.6, ease: 'power3' });
+    let isDrag = false;
+
+    const showBall = () => {
+      gsap.set(ball, { xPercent: -50, yPercent: -50 });
+      ball.style.display = 'flex';
+    };
+
+    const hideBall = () => {
+      ball.style.display = 'none';
+    };
+
+    const setDrag = (next: boolean) => {
+      if (next === isDrag) return;
+      isDrag = next;
+      gsap.killTweensOf(ball, 'width,height');
+      if (label) gsap.killTweensOf(label);
+
+      if (next) {
+        ball.classList.add('mouse-ball--drag');
+        gsap.to(ball, {
+          width: BALL_DRAG_SIZE,
+          height: BALL_DRAG_SIZE,
+          duration: 0.35,
+          ease: 'power3.out',
+        });
+        if (label) {
+          gsap.to(label, { opacity: 1, duration: 0.2, delay: 0.05 });
+        }
+        return;
+      }
+
+      if (label) gsap.to(label, { opacity: 0, duration: 0.12 });
+      gsap.to(ball, {
+        width: BALL_SIZE,
+        height: BALL_SIZE,
+        duration: 0.3,
+        ease: 'power3.out',
+        onComplete: () => {
+          if (!isDrag) ball.classList.remove('mouse-ball--drag');
+        },
+      });
+    };
+
+    const refreshDrag = (target: EventTarget | null) => {
+      const overMarquee =
+        target instanceof Element && target.closest('.question-marquee') != null;
+      const dragging = Boolean(
+        marqueeRef.current?.classList.contains('question-marquee--dragging'),
+      );
+      setDrag(overMarquee || dragging);
+    };
+
+    const onMouseMove = (event: MouseEvent) => {
+      xTo(event.clientX);
+      yTo(event.clientY);
+      refreshDrag(document.elementFromPoint(event.clientX, event.clientY));
+    };
+
+    const onPointerUp = (event: PointerEvent) => {
+      window.requestAnimationFrame(() => {
+        refreshDrag(document.elementFromPoint(event.clientX, event.clientY));
+      });
+    };
+
+    const syncPointer = () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('pointerup', onPointerUp);
+      if (finePointer.matches) {
+        showBall();
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('pointerup', onPointerUp);
+      } else {
+        setDrag(false);
+        hideBall();
+      }
+    };
+
+    syncPointer();
+    finePointer.addEventListener('change', syncPointer);
+
+    return () => {
+      finePointer.removeEventListener('change', syncPointer);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('pointerup', onPointerUp);
+      gsap.killTweensOf(ball);
+      if (label) gsap.killTweensOf(label);
     };
   }, []);
 
@@ -536,12 +794,14 @@ const ChatWindow = () => {
             }}
           >
             <div className="chat-landing">
-              <h1 className="chat-landing__headline">
-                250 hours is a lot to listen to.
-                <br />
-                What if you could search all of it?
-              </h1>
-              <p className="chat-landing__subtitle">The Backcountry Marketing Podcast has become a library of conversations with some of the brightest minds in the outdoor industry. Instead of digging through hundreds of episodes, you can search the transcripts and find the ideas, advice, and conversations you need in seconds.</p>
+              <div className="chat-landing__intro">
+                <h1 className="chat-landing__headline">
+                  250 hours is a lot to listen to.
+                  <br />
+                  What if you could search all of it?
+                </h1>
+                <p className="chat-landing__subtitle">The Backcountry Marketing Podcast has become a library of conversations with some of the brightest minds in the outdoor industry. Instead of digging through hundreds of episodes, you can search the transcripts and find the ideas, advice, and conversations you need in seconds.</p>
+              </div>
               <div className="chat-landing__composer">
                 <ChatInput
                   value={phase === 'landing' ? input : ''}
@@ -552,7 +812,7 @@ const ChatWindow = () => {
                   onSubmit={() => handleSend()}
                 />
                 <div
-                  className={`question-marquee-wrap${marqueePaused ? ' question-marquee-wrap--paused' : ''}`}
+                  className="question-marquee-wrap"
                   onFocusCapture={(event) => {
                     const target = event.target;
                     if (
@@ -561,22 +821,18 @@ const ChatWindow = () => {
                     ) {
                       return;
                     }
+                    const marquee = target.closest('.question-marquee');
+                    if (marquee instanceof HTMLElement) {
+                      marquee.scrollLeft = 0;
+                      marquee.scrollTop = 0;
+                    }
                     window.requestAnimationFrame(() => {
-                      centerMarqueeSuggestion(target);
-                    });
-                  }}
-                  onBlurCapture={(event) => {
-                    const wrap = event.currentTarget;
-                    window.requestAnimationFrame(() => {
-                      const active = document.activeElement;
-                      if (
-                        active instanceof HTMLElement &&
-                        wrap.contains(active) &&
-                        active.classList.contains('chat-suggestion')
-                      ) {
-                        return;
+                      if (!target.matches(':focus-visible')) return;
+                      gsap.killTweensOf(marqueeProxyRef.current);
+                      centerMarqueeSuggestion(target, marqueeOffsetRef);
+                      if (marqueeProxyRef.current) {
+                        marqueeProxyRef.current.x = marqueeOffsetRef.current;
                       }
-                      resetMarqueeTracks(wrap);
                     });
                   }}
                 >
@@ -600,7 +856,10 @@ const ChatWindow = () => {
                                   type="button"
                                   className="chat-suggestion"
                                   tabIndex={copy === 1 ? -1 : undefined}
-                                  onClick={() => handleSend(suggestion)}
+                                  onClick={() => {
+                                    if (marqueeDraggedRef.current) return;
+                                    handleSend(suggestion);
+                                  }}
                                   disabled={loading || phase !== 'landing'}
                                 >
                                   {suggestion}
@@ -612,23 +871,6 @@ const ChatWindow = () => {
                       </div>
                     ))}
                   </div>
-                  <button
-                    type="button"
-                    className="question-marquee__control"
-                    aria-label={
-                      marqueePaused
-                        ? 'Play suggested questions'
-                        : 'Pause suggested questions'
-                    }
-                    onClick={() => setMarqueePaused((paused) => !paused)}
-                  >
-                    <img
-                      src={marqueePaused ? playIcon : pauseIcon}
-                      alt=""
-                      width={16}
-                      height={16}
-                    />
-                  </button>
                 </div>
               </div>
             </div>
@@ -763,6 +1005,12 @@ const ChatWindow = () => {
         reason={loginReason}
         onClose={() => setLoginOpen(false)}
       />
+      {createPortal(
+        <div ref={ballRef} className="mouse-ball" aria-hidden="true">
+          <span className="mouse-ball__label">drag</span>
+        </div>,
+        document.body,
+      )}
     </div>
   );
 };

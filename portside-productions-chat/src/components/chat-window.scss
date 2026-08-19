@@ -1,4 +1,38 @@
 $easing: cubic-bezier(.3,0,0,1);
+
+.mouse-ball {
+  width: 8px;
+  height: 8px;
+  border-radius: 9000px;
+  background: var(--white);
+  color: var(--black);
+  mix-blend-mode: difference;
+  z-index: 1111;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
+
+  &--drag {
+    mix-blend-mode: normal;
+  }
+}
+
+.mouse-ball__label {
+  font-family: var(--heading);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+}
+
 .chat-window {
   --parallax-y: 0px;
   --grid-parallax-y: 0px;
@@ -206,6 +240,7 @@ $easing: cubic-bezier(.3,0,0,1);
   flex-direction: column;
   gap: 80px;
   z-index: 2;
+  padding-top: 112px;
 }
 
 .chat-window--exiting .chat-landing-page {
@@ -224,7 +259,16 @@ $easing: cubic-bezier(.3,0,0,1);
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  gap: 112px;
+}
+
+.chat-landing__intro {
+  width: 100%;
+  max-width: var(--column-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 
 .chat-window--exiting .chat-landing {
@@ -251,10 +295,16 @@ $easing: cubic-bezier(.3,0,0,1);
   font-weight: 500;
   font-family: var(--heading);
   color: var(--white);
-  margin-top: 10svw;
 }
-.chat-landing__subtitle{
+
+.chat-landing__subtitle {
+  max-width: 100%;
   text-align: center;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  opacity: 0.7;
 }
 
 .chat-landing__composer {
@@ -268,14 +318,7 @@ $easing: cubic-bezier(.3,0,0,1);
 .question-marquee-wrap {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 12px;
-
-  &:hover .question-marquee__row,
-  &:focus-within .question-marquee__row,
-  &--paused .question-marquee__row {
-    animation-play-state: paused;
-  }
+  align-items: stretch;
 }
 
 .question-marquee {
@@ -286,7 +329,10 @@ $easing: cubic-bezier(.3,0,0,1);
   display: flex;
   flex-direction: column;
   gap: 12px;
-  overflow: hidden;
+  overflow: clip;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
   mask-image: linear-gradient(
     to right,
     transparent,
@@ -301,45 +347,45 @@ $easing: cubic-bezier(.3,0,0,1);
     #000 75%,
     transparent
   );
-}
 
-.question-marquee__control {
-  appearance: none;
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  margin: -4px -4px 0 0;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-
-  img {
-    display: block;
-    width: 16px;
-    height: 16px;
+  &--dragging,
+  &--dragging .chat-suggestion {
+    cursor: grabbing;
   }
 
-  &:hover {
-    opacity: 0.85;
+  @media (hover: hover) and (pointer: fine) {
+    cursor: none;
+
+    .chat-suggestion {
+      cursor: none;
+    }
+
+    &--dragging,
+    &--dragging .chat-suggestion {
+      cursor: none;
+    }
   }
 
-  &:focus-visible {
-    outline: 2px solid var(--gray-light);
-    outline-offset: 2px;
+  &--dragging .chat-suggestion:hover:not(:disabled) {
+    background: transparent;
+    color: var(--white);
+  }
+
+  &--dragging .question-marquee__track,
+  &--coasting .question-marquee__track {
+    transition: none;
   }
 }
 
 .question-marquee__row {
   display: flex;
   width: max-content;
-  animation: question-marquee 48s linear infinite;
 }
 
 .question-marquee__track {
   display: flex;
   width: max-content;
+  will-change: transform;
   transition: transform 0.4s $easing;
 }
 
@@ -347,15 +393,6 @@ $easing: cubic-bezier(.3,0,0,1);
   display: flex;
   gap: 12px;
   padding-right: 12px;
-}
-
-@keyframes question-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
 }
 
 .chat-suggestion {
@@ -370,7 +407,7 @@ $easing: cubic-bezier(.3,0,0,1);
   line-height: 1;
   padding: 8px;
   border-radius: var(--radius-button);
-  cursor: pointer;
+  cursor: grab;
   text-align: center;
   white-space: nowrap;
   flex-shrink: 0;
@@ -982,6 +1019,9 @@ $easing: cubic-bezier(.3,0,0,1);
 
 @media (max-width: 768px) {
   .chat-window__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
     padding: 20px 16px 0;
   }
 
@@ -994,7 +1034,7 @@ $easing: cubic-bezier(.3,0,0,1);
   }
 
   .chat-window--landing .chat-window__main {
-    padding-block: 88px 64px;
+    padding-block: 132px 64px;
   }
 
   .chat-landing__headline {
