@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useId, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
+import type { Session } from '@supabase/supabase-js';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import parseHtml from 'html-react-parser';
@@ -198,7 +199,7 @@ function centerMarqueeSuggestion(
 }
 
 const ChatWindow = () => {
-  const { accessToken, isAuthenticated } = useAuth();
+  const { accessToken, isAuthenticated, setSession } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -383,9 +384,12 @@ const ChatWindow = () => {
   }, [showLanding]);
 
   useEffect(() => {
-    if (isAuthenticated && loginOpen) {
-      setLoginOpen(false);
-    }
+    if (!isAuthenticated) return;
+    if (loginOpen) setLoginOpen(false);
+    setMessages((prev) => {
+      if (!prev.some((msg) => msg.role === 'gate')) return prev;
+      return prev.filter((msg) => msg.role !== 'gate');
+    });
   }, [isAuthenticated, loginOpen]);
 
   useEffect(() => {
@@ -599,6 +603,11 @@ const ChatWindow = () => {
   function openLogin(reason: LoginReason) {
     setLoginReason(reason);
     setLoginOpen(true);
+  }
+
+  function handleAuthenticated(session: Session) {
+    setSession(session);
+    setLoginOpen(false);
   }
 
   function appendGateMessage() {
@@ -1004,6 +1013,7 @@ const ChatWindow = () => {
         open={loginOpen}
         reason={loginReason}
         onClose={() => setLoginOpen(false)}
+        onAuthenticated={handleAuthenticated}
       />
       {createPortal(
         <div ref={ballRef} className="mouse-ball" aria-hidden="true">

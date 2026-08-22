@@ -6,6 +6,7 @@ import {
   useState,
   type FormEvent,
 } from 'react';
+import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import closeIcon from '../assets/icon-close.svg';
 import './login-modal.scss';
@@ -14,6 +15,7 @@ type LoginModalProps = {
   open: boolean;
   reason?: 'gate' | 'manual';
   onClose: () => void;
+  onAuthenticated?: (session: Session) => void;
 };
 
 type Mode = 'signin' | 'signup' | 'forgot';
@@ -35,7 +37,11 @@ function getFocusable(root: HTMLElement) {
   );
 }
 
-export default function LoginModal({ open, onClose }: LoginModalProps) {
+export default function LoginModal({
+  open,
+  onClose,
+  onAuthenticated,
+}: LoginModalProps) {
   const emailId = useId();
   const passwordId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -43,7 +49,9 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
   const bodyRef = useRef<HTMLDivElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const onCloseRef = useRef(onClose);
+  const onAuthenticatedRef = useRef(onAuthenticated);
   onCloseRef.current = onClose;
+  onAuthenticatedRef.current = onAuthenticated;
   const [mode, setMode] = useState<Mode>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -246,11 +254,11 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
         return;
       }
 
-      setStatus('idle');
+      onAuthenticatedRef.current?.(data.session);
       return;
     }
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
       email: trimmedEmail,
       password,
     });
@@ -258,6 +266,11 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
     if (signInError) {
       setStatus('error');
       setError(signInError.message);
+      return;
+    }
+
+    if (data.session) {
+      onAuthenticatedRef.current?.(data.session);
       return;
     }
 

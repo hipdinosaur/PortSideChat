@@ -7,14 +7,8 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let mounted = true;
-
-    supabase.auth.getSession().then(({ data }) => {
-      if (!mounted) return;
-      setSession(data.session);
-      setLoading(false);
-    });
-
+    // Prefer onAuthStateChange alone (emits INITIAL_SESSION) so a late
+    // getSession() resolution cannot overwrite a just-completed sign-in.
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, nextSession) => {
@@ -23,7 +17,6 @@ export function useAuth() {
     });
 
     return () => {
-      mounted = false;
       subscription.unsubscribe();
     };
   }, []);
@@ -34,5 +27,7 @@ export function useAuth() {
     accessToken: session?.access_token ?? null,
     loading,
     isAuthenticated: Boolean(session?.user),
+    /** Apply a session returned directly from sign-in/sign-up (no reload). */
+    setSession,
   };
 }
