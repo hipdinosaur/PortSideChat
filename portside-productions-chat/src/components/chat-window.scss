@@ -938,7 +938,6 @@ $easing: cubic-bezier(.3,0,0,1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
   border: none;
   margin: 0;
   background: var(--submit-bg);
@@ -953,32 +952,10 @@ $easing: cubic-bezier(.3,0,0,1);
   cursor: pointer;
   overflow: hidden;
 
-  &::before {
-    content: '';
-    width: 0;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-    opacity: 0;
-    transition:
-      opacity 0.15s ease,
-      width 0.15s $easing;
-  }
-
-  &:hover:not(:disabled)::before {
-    opacity: 1;
-    width: 8px;
-  }
-
   &:disabled {
     background: #7c7c7c;
     color: #c3c3c3;
     cursor: not-allowed;
-
-    &::before {
-      display: none;
-    }
   }
 }
 
