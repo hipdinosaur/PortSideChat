@@ -1,32 +1,25 @@
 {
   "summary": {
-    "docx_files": 212,
-    "cms_episodes": 234,
-    "resolved": 211,
-    "filled": 211,
+    "docx_files": 216,
+    "cms_episodes": 239,
+    "resolved": 216,
+    "filled": 216,
     "skipped_existing": 0,
-    "episodes_with_transcript_after": 221,
+    "episodes_with_transcript_after": 226,
     "episodes_missing_transcript_after": 13,
     "status_counts": {
-      "filled": 211,
-      "unmatched": 1
+      "filled": 216
     },
     "needs_review_count": 0,
-    "unmatched_count": 1,
+    "unmatched_count": 0,
     "collision_count": 0,
     "resolution_methods": {
       "cms_name_episode": 171,
       "override": 3,
-      "podcast_index_column": 37
+      "podcast_index_column": 42
     }
   },
-  "unmatched": [
-    {
-      "source_file": "EP 241_How Brands Grow According to Research_Jenni Romaniuk.docx",
-      "file_ep": 241,
-      "reason": "no CMS row for episode 241"
-    }
-  ],
+  "unmatched": [],
   "collisions": [],
   "needs_review": [],
   "filled_episode_numbers": [
@@ -240,7 +233,12 @@
     232,
     234,
     235,
-    238
+    238,
+    241,
+    242,
+    243,
+    244,
+    245
   ],
   "decisions": [
     {
@@ -3017,7 +3015,7 @@
       "source_file": "EP 241_How Brands Grow According to Research_Jenni Romaniuk.docx",
       "file_ep": 241,
       "resolved_ep": 241,
-      "method": "no_cms_row",
+      "method": "podcast_index_column",
       "docx_speakers": [
         "Jenni Romaniuk",
         "Cole Heilborn"
@@ -3025,8 +3023,117 @@
       "guest_speakers": [
         "Jenni Romaniuk"
       ],
-      "status": "unmatched",
-      "reason": "no CMS row for episode 241"
+      "item_id": "6a7351f57f6ba4707416721b",
+      "podcast_index": "241",
+      "cms_name": "How Brands Grow According to Research",
+      "cms_guest": "Jenni Romaniuk",
+      "title_similarity": 0.831,
+      "guest_corroborated": true,
+      "needs_review": false,
+      "status": "filled",
+      "reason": "overwrote existing CMS transcript"
+    },
+    {
+      "source_file": "EP 242 -  Can Organic Content Drive Business Growth - Cole Heilborn.docx",
+      "file_ep": 242,
+      "resolved_ep": 242,
+      "method": "podcast_index_column",
+      "docx_speakers": [
+        "Greg",
+        "Ram",
+        "Mike",
+        "Cole",
+        "Andy"
+      ],
+      "guest_speakers": [
+        "Greg",
+        "Ram",
+        "Mike",
+        "Andy"
+      ],
+      "item_id": "6a7ccfbd52dd548286fab505",
+      "podcast_index": "242",
+      "cms_name": "Can Organic Content Drive Business Growth? | Episode 1",
+      "cms_guest": "Cole Heilborn",
+      "title_similarity": 0.849,
+      "guest_corroborated": true,
+      "needs_review": false,
+      "status": "filled",
+      "reason": "overwrote existing CMS transcript"
+    },
+    {
+      "source_file": "EP 243 - Bold Creative is a Growth Strategy - Joe Prebich .docx",
+      "file_ep": 243,
+      "resolved_ep": 243,
+      "method": "podcast_index_column",
+      "docx_speakers": [
+        "Joe Prebich",
+        "Cole Heilborn"
+      ],
+      "guest_speakers": [
+        "Joe Prebich"
+      ],
+      "item_id": "6a7f82de968442803be4cf6a",
+      "podcast_index": "243",
+      "cms_name": "Bold Creative is a Growth Strategy",
+      "cms_guest": "Joe Prebich",
+      "title_similarity": 0.85,
+      "guest_corroborated": true,
+      "needs_review": false,
+      "status": "filled",
+      "reason": "overwrote existing CMS transcript"
+    },
+    {
+      "source_file": "EP 244 - Turning Brand Strategy Into Creative Behavior that Drives Sales - Cole Heilborn.docx",
+      "file_ep": 244,
+      "resolved_ep": 244,
+      "method": "podcast_index_column",
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Ram",
+        "Mike",
+        "Greg",
+        "Jenni Romaniuk",
+        "Joe Prebich"
+      ],
+      "guest_speakers": [
+        "Ram",
+        "Mike",
+        "Greg",
+        "Jenni Romaniuk",
+        "Joe Prebich"
+      ],
+      "item_id": "6aab11008a05bb106ac8dcce",
+      "podcast_index": "244",
+      "cms_name": "Turning Brand Strategy Into Creative Behavior that Drives Sales | Episode 2",
+      "cms_guest": "Cole Heilborn",
+      "title_similarity": 0.893,
+      "guest_corroborated": true,
+      "needs_review": false,
+      "status": "filled",
+      "reason": "overwrote existing CMS transcript"
+    },
+    {
+      "source_file": "EP 245 - Behind the Scenes of Mammut’s Social First Campaign Content - Nic Brandenberger .docx",
+      "file_ep": 245,
+      "resolved_ep": 245,
+      "method": "podcast_index_column",
+      "docx_speakers": [
+        "Cole Heilborn",
+        "Nic Brandenberger"
+      ],
+      "guest_speakers": [
+        "Nic Brandenberger"
+      ],
+      "item_id": "6ae230bcf97004a813e5444b",
+      "podcast_index": "245",
+      "cms_name": " Behind the Scenes of Mammut’s Social First Campaign Content",
+      "cms_guest": "Nic Brandenberger",
+      "title_similarity": 0.868,
+      "guest_corroborated": true,
+      "needs_review": false,
+      "status": "filled",
+      "reason": "overwrote existing CMS transcript"
     },
     {
       "source_file": "EP 25. Adam Saraceno _ Kickstarter 101 _ Peak Design.docx",

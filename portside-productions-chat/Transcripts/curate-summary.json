@@ -1,9 +1,9 @@
 {
   "source_merged_csv": "/Users/nathanlindahl/Library/CloudStorage/Dropbox/freelance/portside-pro/chatbot/portside-productions-chat/Transcripts/Port Side - Podcast-feeds - merged.csv",
   "merge_report": "/Users/nathanlindahl/Library/CloudStorage/Dropbox/freelance/portside-pro/chatbot/portside-productions-chat/Transcripts/transcript-merge-report.json",
-  "episodes_in_merged": 234,
-  "episodes_kept": 211,
-  "docx_backed_items": 211,
+  "episodes_in_merged": 239,
+  "episodes_kept": 216,
+  "docx_backed_items": 216,
   "dropped_throwback": [
     {
       "podcast_index": "108",
@@ -22,13 +22,7 @@
   "dropped_no_transcript": [],
   "dropped_no_slug": [],
   "items_with_multiple_docx": {},
-  "unmatched_docx": [
-    {
-      "source_file": "EP 241_How Brands Grow According to Research_Jenni Romaniuk.docx",
-      "file_ep": 241,
-      "reason": "no CMS row for episode 241"
-    }
-  ],
+  "unmatched_docx": [],
   "kept_episode_numbers": [
     1,
     3,
@@ -237,7 +231,12 @@
     232,
     234,
     235,
-    238
+    238,
+    241,
+    242,
+    243,
+    244,
+    245
   ],
   "output_csv": "/Users/nathanlindahl/Library/CloudStorage/Dropbox/freelance/portside-pro/chatbot/portside-productions-chat/Transcripts/Port Side - Podcast-feeds - curated.csv"
 }

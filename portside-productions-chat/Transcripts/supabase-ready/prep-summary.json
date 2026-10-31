@@ -1,25 +1,25 @@
 {
   "source_csv": "Transcripts/Port Side - Podcast-feeds - curated.csv",
-  "episodes_total": 211,
-  "episodes_with_transcript": 211,
+  "episodes_total": 216,
+  "episodes_with_transcript": 216,
   "episodes_without_transcript": 0,
-  "chunks_total": 4998,
+  "chunks_total": 5125,
   "skipped_no_slug": 0,
   "target_tokens": 550,
   "token_estimate": {
     "min": 120,
     "median": 488,
     "max": 886,
-    "avg": 460.1
+    "avg": 459.7
   },
   "categories": {
-    "brand": 61,
-    "creative": 56,
-    "digital-marketing": 21,
-    "industry-trends": 15,
-    "leadership-and-people": 23,
-    "public-relations": 1,
-    "strategy": 17
+    "brand": 65,
+    "creative": 61,
+    "digital-marketing": 25,
+    "industry-trends": 16,
+    "leadership-and-people": 25,
+    "public-relations": 3,
+    "strategy": 21
   },
   "outputs": {
     "episodes": "/Users/nathanlindahl/Library/CloudStorage/Dropbox/freelance/portside-pro/chatbot/portside-productions-chat/Transcripts/supabase-ready/episodes.jsonl",
