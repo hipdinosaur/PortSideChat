@@ -6,22 +6,20 @@ import {
   useState,
   type FormEvent,
 } from 'react';
-import type { Session } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
 import closeIcon from '../assets/icon-close.svg';
+import { getSubscribedEmail, saveSubscribedEmail } from '../lib/subscribe';
 import './login-modal.scss';
 
-type LoginModalProps = {
+type SubscribeModalProps = {
   open: boolean;
-  reason?: 'gate' | 'manual';
   onClose: () => void;
-  onAuthenticated?: (session: Session) => void;
+  onSubscribed?: (email: string) => void;
 };
 
-type Mode = 'signin' | 'signup' | 'forgot';
-type Status = 'idle' | 'submitting' | 'confirm' | 'reset-sent' | 'error';
+type Status = 'idle' | 'done' | 'error';
 
 const RESIZE_MS = 420;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FOCUSABLE_SELECTOR = [
   'a[href]',
   'button:not([disabled])',
@@ -37,24 +35,21 @@ function getFocusable(root: HTMLElement) {
   );
 }
 
-export default function LoginModal({
+export default function SubscribeModal({
   open,
   onClose,
-  onAuthenticated,
-}: LoginModalProps) {
+  onSubscribed,
+}: SubscribeModalProps) {
   const emailId = useId();
-  const passwordId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const onCloseRef = useRef(onClose);
-  const onAuthenticatedRef = useRef(onAuthenticated);
+  const onSubscribedRef = useRef(onSubscribed);
   onCloseRef.current = onClose;
-  onAuthenticatedRef.current = onAuthenticated;
-  const [mode, setMode] = useState<Mode>('signin');
+  onSubscribedRef.current = onSubscribed;
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
   const [panelHeight, setPanelHeight] = useState<number | null>(null);
@@ -65,10 +60,9 @@ export default function LoginModal({
   if (open !== wasOpen) {
     setWasOpen(open);
     if (open) {
-      setMode('signin');
-      setEmail('');
-      setPassword('');
-      setStatus('idle');
+      const saved = getSubscribedEmail();
+      setEmail(saved ?? '');
+      setStatus(saved ? 'done' : 'idle');
       setError(null);
       setPanelHeight(null);
       setAnimateHeight(false);
@@ -103,7 +97,7 @@ export default function LoginModal({
       window.cancelAnimationFrame(frame);
       observer.disconnect();
     };
-  }, [open, mode, status, error]);
+  }, [open, status, error]);
 
   useLayoutEffect(() => {
     if (!open) return;
@@ -125,8 +119,7 @@ export default function LoginModal({
       el.inert = true;
     });
 
-    const focusTarget =
-      emailRef.current ?? getFocusable(panel)[0] ?? panel;
+    const focusTarget = emailRef.current ?? getFocusable(panel)[0] ?? panel;
     focusTarget.focus();
 
     function onKeyDown(event: KeyboardEvent) {
@@ -170,119 +163,24 @@ export default function LoginModal({
 
   if (!open) return null;
 
-  const busy = status === 'submitting';
-  const showMessage = status === 'confirm' || status === 'reset-sent';
+  const done = status === 'done';
 
-  const title =
-    mode === 'signup'
-      ? 'Create your account'
-      : mode === 'forgot'
-        ? 'Forgot password'
-        : 'Sign in';
-
-  const primaryLabel =
-    mode === 'signup'
-      ? 'Create your Account'
-      : busy
-        ? 'Submitting…'
-        : 'Submit';
-
-  const secondaryLabel =
-    mode === 'signin' ? 'Create an Account' : 'Return to sign in';
-
-  function goTo(next: Mode) {
-    setMode(next);
-    setStatus('idle');
-    setError(null);
-    if (next === 'signup') {
-      setPassword('');
-    }
-  }
-
-  async function handleSubmit(event: FormEvent) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const trimmedEmail = email.trim();
-    if (!trimmedEmail || busy) return;
+    if (!trimmedEmail || done) return;
 
-    if (mode === 'forgot') {
-      setStatus('submitting');
-      setError(null);
-
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-        trimmedEmail,
-        { redirectTo: window.location.origin }
-      );
-
-      if (resetError) {
-        setStatus('error');
-        setError(resetError.message);
-        return;
-      }
-
-      setStatus('reset-sent');
-      return;
-    }
-
-    if (!password) return;
-
-    setStatus('submitting');
-    setError(null);
-
-    if (mode === 'signup') {
-      if (password.length < 8) {
-        setStatus('error');
-        setError('Password must be 8 or more characters.');
-        return;
-      }
-
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email: trimmedEmail,
-        password,
-        options: {
-          emailRedirectTo: window.location.origin,
-        },
-      });
-
-      if (signUpError) {
-        setStatus('error');
-        setError(signUpError.message);
-        return;
-      }
-
-      if (!data.session) {
-        setStatus('confirm');
-        return;
-      }
-
-      onAuthenticatedRef.current?.(data.session);
-      return;
-    }
-
-    const { data, error: signInError } = await supabase.auth.signInWithPassword({
-      email: trimmedEmail,
-      password,
-    });
-
-    if (signInError) {
+    if (!EMAIL_PATTERN.test(trimmedEmail)) {
       setStatus('error');
-      setError(signInError.message);
+      setError('Enter a valid email.');
       return;
     }
 
-    if (data.session) {
-      onAuthenticatedRef.current?.(data.session);
-      return;
-    }
-
-    setStatus('idle');
-  }
-
-  function handleSecondary() {
-    if (mode === 'signin') {
-      goTo('signup');
-      return;
-    }
-    goTo('signin');
+    saveSubscribedEmail(trimmedEmail);
+    setEmail(trimmedEmail);
+    setError(null);
+    setStatus('done');
+    onSubscribedRef.current?.(trimmedEmail);
   }
 
   const panelStyle =
@@ -298,26 +196,20 @@ export default function LoginModal({
 
   return (
     <div ref={dialogRef} className="login-modal">
-      <div
-        className="login-modal__backdrop"
-        onClick={onClose}
-      />
+      <div className="login-modal__backdrop" onClick={onClose} />
       <div
         ref={panelRef}
-        className={`login-modal__panel login-modal__panel--${mode}`}
+        className="login-modal__panel"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="login-modal-title"
+        aria-labelledby="subscribe-modal-title"
         tabIndex={-1}
         style={panelStyle}
       >
         <div ref={bodyRef} className="login-modal__body">
           <div className="login-modal__header">
-            <h2
-              id="login-modal-title"
-              className={`login-modal__title${mode === 'signup' ? ' login-modal__title--wrap' : ''}`}
-            >
-              {title}
+            <h2 id="subscribe-modal-title" className="login-modal__title">
+              Subscribe
             </h2>
             <button
               type="button"
@@ -329,28 +221,12 @@ export default function LoginModal({
             </button>
           </div>
 
-          {showMessage ? (
+          {done ? (
             <div className="login-modal__message" role="status">
               <p>
-                {status === 'reset-sent' ? (
-                  <>
-                    Check <strong>{email.trim()}</strong> for a password reset
-                    link.
-                  </>
-                ) : (
-                  <>
-                    Check <strong>{email.trim()}</strong> to confirm your
-                    account, then sign in.
-                  </>
-                )}
+                Thanks. We&apos;ll send the latest insights to{' '}
+                <strong>{email}</strong>.
               </p>
-              <button
-                type="button"
-                className="login-modal__secondary"
-                onClick={() => goTo('signin')}
-              >
-                Return to sign in
-              </button>
             </div>
           ) : (
             <form className="login-modal__form" onSubmit={handleSubmit}>
@@ -364,35 +240,16 @@ export default function LoginModal({
                     autoComplete="email"
                     required
                     value={email}
-                    disabled={busy}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (status === 'error') {
+                        setStatus('idle');
+                        setError(null);
+                      }
+                    }}
                     placeholder="Email"
                   />
                 </label>
-
-                {mode !== 'forgot' && (
-                  <div className="login-modal__password-block">
-                    <label className="login-modal__field" htmlFor={passwordId}>
-                      <span className="visually-hidden">Password</span>
-                      <input
-                        id={passwordId}
-                        type="password"
-                        autoComplete={
-                          mode === 'signup' ? 'new-password' : 'current-password'
-                        }
-                        required
-                        minLength={mode === 'signup' ? 8 : 6}
-                        value={password}
-                        disabled={busy}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
-                      />
-                    </label>
-                    {mode === 'signup' && (
-                      <p className="login-modal__hint">8 or more characters</p>
-                    )}
-                  </div>
-                )}
 
                 {error && (
                   <p className="login-modal__error" role="alert">
@@ -405,35 +262,11 @@ export default function LoginModal({
                 <button
                   type="submit"
                   className="login-modal__submit"
-                  disabled={
-                    busy ||
-                    !email.trim() ||
-                    (mode !== 'forgot' && !password)
-                  }
+                  disabled={!email.trim()}
                 >
-                  {primaryLabel}
-                </button>
-
-                <button
-                  type="button"
-                  className="login-modal__secondary"
-                  onClick={handleSecondary}
-                  disabled={busy}
-                >
-                  {secondaryLabel}
+                  Subscribe
                 </button>
               </div>
-
-              {mode === 'signin' && (
-                <button
-                  type="button"
-                  className="login-modal__forgot"
-                  onClick={() => goTo('forgot')}
-                  disabled={busy}
-                >
-                  Forgot Password?
-                </button>
-              )}
             </form>
           )}
         </div>

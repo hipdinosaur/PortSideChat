@@ -1,16 +1,12 @@
 import { useState, useEffect, useRef, useId, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
-import type { Session } from '@supabase/supabase-js';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import parseHtml from 'html-react-parser';
 import gsap from 'gsap';
 import { InertiaPlugin } from 'gsap/InertiaPlugin';
 import ThinkingSpinner from './thinking-spinner';
-import LoginModal from './login-modal';
-import { useAuth } from '../hooks/use-auth';
-import { hasUsedFreeChat, markFreeChatUsed } from '../lib/free-chat';
-import { supabase } from '../lib/supabase';
+import SubscribeModal from './subscribe-modal';
 import loginArrow from '../assets/icon-login-arrow.svg';
 import './chat-window.scss';
 import bmcButton from '../assets/bmc-button.svg';
@@ -53,7 +49,7 @@ const BMC_URL = 'https://buymeacoffee.com/coleheilborn';
 
 /** Keep in sync with `$transition-exit` in chat-window.scss */
 const EXIT_MS = 700;
-const GATE_LABEL = 'Login to continue';
+const GATE_LABEL = 'Subscribe for the latest insights';
 const MARQUEE_DRAG_THRESHOLD = 8;
 const MARQUEE_INERTIA = {
   resistance: 50,
@@ -131,10 +127,8 @@ type Phase = 'landing' | 'exiting' | 'chat';
 
 type Message =
   | { role: 'user'; content: string }
-  | { role: 'assistant'; content: string }
-  | { role: 'gate'; content: typeof GATE_LABEL };
+  | { role: 'assistant'; content: string };
 type ConversationHistory = { role: 'user' | 'assistant'; content: string };
-type LoginReason = 'gate' | 'manual';
 
 function marqueeLoopWidth(row: HTMLElement) {
   const group = row.querySelector<HTMLElement>('.question-marquee__group');
@@ -199,14 +193,11 @@ function centerMarqueeSuggestion(
 }
 
 const ChatWindow = () => {
-  const { accessToken, isAuthenticated, setSession } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [phase, setPhase] = useState<Phase>('landing');
-  const [loginOpen, setLoginOpen] = useState(false);
-  const [loginReason, setLoginReason] = useState<LoginReason>('manual');
-  const [freeChatUsed, setFreeChatUsed] = useState(hasUsedFreeChat);
+  const [subscribeOpen, setSubscribeOpen] = useState(false);
   const [lyrX, setLyrX] = useState(LYR_DEFAULT_X);
   const [lyrY, setLyrY] = useState(LYR_DEFAULT_Y);
   const [parallaxY, setParallaxY] = useState(0);
@@ -223,8 +214,6 @@ const ChatWindow = () => {
 
   const showLanding = phase === 'landing' || phase === 'exiting';
   const showChat = phase === 'exiting' || phase === 'chat';
-  const canSendWithoutAuth = !freeChatUsed;
-  const submitLocked = !isAuthenticated && freeChatUsed;
 
   useEffect(() => {
     if (phase !== 'chat') return;
@@ -382,23 +371,6 @@ const ChatWindow = () => {
       root.classList.remove('question-marquee--dragging', 'question-marquee--coasting');
     };
   }, [showLanding]);
-
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    if (loginOpen) setLoginOpen(false);
-    setMessages((prev) => {
-      if (!prev.some((msg) => msg.role === 'gate')) return prev;
-      return prev.filter((msg) => msg.role !== 'gate');
-    });
-  }, [isAuthenticated, loginOpen]);
-
-  useEffect(() => {
-    if (!submitLocked || !showChat) return;
-    setMessages((prev) => {
-      if (prev.some((msg) => msg.role === 'gate')) return prev;
-      return [...prev, { role: 'gate', content: GATE_LABEL }];
-    });
-  }, [submitLocked, showChat]);
 
   useEffect(() => {
     const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
@@ -600,18 +572,8 @@ const ChatWindow = () => {
     };
   }, []);
 
-  function openLogin(reason: LoginReason) {
-    setLoginReason(reason);
-    setLoginOpen(true);
-  }
-
-  function handleAuthenticated(session: Session) {
-    setSession(session);
-    setLoginOpen(false);
-  }
-
-  function appendGateMessage() {
-    setMessages((prev) => [...prev, { role: 'gate', content: GATE_LABEL }]);
+  function openSubscribe() {
+    setSubscribeOpen(true);
   }
 
   function finishExit() {
@@ -633,15 +595,6 @@ const ChatWindow = () => {
     const userText = (text ?? input).trim();
     if (!userText || loading || phase === 'exiting') return;
 
-    if (!isAuthenticated && !canSendWithoutAuth) {
-      if (phase === 'landing') {
-        beginExit();
-      }
-      setInput('');
-      appendGateMessage();
-      return;
-    }
-
     if (phase === 'landing') {
       beginExit();
     }
@@ -651,42 +604,14 @@ const ChatWindow = () => {
     setLoading(true);
 
     try {
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      };
-      if (accessToken) {
-        headers.Authorization = `Bearer ${accessToken}`;
-      }
-
       const res = await fetch('/api/anthropic-route', {
         method: 'POST',
-        headers,
-        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           userText,
           conversationHistory: conversationHistory.current,
         }),
       });
-
-      if (res.status === 401) {
-        let code = 'login_required';
-        try {
-          const body = (await res.json()) as { error?: string };
-          if (body.error) code = body.error;
-        } catch {
-          // ignore parse errors
-        }
-        if (code === 'login_required') {
-          markFreeChatUsed();
-          setFreeChatUsed(true);
-          setMessages((prev) => [
-            ...prev.slice(0, -1),
-            { role: 'gate', content: GATE_LABEL },
-          ]);
-          return;
-        }
-        throw new Error(code);
-      }
 
       if (!res.ok) {
         const errorText = await res.text();
@@ -695,28 +620,15 @@ const ChatWindow = () => {
 
       const data = await res.json();
       const answer = data.answer;
-      
-
-      const wasGuest = !isAuthenticated;
-      if (wasGuest) {
-        markFreeChatUsed();
-        setFreeChatUsed(true);
-      }
 
       conversationHistory.current.push({ role: 'user', content: userText });
       conversationHistory.current.push({ role: 'assistant', content: answer });
       const html = await marked.parse(answer);
       const sanitizedHtml = DOMPurify.sanitize(html);
-      setMessages((prev) => {
-        const next: Message[] = [
-          ...prev,
-          { role: 'assistant', content: sanitizedHtml },
-        ];
-        if (wasGuest) {
-          next.push({ role: 'gate', content: GATE_LABEL });
-        }
-        return next;
-      });
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', content: sanitizedHtml },
+      ]);
     } catch (err) {
       console.error(err);
       setMessages((prev) => [
@@ -729,14 +641,6 @@ const ChatWindow = () => {
     } finally {
       setLoading(false);
     }
-  }
-
-  async function handleAuthButton() {
-    if (isAuthenticated) {
-      await supabase.auth.signOut();
-      return;
-    }
-    openLogin('manual');
   }
 
   return (
@@ -778,13 +682,6 @@ const ChatWindow = () => {
           >
             Support this tool
           </a>
-          <button
-            type="button"
-            className="chat-window__nav-btn chat-window__nav-btn--solid"
-            onClick={handleAuthButton}
-          >
-            {isAuthenticated ? 'Log out' : 'Login'}
-          </button>
         </nav>
       </header>
 
@@ -815,7 +712,6 @@ const ChatWindow = () => {
                 <ChatInput
                   value={phase === 'landing' ? input : ''}
                   disabled={loading || phase !== 'landing'}
-                  submitDisabled={submitLocked}
                   landing
                   onChange={setInput}
                   onSubmit={() => handleSend()}
@@ -946,34 +842,16 @@ const ChatWindow = () => {
                 aria-relevant="additions"
                 aria-label="Conversation"
               >
-                {messages.map((msg, i) =>
-                  msg.role === 'gate' ? (
-                    <button
-                      key={i}
-                      type="button"
-                      className="message message--gate"
-                      onClick={() => openLogin('gate')}
-                    >
-                      <span className="visually-hidden">Port Side</span>
-                      <span>{msg.content}</span>
-                      <img
-                        src={loginArrow}
-                        alt=""
-                        aria-hidden="true"
-                        className="message--gate__arrow"
-                      />
-                    </button>
-                  ) : (
-                    <div key={i} className={`message message--${msg.role}`}>
-                      <span className="visually-hidden">
-                        {msg.role === 'user' ? 'You' : 'Port Side'}
-                      </span>
-                      {msg.role === 'assistant'
-                        ? parseHtml(msg.content)
-                        : msg.content}
-                    </div>
-                  ),
-                )}
+                {messages.map((msg, i) => (
+                  <div key={i} className={`message message--${msg.role}`}>
+                    <span className="visually-hidden">
+                      {msg.role === 'user' ? 'You' : 'Port Side'}
+                    </span>
+                    {msg.role === 'assistant'
+                      ? parseHtml(msg.content)
+                      : msg.content}
+                  </div>
+                ))}
                 {loading && (
                   <div className="message message--thinking">
                     <span className="visually-hidden">Port Side</span>
@@ -981,6 +859,20 @@ const ChatWindow = () => {
                     <ThinkingSpinner />
                   </div>
                 )}
+                <button
+                  type="button"
+                  className="message message--gate"
+                  onClick={openSubscribe}
+                >
+                  <span className="visually-hidden">Port Side</span>
+                  <span>{GATE_LABEL}</span>
+                  <img
+                    src={loginArrow}
+                    alt=""
+                    aria-hidden="true"
+                    className="message--gate__arrow"
+                  />
+                </button>
                 <div ref={bottomRef} className="chat-window__anchor" />
               </div>
             </div>
@@ -988,7 +880,6 @@ const ChatWindow = () => {
               <ChatInput
                 value={input}
                 disabled={loading}
-                submitDisabled={submitLocked}
                 landing
                 onChange={setInput}
                 onSubmit={() => handleSend()}
@@ -1009,11 +900,9 @@ const ChatWindow = () => {
         )}
       </div>
 
-      <LoginModal
-        open={loginOpen}
-        reason={loginReason}
-        onClose={() => setLoginOpen(false)}
-        onAuthenticated={handleAuthenticated}
+      <SubscribeModal
+        open={subscribeOpen}
+        onClose={() => setSubscribeOpen(false)}
       />
       {createPortal(
         <div ref={ballRef} className="mouse-ball" aria-hidden="true">
@@ -1028,7 +917,6 @@ const ChatWindow = () => {
 type ChatInputProps = {
   value: string;
   disabled: boolean;
-  submitDisabled?: boolean;
   landing?: boolean;
   onChange: (value: string) => void;
   onSubmit: () => void;
@@ -1037,7 +925,6 @@ type ChatInputProps = {
 function ChatInput({
   value,
   disabled,
-  submitDisabled = false,
   landing = false,
   onChange,
   onSubmit,
@@ -1079,7 +966,7 @@ function ChatInput({
         <button
           type="button"
           onClick={onSubmit}
-          disabled={disabled || submitDisabled || !filled}
+          disabled={disabled || !filled}
         >
           Submit
         </button>
