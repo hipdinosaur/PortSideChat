@@ -7,7 +7,6 @@ import {
   type FormEvent,
 } from 'react';
 import closeIcon from '../assets/icon-close.svg';
-import { getSubscribedEmail, saveSubscribedEmail } from '../lib/subscribe';
 import './login-modal.scss';
 
 type SubscribeModalProps = {
@@ -60,9 +59,8 @@ export default function SubscribeModal({
   if (open !== wasOpen) {
     setWasOpen(open);
     if (open) {
-      const saved = getSubscribedEmail();
-      setEmail(saved ?? '');
-      setStatus(saved ? 'done' : 'idle');
+      setEmail('');
+      setStatus('idle');
       setError(null);
       setPanelHeight(null);
       setAnimateHeight(false);
@@ -176,7 +174,6 @@ export default function SubscribeModal({
       return;
     }
 
-    saveSubscribedEmail(trimmedEmail);
     setEmail(trimmedEmail);
     setError(null);
     setStatus('done');
