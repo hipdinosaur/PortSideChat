@@ -50,6 +50,7 @@ const BMC_URL = 'https://buymeacoffee.com/coleheilborn';
 /** Keep in sync with `$transition-exit` in chat-window.scss */
 const EXIT_MS = 700;
 const GATE_LABEL = 'Subscribe for the latest insights';
+const GATE_LEAD = 'Get the latest from marketing leaders.';
 const SUBSCRIBE_AFTER_USER_MESSAGES = 3;
 const MARQUEE_DRAG_THRESHOLD = 8;
 const MARQUEE_INERTIA = {
@@ -865,20 +866,23 @@ const ChatWindow = () => {
                   </div>
                 )}
                 {showSubscribeGate && (
-                  <button
-                    type="button"
-                    className="message message--gate"
-                    onClick={openSubscribe}
-                  >
-                    <span className="visually-hidden">Port Side</span>
-                    <span>{GATE_LABEL}</span>
-                    <img
-                      src={loginArrow}
-                      alt=""
-                      aria-hidden="true"
-                      className="message--gate__arrow"
-                    />
-                  </button>
+                  <div className="message-gate">
+                    <p className="message-gate__lead">{GATE_LEAD}</p>
+                    <button
+                      type="button"
+                      className="message message--gate"
+                      onClick={openSubscribe}
+                    >
+                      <span className="visually-hidden">Port Side</span>
+                      <span>{GATE_LABEL}</span>
+                      <img
+                        src={loginArrow}
+                        alt=""
+                        aria-hidden="true"
+                        className="message--gate__arrow"
+                      />
+                    </button>
+                  </div>
                 )}
                 <div ref={bottomRef} className="chat-window__anchor" />
               </div>

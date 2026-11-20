@@ -102,6 +102,12 @@ $easing: cubic-bezier(.3,0,0,1);
   mix-blend-mode: multiply;
 }
 
+.chat-window--exiting .chat-window__backdrop-overlay,
+.chat-window--chat .chat-window__backdrop-overlay {
+  background: rgba(0, 0, 0, 0.7);
+  mix-blend-mode: normal;
+}
+
 .chat-window__grid {
   position: absolute;
   top: -25%;
@@ -767,6 +773,24 @@ $easing: cubic-bezier(.3,0,0,1);
   background: var(--black);
   color: var(--white);
   border: 1px solid var(--border-chat);
+}
+
+.message-gate {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.message-gate__lead {
+  margin: 0;
+  font-family: var(--heading);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--black);
 }
 
 .message--gate {
