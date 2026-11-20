@@ -15,7 +15,7 @@ type SubscribeModalProps = {
   onSubscribed?: (email: string) => void;
 };
 
-type Status = 'idle' | 'done' | 'error';
+type Status = 'idle' | 'submitting' | 'done' | 'error';
 
 const RESIZE_MS = 420;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -46,6 +46,7 @@ export default function SubscribeModal({
   const emailRef = useRef<HTMLInputElement>(null);
   const onCloseRef = useRef(onClose);
   const onSubscribedRef = useRef(onSubscribed);
+  const submitIdRef = useRef(0);
   onCloseRef.current = onClose;
   onSubscribedRef.current = onSubscribed;
   const [email, setEmail] = useState('');
@@ -59,6 +60,7 @@ export default function SubscribeModal({
   if (open !== wasOpen) {
     setWasOpen(open);
     if (open) {
+      submitIdRef.current += 1;
       setEmail('');
       setStatus('idle');
       setError(null);
@@ -163,10 +165,10 @@ export default function SubscribeModal({
 
   const done = status === 'done';
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const trimmedEmail = email.trim();
-    if (!trimmedEmail || done) return;
+    if (!trimmedEmail || done || status === 'submitting') return;
 
     if (!EMAIL_PATTERN.test(trimmedEmail)) {
       setStatus('error');
@@ -174,10 +176,35 @@ export default function SubscribeModal({
       return;
     }
 
+    const submitId = submitIdRef.current;
     setEmail(trimmedEmail);
     setError(null);
-    setStatus('done');
-    onSubscribedRef.current?.(trimmedEmail);
+    setStatus('submitting');
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: trimmedEmail }),
+      });
+      const data = (await res.json().catch(() => null)) as {
+        error?: string;
+      } | null;
+      if (submitIdRef.current !== submitId) return;
+
+      if (!res.ok) {
+        setStatus('error');
+        setError(data?.error ?? 'Could not subscribe. Try again.');
+        return;
+      }
+
+      setStatus('done');
+      onSubscribedRef.current?.(trimmedEmail);
+    } catch {
+      if (submitIdRef.current !== submitId) return;
+      setStatus('error');
+      setError('Could not subscribe. Try again.');
+    }
   }
 
   const panelStyle =
@@ -236,6 +263,7 @@ export default function SubscribeModal({
                     type="email"
                     autoComplete="email"
                     required
+                    disabled={status === 'submitting'}
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
@@ -259,9 +287,9 @@ export default function SubscribeModal({
                 <button
                   type="submit"
                   className="login-modal__submit"
-                  disabled={!email.trim()}
+                  disabled={!email.trim() || status === 'submitting'}
                 >
-                  Subscribe
+                  {status === 'submitting' ? 'Subscribing' : 'Subscribe'}
                 </button>
               </div>
             </form>

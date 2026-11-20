@@ -50,6 +50,7 @@ const BMC_URL = 'https://buymeacoffee.com/coleheilborn';
 /** Keep in sync with `$transition-exit` in chat-window.scss */
 const EXIT_MS = 700;
 const GATE_LABEL = 'Subscribe for the latest insights';
+const SUBSCRIBE_AFTER_USER_MESSAGES = 3;
 const MARQUEE_DRAG_THRESHOLD = 8;
 const MARQUEE_INERTIA = {
   resistance: 50,
@@ -214,6 +215,10 @@ const ChatWindow = () => {
 
   const showLanding = phase === 'landing' || phase === 'exiting';
   const showChat = phase === 'exiting' || phase === 'chat';
+  const userMessageCount = messages.filter((msg) => msg.role === 'user').length;
+  const showSubscribeGate =
+    userMessageCount > SUBSCRIBE_AFTER_USER_MESSAGES ||
+    (userMessageCount === SUBSCRIBE_AFTER_USER_MESSAGES && !loading);
 
   useEffect(() => {
     if (phase !== 'chat') return;
@@ -859,20 +864,22 @@ const ChatWindow = () => {
                     <ThinkingSpinner />
                   </div>
                 )}
-                <button
-                  type="button"
-                  className="message message--gate"
-                  onClick={openSubscribe}
-                >
-                  <span className="visually-hidden">Port Side</span>
-                  <span>{GATE_LABEL}</span>
-                  <img
-                    src={loginArrow}
-                    alt=""
-                    aria-hidden="true"
-                    className="message--gate__arrow"
-                  />
-                </button>
+                {showSubscribeGate && (
+                  <button
+                    type="button"
+                    className="message message--gate"
+                    onClick={openSubscribe}
+                  >
+                    <span className="visually-hidden">Port Side</span>
+                    <span>{GATE_LABEL}</span>
+                    <img
+                      src={loginArrow}
+                      alt=""
+                      aria-hidden="true"
+                      className="message--gate__arrow"
+                    />
+                  </button>
+                )}
                 <div ref={bottomRef} className="chat-window__anchor" />
               </div>
             </div>
